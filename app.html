@@ -2,143 +2,115 @@
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Empire Estates | Portal</title>
-  <script src="https://jsdelivr.net"></script>
-  <link href="https://googleapis.com" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f5f0">
+  <title>Empire Estates Portal</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A1%3C/text%3E%3C/svg%3E">
   
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg: #f7f5f0; 
-      --panel: #ffffff; 
-      --panel2: #f0ede6; 
-      --fg: #14202b; 
-      --muted: #5d6b78; 
-      --line: rgba(20, 32, 43, .13);
-      --accent: #0b3a53; 
-      --on: #ffffff; 
-      --gold: #c8962e; 
-      --ok: #15803d; 
-      --bad: #b91c1c; 
-      --warn: #b45309;
+      --bg: #f7f5f0; --panel: #ffffff; --panel2: #f0ede6; --fg: #14202b; --muted: #5d6b78; --line: rgba(20, 32, 43, .13);
+      --accent: #0b3a53; --on: #ffffff; --gold: #c8962e; --ok: #15803d; --bad: #b91c1c; --warn: #b45309;
+      color-scheme: light;
     }
     :root[data-theme="dark"] {
-      --bg: #0c1720; 
-      --panel: #13232f; 
-      --panel2: #1a2f3d; 
-      --fg: #eef2f5; 
-      --muted: #92a3b0; 
-      --line: rgba(255, 255, 255, .13);
-      --accent: #d9a93f; 
-      --on: #1a1200; 
-      --gold: #d9a93f; 
-      --ok: #4ade80; 
-      --bad: #f87171; 
-      --warn: #fbbf24;
+      --bg: #0c1720; --panel: #13232f; --panel2: #1a2f3d; --fg: #eef2f5; --muted: #92a3b0; --line: rgba(255, 255, 255, .13);
+      --accent: #d9a93f; --on: #1a1200; --gold: #d9a93f; --ok: #4ade80; --bad: #f87171; --warn: #fbbf24;
+      color-scheme: dark;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { 
-      background: var(--bg); 
-      color: var(--fg); 
-      font-family: 'DM Sans', sans-serif; 
-      padding: 2rem 0; 
-    }
-    h2 { font-family: 'DM Serif Display', serif; font-size: 1.8rem; }
-    .fx { display: flex; } 
-    .ac { align-items: center; } 
-    .jb { justify-content: space-between; }
-    .muted { color: var(--muted); } 
-    .dashboard-badge { 
-      background: var(--gold); 
-      color: #000; 
-      padding: 0.2rem 0.5rem; 
-      border-radius: 4px; 
-      font-size: 0.8rem; 
-    }
-    #top { 
-      border-bottom: 1px solid var(--line); 
-      padding-bottom: 1rem; 
-      margin-bottom: 2rem; 
-    }
-    .nav button { 
-      padding: 0.5rem 1rem; 
-      margin-left: 0.5rem; 
-      border-radius: 20px; 
-      font-weight: bold; 
-      display: none; 
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0 }
+    body { background: var(--bg); color: var(--fg); font-family: 'DM Sans', sans-serif; font-size: 15px; min-height: 100dvh; padding-top: 1rem; }
+    h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 1.1rem }
+    .fx { display: flex } .ac { align-items: center } .jb { justify-content: space-between }
+    .muted { color: var(--muted) } .small { font-size: .82rem } .center { text-align: center }
+    .btn { padding: .65rem 1.2rem; border-radius: .75rem; background: var(--accent); color: var(--on); font-weight: 700 }
+    
+    /* Navigation Bar */
+    #top { position: sticky; top: 0; z-index: 50; background: var(--panel); border-bottom: 1px solid var(--line); padding: .6rem 0; margin-bottom: 2rem; }
+    .brand { font-family: 'DM Serif Display', serif; font-size: 1.35rem; color: var(--fg); }
+    .nav { display: flex; gap: .4rem; }
+    .nav button { padding: .45rem .8rem; border-radius: 9999px; font-weight: 500; display: none; }
     .nav button.visible { display: inline-block; }
-    .nav button.on { background: var(--accent); color: #fff; }
-    .grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-      gap: 1.5rem; 
-    }
-    .lcard { 
-      background: var(--panel); 
-      border: 1px solid var(--line); 
-      border-radius: 12px; 
-      padding: 1.5rem; 
-    }
-    .stat { 
-      background: var(--panel2); 
-      padding: 1.5rem; 
-      border-radius: 8px; 
-      margin-top: 1rem; 
-    }
+    .nav button.on { background: var(--accent); color: var(--on); }
+    
+    /* Layout Workspace grids */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.1rem; margin-top: 1rem; }
+    .lcard { background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; padding: 1.5rem; }
+    .stat-box { background: var(--panel2); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--line); }
+    .stat-box b { font-family: 'DM Serif Display', serif; font-size: 1.8rem; display: block; margin-top: 0.5rem; }
+    .badge { background: var(--gold); color: #000; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
   </style>
 </head>
 <body>
 
-  <!-- App Header Navigation Layout -->
-  <header id="top" class="wrap fx ac jb">
-    <div style="font-family: 'DM Serif Display', serif; font-size: 1.5rem;">🏰 Empire Portal</div>
-    <div class="nav ac">
-      <button id="nav-browse" class="on visible" onclick="switchView('browse')">Browse</button>
-      <button id="nav-admin" onclick="switchView('admin')">Admin Panel</button>
-      <button id="nav-logout" class="visible" style="color: var(--bad);" onclick="handleLogout()">Sign Out</button>
+  <!-- Dynamic Header Workspace Module Navigation -->
+  <header id="top">
+    <div class="wrap fx ac jb">
+      <div class="brand">🏰 Empire Estates Portal</div>
+      <div class="nav ac">
+        <button id="nav-browse" class="visible on" onclick="switchView('browse')">Browse Properties</button>
+        <button id="nav-admin" onclick="switchView('admin')">Admin Panel</button>
+        <button id="nav-logout" class="visible" style="color: var(--bad);" onclick="handleLogout()">Sign Out</button>
+      </div>
     </div>
   </header>
 
-  <!-- Content Insertion Node -->
+  <!-- Injection Target Node Container -->
   <main id="main" class="wrap"></main>
 
-  <!-- Complete Firebase System Logic Module -->
+  <!-- Modular Script Runtime Execution Block -->
   <script type="module">
-    import { initializeApp } from "https://gstatic.com";
-    import { getAuth, onAuthStateChanged, signOut } from "https://gstatic.com";
-    import { initializeFirestore, doc, getDoc, collection, getDocs } from "https://gstatic.com";
+    // Alternative CDN locations to completely bypass local network CORS blockages
+    import { initializeApp } from "https://jsdelivr.net";
+    import { getAuth, onAuthStateChanged, signOut } from "https://jsdelivr.net";
+    import { initializeFirestore, doc, getDoc, collection, getDocs } from "https://jsdelivr.net";
 
-    // Firebase Security Configuration Parameters
     const CFG = {
-      apiKey: "AIzaSyB2AeRD5eg_n7VmaUOKDQ", 
-      authDomain: "://firebaseapp.com",
-      projectId: "your-app-id",
-      storageBucket: "://appspot.com",
-      messagingSenderId: "1234567890",
-      appId: "1:123456:web:abcdef"
+      firebase: {
+        apiKey: "AIzaSyB2AeRD5eg_n7VmaUOKDQ", 
+        authDomain: "://firebaseapp.com",
+        projectId: "empireinc-b892a",
+        storageBucket: "://appspot.com",
+        messagingSenderId: "1059530431411",
+        appId: "1:1059530431411:web:6e187cc809a47385903b41"
+      }
     };
 
-    const app = initializeApp(CFG);
+    const app = initializeApp(CFG.firebase);
     const auth = getAuth(app);
     const db = initializeFirestore(app, { experimentalAutoDetectLongPolling: true });
 
-    let profile = null;
+    let isAdminUser = false;
 
-    // Monitor Client Session Authentication Changes
+    // Track state session changes
     onAuthStateChanged(auth, async (user) => {
+      const container = document.getElementById("main");
       if (user) {
-        try {
-          const docSnap = await getDoc(doc(db, "users", user.uid));
-          if (docSnap.exists() && docSnap.data().isAdmin === true) {
-            profile = docSnap.data();
-            document.getElementById("nav-admin").classList.add("visible");
-            switchView("admin");
-          } else {
-            switchView("browse");
-          }
-        } catch (err) {
-          console.error("Profile validation fail:", err);
+        // Core override hook targeting your custom email profile parameters
+        if (user.email === "ademolamichael204@gmail.com") {
+          isAdminUser = true;
+          document.getElementById("nav-admin").classList.add("visible");
+          switchView("admin");
+        } else {
+          // Regular client verification fallback path
+          try {
+            const docSnap = await getDoc(doc(db, "users", user.uid));
+            if (docSnap.exists() && docSnap.data().isAdmin === true) {
+              isAdminUser = true;
+              document.getElementById("nav-admin").classList.add("visible");
+              switchView("admin");
+              return;
+            }
+          } catch(e) { console.warn("Firestore collection lookup deferred."); }
+          
+          isAdminUser = false;
+          document.getElementById("nav-admin").classList.remove("visible");
           switchView("browse");
         }
       } else {
@@ -146,77 +118,79 @@
       }
     });
 
-    // View Engine Template: Property Browser Marketplace
+    // Content Display Template: Marketplace listings
     async function renderBrowseView() {
       const container = document.getElementById("main");
       container.innerHTML = `
-        <section style="padding: 2rem 0;">
-          <h2>Signature Portfolios</h2>
-          <p class="muted">Explore premium assets matching your portfolio criteria.</p>
-          <div id="listings-grid" class="grid">
-            <div class="center muted" style="padding: 2rem;">Loading listings...</div>
-          </div>
-        </section>
+        <h2>Available Collections</h2>
+        <p class="muted">Active real estate property allocations.</p>
+        <div id="listings-grid" class="grid">
+          <div class="center muted" style="padding: 2rem;">Loading listings portfolio...</div>
+        </div>
       `;
 
       try {
-        const querySnapshot = await getDocs(collection(db, "properties"));
+        const snap = await getDocs(collection(db, "properties"));
         const grid = document.getElementById("listings-grid");
+        grid.innerHTML = "";
         
-        if (querySnapshot.empty) {
-          grid.innerHTML = `<div class="muted">No active estate listings found.</div>`;
+        if (snap.empty) {
+          grid.innerHTML = `<div class="muted">No current active estate listings published yet.</div>`;
           return;
         }
 
-        grid.innerHTML = "";
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
+        snap.forEach((doc) => {
+          const property = doc.data();
           grid.innerHTML += `
             <div class="lcard">
-              <h3 style="color: var(--accent);">${data.title || "Asset"}</h3>
-              <p class="muted small">${data.location || "Prime Location"}</p>
-              <div class="price" style="margin-top: 1rem;">$${data.price || "Contact"}</div>
-            </div>
-          `;
+              <h3 style="color: var(--accent);">${property.title || "Elite Asset"}</h3>
+              <p class="muted small">${property.location || "Premium District"}</p>
+              <div class="price" style="margin-top:0.5rem; font-weight:bold; color:var(--gold);">$${property.price || "Contact info"}</div>
+            </div>`;
         });
       } catch (err) {
-        console.error("Listing population fail:", err);
+        document.getElementById("listings-grid").innerHTML = `<div class="muted">Inventory currently empty. Create records in your Firebase panel to view live updates here.</div>`;
       }
     }
 
-    // View Engine Template: Executive Admin Panel Dashboard
+    // Content Display Template: Administrative Management Terminal Dashboard
     function renderAdminView() {
       const container = document.getElementById("main");
       container.innerHTML = `
-        <div class="admin-container" style="background: var(--panel); border: 1px solid var(--line); padding: 2rem; border-radius: 12px;">
+        <div style="background: var(--panel); padding: 2rem; border-radius: 1rem; border:1px solid var(--line);">
           <div class="fx jb ac">
-            <h2>Executive Terminal Status</h2>
-            <span class="dashboard-badge">System Live</span>
+            <h2>Administrative System Settings</h2>
+            <span class="badge">Privilege Tier 1</span>
           </div>
-          <p class="muted" style="margin-top: 0.5rem;">Accessing terminal state controls.</p>
+          <p class="muted" style="margin-top: 0.25rem;">Management control log for ademolamichael204@gmail.com</p>
           
           <div class="grid" style="margin-top: 2rem;">
-            <div class="stat">
-              <span>Total Managed Portfolios</span>
-              <b style="display: block; font-size: 1.8rem; margin-top: 0.5rem;">34 Assets</b>
+            <div class="stat-box">
+              <span>Managed Portfolios</span>
+              <b>34 Active</b>
             </div>
-            <div class="stat">
-              <span>Pending Processing Files</span>
-              <b style="display: block; font-size: 1.8rem; margin-top: 0.5rem; color: var(--warn);">3</b>
+            <div class="stat-box">
+              <span>Pending Bookings</span>
+              <b style="color: var(--warn);">3 Audits</b>
             </div>
-            <div class="stat">
-              <span>Verified Escrow Volume</span>
-              <b style="display: block; font-size: 1.8rem; margin-top: 0.5rem; color: var(--ok);">$1.2M</b>
+            <div class="stat-box">
+              <span>Gross Escrow Pipeline</span>
+              <b style="color: var(--ok);">$1,249,000</b>
             </div>
           </div>
         </div>
       `;
     }
 
-    // Global App Interface Router Maps
+    // View Mapping Routing Logic
     window.switchView = function(view) {
       document.querySelectorAll(".nav button").forEach(b => b.classList.remove("on"));
-      if (view === "admin" && profile?.isAdmin === true) {
+      if (view === "admin") {
+        if (!isAdminUser) {
+          Swal.fire("Access Restrained", "Administrative login keys required.", "error");
+          switchView("browse");
+          return;
+        }
         document.getElementById("nav-admin").classList.add("on");
         renderAdminView();
       } else {
@@ -226,8 +200,11 @@
     };
 
     window.handleLogout = function() {
-      signOut(auth).then(() => window.location.href = "./index.html");
+      signOut(auth).then(() => { window.location.href = "./index.html"; });
     };
   </script>
 </body>
 </html>
+git add .
+git commit -m "Configure direct admin guard override parameters for staff email verification"
+git push origin main
