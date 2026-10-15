@@ -2247,7 +2247,7 @@
       brand: "Empire Inc",                      // can also be changed later in Admin > Settings
       cloudinary: { cloud: "", preset: "" }     // OPTIONAL: lets the admin upload video files
     };
-    const MAX_ADMINS = 3;                       // must match the limit in firestore.rules
+    const MAX_ADMINS = 2;                       // must match the limit in firestore.rules
 
     const $ = id => document.getElementById(id);
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
