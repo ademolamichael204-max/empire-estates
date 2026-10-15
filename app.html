@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f7f5f0">
-  <title>Empire Estates Portal</title>
+  <title>Haven Estates - Houses, Shops, Offices &amp; Rentals</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A1%3C/text%3E%3C/svg%3E">
-  
+
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('estate-theme'); } catch (e) { }
+      if (t !== 'light' && t !== 'dark') t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
   <script src="https://js.paystack.co/v1/inline.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
@@ -23,188 +33,678 @@
       color-scheme: dark;
     }
     * { box-sizing: border-box; margin: 0; padding: 0 }
-    body { background: var(--bg); color: var(--fg); font-family: 'DM Sans', sans-serif; font-size: 15px; min-height: 100dvh; padding-top: 1rem; }
-    h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; }
-    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+    html { scroll-behavior: smooth }
+    body { background: var(--bg); color: var(--fg); font-family: 'DM Sans', system-ui, sans-serif; font-size: 15px; line-height: 1.5; min-height: 100dvh; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px) }
+    h1, h2, h3 { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; line-height: 1.15 }
+    h2 { font-size: 1.7rem; margin-bottom: .8rem } h3 { font-size: 1.2rem }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer }
+    a { color: var(--accent); cursor: pointer; text-decoration: none }
+    img { max-width: 100% }
     .wrap { max-width: 1180px; margin: 0 auto; padding: 0 1.1rem }
-    .fx { display: flex } .ac { align-items: center } .jb { justify-content: space-between }
-    .muted { color: var(--muted) } .small { font-size: .82rem } .center { text-align: center }
+    .narrow { max-width: 760px }
+    .fx { display: flex } .ac { align-items: center } .jb { justify-content: space-between } .jc { justify-content: center } .fw { flex-wrap: wrap }
+    .g2 { gap: .5rem } .g3 { gap: .8rem } .f1 { flex: 1; min-width: 0 }
+    .tr { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+    .muted { color: var(--muted) } .small { font-size: .82rem } .center { text-align: center } .bad { color: var(--bad) } .ok { color: var(--ok) }
+    .w100 { width: 100% }
+    .inp, select, textarea { width: 100%; padding: .65rem .8rem; border-radius: .7rem; background: var(--panel); color: var(--fg); border: 1px solid var(--line); font: inherit; margin-bottom: .65rem }
+    textarea { resize: vertical }
+    .inp:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px }
+    .lbl { display: block; font-size: .78rem; font-weight: 700; margin: .2rem 0 .25rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em }
     .btn { padding: .65rem 1.2rem; border-radius: .75rem; background: var(--accent); color: var(--on); font-weight: 700 }
-    
-    /* Navigation Bar */
-    #top { position: sticky; top: 0; z-index: 50; background: var(--panel); border-bottom: 1px solid var(--line); padding: .6rem 0; margin-bottom: 2rem; }
-    .brand { font-family: 'DM Serif Display', serif; font-size: 1.35rem; color: var(--fg); }
-    .nav { display: flex; gap: .4rem; }
-    .nav button { padding: .45rem .8rem; border-radius: 9999px; font-weight: 500; display: none; }
-    .nav button.visible { display: inline-block; }
-    .nav button.on { background: var(--accent); color: var(--on); }
-    
-    /* Layout Workspace grids */
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.1rem; margin-top: 1rem; }
-    .lcard { background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; padding: 1.5rem; }
-    .stat-box { background: var(--panel2); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--line); }
-    .stat-box b { font-family: 'DM Serif Display', serif; font-size: 1.8rem; display: block; margin-top: 0.5rem; }
-    .badge { background: var(--gold); color: #000; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+    .btn.gold { background: var(--gold); color: #1a1200 }
+    .btn2 { padding: .6rem 1.1rem; border-radius: .75rem; border: 1px solid var(--line); font-weight: 500; background: var(--panel) }
+    .btn:hover { filter: brightness(1.08) } .btn2:hover { background: var(--panel2) }
+    .btn:disabled { opacity: .5; cursor: not-allowed }
+    .lnk { font-size: .82rem; text-decoration: underline; color: var(--accent) }
+    .ib { width: 2.3rem; height: 2.3rem; border-radius: 9999px; border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; background: var(--panel) }
+    .ib svg { width: 18px; height: 18px }
+
+    /* header */
+    #top { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--panel) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); padding: .6rem 0 }
+    .brand { font-family: 'DM Serif Display', serif; font-size: 1.35rem; color: var(--fg); white-space: nowrap }
+    .nav { display: flex; gap: .2rem; overflow-x: auto }
+    .nav button { padding: .45rem .8rem; border-radius: 9999px; font-weight: 500; white-space: nowrap; position: relative }
+    .nav button:hover { background: var(--panel2) } .nav button.on { background: var(--accent); color: var(--on) }
+    .dotb { position: absolute; top: .25rem; right: .3rem; width: .5rem; height: .5rem; border-radius: 9999px; background: var(--bad) }
+    .avt { width: 2.3rem; height: 2.3rem; border-radius: 9999px; background: var(--gold); color: #1a1200; font-weight: 700 }
+
+    /* hero + filters */
+    .hero { padding: 3.2rem 0 2rem; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 14%, var(--bg)), var(--bg)) }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.4rem); max-width: 18ch; margin: .3rem 0 .6rem }
+    .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; font-weight: 700; color: var(--gold) }
+    .fbar { display: grid; gap: .6rem; grid-template-columns: auto 1fr 1.4fr 1fr auto; margin-top: 1.4rem; align-items: start; background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; padding: .8rem }
+    .fbar select, .fbar .inp { margin: 0 }
+    .seg { display: flex; border: 1px solid var(--line); border-radius: .7rem; overflow: hidden; height: 2.55rem }
+    .seg button { padding: 0 1rem; font-weight: 500 } .seg button.on { background: var(--accent); color: var(--on) }
+    section.wrap { padding-top: 1.6rem; padding-bottom: 1rem }
+
+    /* cards */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.1rem }
+    .lcard { background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; cursor: pointer; transition: transform .18s, box-shadow .18s }
+    .lcard:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(0, 0, 0, .12) }
+    .ph { position: relative; aspect-ratio: 4/3; background: var(--panel2); overflow: hidden }
+    .ph img { width: 100%; height: 100%; object-fit: cover; display: block }
+    .noimg { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem }
+    .tag, .st, .feat { position: absolute; top: .6rem; font-size: .72rem; font-weight: 700; padding: .2rem .6rem; border-radius: 9999px }
+    .tag { left: .6rem; background: var(--accent); color: var(--on) } .tag.rent { background: var(--gold); color: #1a1200 }
+    .st { right: .6rem; top: 3rem; background: var(--bad); color: #fff } .st.rented { background: var(--warn) }
+    .feat { left: .6rem; top: auto; bottom: .6rem; background: rgba(0, 0, 0, .65); color: #ffd36b }
+    .heart { position: absolute; right: .6rem; top: .5rem; width: 2rem; height: 2rem; border-radius: 9999px; background: rgba(255, 255, 255, .92); color: #b91c1c; font-size: 1.1rem }
+    .heart.on { background: #b91c1c; color: #fff }
+    .lb { padding: .85rem 1rem 1rem }
+    .price { font-weight: 700; font-size: 1.2rem; color: var(--accent) } .price small { font-weight: 400; color: var(--muted) }
+    .lb h3 { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 1rem; margin: .1rem 0 }
+    .meta { margin-top: .45rem; font-size: .8rem; color: var(--muted) }
+    .anns { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: .9rem }
+    .ann { display: flex; gap: .8rem; padding: .8rem; background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; cursor: pointer }
+    .ann.pin { border-color: var(--gold) } .ann img { width: 74px; height: 74px; object-fit: cover; border-radius: .6rem; flex: none }
+
+    /* modal */
+    .ov { position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, .6); display: none; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 1.2rem .8rem }
+    .ov.show { display: flex }
+    .mbox { position: relative; background: var(--panel); border-radius: 1.2rem; padding: 1.4rem; width: 100%; max-width: 440px; margin: auto; border: 1px solid var(--line) }
+    .mbox.wide { max-width: 980px }
+    .mx { position: absolute; right: .8rem; top: .6rem; font-size: 1.6rem; line-height: 1; z-index: 3; width: 2.2rem; height: 2.2rem; border-radius: 9999px; background: var(--panel); border: 1px solid var(--line) }
+    .det { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.4rem }
+    .gmain { position: relative; aspect-ratio: 4/3; border-radius: .9rem; overflow: hidden; background: var(--panel2) }
+    .gmain img { width: 100%; height: 100%; object-fit: cover }
+    .gn { position: absolute; top: 50%; transform: translateY(-50%); width: 2.4rem; height: 2.4rem; border-radius: 9999px; background: rgba(0, 0, 0, .55); color: #fff; font-size: 1.4rem }
+    .gn.p { left: .6rem } .gn.n { right: .6rem }
+    .gc { position: absolute; bottom: .6rem; right: .6rem; background: rgba(0, 0, 0, .6); color: #fff; font-size: .75rem; padding: .1rem .5rem; border-radius: 9999px }
+    .gthumbs { display: flex; gap: .4rem; overflow-x: auto; margin-top: .5rem }
+    .gthumbs img { width: 64px; height: 50px; object-fit: cover; border-radius: .4rem; cursor: pointer; opacity: .6; flex: none }
+    .gthumbs img.on { opacity: 1; outline: 2px solid var(--accent) }
+    .specs { display: grid; grid-template-columns: repeat(2, 1fr); gap: .4rem; margin: .8rem 0 }
+    .specs div { background: var(--panel2); border-radius: .6rem; padding: .45rem .7rem; font-size: .85rem }
+    .chips { display: flex; flex-wrap: wrap; gap: .35rem; margin: .5rem 0 }
+    .chips span { background: var(--panel2); border-radius: 9999px; padding: .15rem .7rem; font-size: .8rem }
+    .acts { display: grid; gap: .5rem; margin-top: 1rem }
+    .vids { margin-top: 1.2rem; display: grid; gap: .8rem; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) }
+    .vids iframe, .vids video { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: .8rem; background: #000 }
+    .desc { white-space: pre-wrap; margin-top: .6rem }
+    .note { background: var(--panel2); padding: .6rem .8rem; border-radius: .6rem; font-size: .85rem }
+
+    /* admin */
+    .tabs { display: flex; gap: .3rem; overflow-x: auto; margin: 1rem 0; border-bottom: 1px solid var(--line); padding-bottom: .5rem }
+    .tabs button { padding: .5rem .9rem; border-radius: .6rem; white-space: nowrap; font-weight: 500 }
+    .tabs button.on { background: var(--accent); color: var(--on) }
+    .dot { background: var(--bad); color: #fff; border-radius: 9999px; padding: 0 .4rem; font-size: .72rem; margin-left: .2rem }
+    .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .8rem; margin-bottom: 1.2rem }
+    .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; padding: 1rem }
+    .stat b { display: block; font-family: 'DM Serif Display', serif; font-size: 1.7rem; font-weight: 400 } .stat span { color: var(--muted); font-size: .8rem }
+    .tw { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 1rem }
+    .tbl { width: 100%; border-collapse: collapse; font-size: .86rem }
+    .tbl th { text-align: left; padding: .6rem .8rem; color: var(--muted); font-weight: 500; font-size: .76rem; text-transform: uppercase; letter-spacing: .04em; border-bottom: 1px solid var(--line); white-space: nowrap }
+    .tbl td { padding: .6rem .8rem; border-top: 1px solid var(--line); vertical-align: middle }
+    .tbl select { margin: 0; padding: .3rem .5rem; width: auto }
+    .th { width: 54px; height: 42px; border-radius: .4rem; object-fit: cover; background: var(--panel2); cursor: pointer; flex: none; display: flex; align-items: center; justify-content: center }
+    .badge { display: inline-block; padding: .1rem .6rem; border-radius: 9999px; font-size: .72rem; font-weight: 700; background: var(--panel2) }
+    .b-inspection { background: #dbeafe; color: #1e40af } .b-rent { background: #fef3c7; color: #92400e } .b-buy { background: #dcfce7; color: #166534 }
+    :root[data-theme="dark"] .b-inspection { background: #1e3a8a; color: #dbeafe } :root[data-theme="dark"] .b-rent { background: #78350f; color: #fef3c7 } :root[data-theme="dark"] .b-buy { background: #14532d; color: #dcfce7 }
+    .s-pending { background: #fef3c7; color: #92400e } .s-confirmed { background: #dbeafe; color: #1e40af } .s-completed { background: #dcfce7; color: #166534 } .s-cancelled { background: #fee2e2; color: #991b1b }
+    .two { display: grid; grid-template-columns: 300px 1fr; gap: 1rem }
+    .tl { background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; max-height: 70vh; overflow-y: auto }
+    .tli { padding: .7rem .9rem; border-bottom: 1px solid var(--line); cursor: pointer } .tli:hover, .tli.on { background: var(--panel2) }
+    .mi { position: relative; border-radius: .6rem; overflow: hidden; aspect-ratio: 4/3; background: var(--panel2) } .mi img { width: 100%; height: 100%; object-fit: cover }
+    .mi.cover { outline: 3px solid var(--gold) } .cv { position: absolute; left: .3rem; top: .3rem; font-size: .62rem; font-weight: 700; background: var(--gold); color: #1a1200; padding: 0 .35rem; border-radius: 9999px }
+    .mt { position: absolute; right: .3rem; bottom: .3rem; display: flex; gap: .2rem } .mt button { background: rgba(0, 0, 0, .65); color: #fff; border-radius: .4rem; width: 1.8rem; height: 1.8rem }
+    .mgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: .5rem; margin: .4rem 0 .6rem }
+    .frm { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 .8rem } .frm .full { grid-column: 1/-1 }
+
+    /* chat */
+    .chat { background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; display: flex; flex-direction: column; height: 62vh; min-height: 340px }
+    .cmsgs { flex: 1; overflow-y: auto; padding: .9rem; display: flex; flex-direction: column; gap: .35rem }
+    .cb { max-width: 78%; padding: .45rem .75rem; border-radius: .9rem; background: var(--panel2); word-break: break-word; white-space: pre-wrap; align-self: flex-start }
+    .cb.me { align-self: flex-end; background: var(--accent); color: var(--on) }
+    .cb small { display: block; opacity: .65; font-size: .68rem; margin-top: .1rem }
+    .cin { display: flex; gap: .5rem; padding: .6rem; border-top: 1px solid var(--line) } .cin .inp { margin: 0 }
+
+    #err { display: none; position: fixed; left: 0; right: 0; top: 0; z-index: 10000; background: var(--bad); color: #fff; padding: .6rem 2.4rem .6rem .9rem; font-size: .82rem }
+    #err button { position: absolute; right: .7rem; top: .5rem; color: #fff }
+    .or { text-align: center; color: var(--muted); margin: .6rem 0; font-size: .8rem }
+    footer { margin-top: 3rem; padding: 2rem 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem }
+    .swal2-popup { background: var(--panel) !important; color: var(--fg) !important; font-family: inherit !important }
+    .swal2-html-container, .swal2-title { color: var(--fg) !important } .swal2-html-container { text-align: left }
+
+    @media (max-width: 860px) {
+      .fbar { grid-template-columns: 1fr 1fr } .seg { grid-column: 1/-1 } .fbar .inp { grid-column: 1/-1 }
+      .det { grid-template-columns: 1fr } .two { grid-template-columns: 1fr } .frm { grid-template-columns: 1fr }
+      #top .wrap { flex-wrap: wrap } .nav { order: 3; width: 100% }
+    }
   </style>
 </head>
+
 <body>
+  <div id="err"></div>
+  <header id="top"></header>
+  <main id="main"></main>
+  <footer id="foot"></footer>
+  <div id="modal" class="ov" onclick="if(event.target===this)closeModal()"><div id="mbox" class="mbox"><button class="mx" onclick="closeModal()" aria-label="Close">×</button><div id="mbody"></div></div></div>
 
-  <!-- Dynamic Header Workspace Module Navigation -->
-  <header id="top">
-    <div class="wrap fx ac jb">
-      <div class="brand">🏰 Empire Estates Portal</div>
-      <div class="nav ac">
-        <button id="nav-browse" class="visible on" onclick="switchView('browse')">Browse Properties</button>
-        <button id="nav-admin" onclick="switchView('admin')">Admin Panel</button>
-        <button id="nav-logout" class="visible" style="color: var(--bad);" onclick="handleLogout()">Sign Out</button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Injection Target Node Container -->
-  <main id="main" class="wrap"></main>
-
-  <!-- Modular Script Runtime Execution Block -->
   <script type="module">
-    // Alternative CDN locations to completely bypass local network CORS blockages
-    import { initializeApp } from "https://jsdelivr.net";
-    import { getAuth, onAuthStateChanged, signOut } from "https://jsdelivr.net";
-    import { initializeFirestore, doc, getDoc, collection, getDocs } from "https://jsdelivr.net";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { initializeFirestore, doc, getDoc, getDocs, setDoc, addDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, collection, query, where, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+    // =====================================================================
+    // 1) PASTE YOUR KEYS HERE (see setup steps)
+    // =====================================================================
     const CFG = {
       firebase: {
-        apiKey: "AIzaSyB2AeRD5eg_n7VmaUOKDQ", 
-        authDomain: "://firebaseapp.com",
-        projectId: "empireinc-b892a",
-        storageBucket: "://appspot.com",
-        messagingSenderId: "1059530431411",
-        appId: "1:1059530431411:web:6e187cc809a47385903b41"
-      }
+         apiKey: "AIzaSyB2AeRD5eg_n7VmaUOKDQTGEcUtfCHsCrc",
+    authDomain: "empireinc-46a7a.firebaseapp.com",
+    projectId: "empireinc-46a7a",
+    storageBucket: "empireinc-46a7a.firebasestorage.app",
+    messagingSenderId: "120270953383",
+    appId: "1:120270953383:web:79b8e558bb21f25c4b3482"
+      },
+      paystackKey: "pk_test_YOUR_PAYSTACK_PUBLIC_KEY",
+      brand: "Empire Inc",                 // can also be changed later in Admin > Settings
+      cloudinary: { cloud: "", preset: "" }   // OPTIONAL: lets the admin upload video files (see setup steps)
     };
 
-    const app = initializeApp(CFG.firebase);
-    const auth = getAuth(app);
-    const db = initializeFirestore(app, { experimentalAutoDetectLongPolling: true });
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const toast = (title, icon = 'success') => Swal.fire({ toast: true, position: 'top-end', icon, title, showConfirmButton: false, timer: 2200, timerProgressBar: true });
+    const money = n => '₦' + Number(n || 0).toLocaleString('en-NG');
+    const dstr = t => t ? new Date(t).toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+    const tstr = t => new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const TL = { house: 'House', apartment: 'Apartment', shop: 'Shop', office: 'Office', land: 'Land' };
+    const IC = { house: '🏠', apartment: '🏢', shop: '🏪', office: '💼', land: '🌳' };
+    const RL = { inspection: 'Inspection', rent: 'Rent', buy: 'Purchase' };
 
-    let isAdminUser = false;
+    function showErr(where, e) {
+      const code = e?.code || '', msg = e?.message || String(e); let hint = '';
+      if (/index/i.test(msg)) hint = 'Open the browser console (F12) and click the link in the error to create the missing index.';
+      else if (/permission-denied/.test(code) || /insufficient permissions/i.test(msg)) hint = 'Firestore rules are blocking this. Paste firestore.rules into Firebase Console > Firestore > Rules and click Publish. For admin actions, also make sure your account is listed in the "admins" collection.';
+      else if (/unavailable|failed-precondition|not-found|deadline/.test(code) || /offline|reach/i.test(msg)) hint = 'Cannot reach Firestore. Check that the Firestore database is created, that you are online, and that no VPN or ad-blocker blocks firestore.googleapis.com.';
+      $('err').innerHTML = `<b>${esc(where)}</b>: ${esc(code || msg)}${hint ? '<br><span>' + esc(hint) + '</span>' : ''}<button onclick="this.parentNode.style.display='none'" aria-label="Close">✕</button>`;
+      $('err').style.display = 'block'; console.error(where, e);
+    }
 
-    // Track state session changes
-    onAuthStateChanged(auth, async (user) => {
-      const container = document.getElementById("main");
-      if (user) {
-        // Core override hook targeting your custom email profile parameters
-        if (user.email === "ademolamichael204@gmail.com") {
-          isAdminUser = true;
-          document.getElementById("nav-admin").classList.add("visible");
-          switchView("admin");
-        } else {
-          // Regular client verification fallback path
-          try {
-            const docSnap = await getDoc(doc(db, "users", user.uid));
-            if (docSnap.exists() && docSnap.data().isAdmin === true) {
-              isAdminUser = true;
-              document.getElementById("nav-admin").classList.add("visible");
-              switchView("admin");
-              return;
-            }
-          } catch(e) { console.warn("Firestore collection lookup deferred."); }
-          
-          isAdminUser = false;
-          document.getElementById("nav-admin").classList.remove("visible");
-          switchView("browse");
-        }
-      } else {
-        window.location.href = "./index.html";
+    if (CFG.firebase.apiKey.startsWith('YOUR')) {
+      $('main').innerHTML = `<div class="wrap narrow" style="padding-top:3rem"><h2>Setup needed</h2><p class="muted">Open <b>index.html</b>, find <b>CFG</b> near the top of the script and paste your Firebase config and Paystack public key.</p></div>`;
+      throw new Error('Config missing');
+    }
+
+    const fbApp = initializeApp(CFG.firebase), au = getAuth(fbApp), fs = initializeFirestore(fbApp, { experimentalAutoDetectLongPolling: true });
+
+    // ===== state =====
+    const S = { user: null, me: null, isAdmin: false, listings: [], anns: [], settings: {}, reqs: [], users: [], threads: [], thread: null, view: 'home', tab: 'dash', ready: false, hashDone: false, authOpen: false, draft: '', chatUid: null, chatMsgs: [], rf: { type: 'all', status: 'all' }, f: { purpose: 'all', type: 'all', q: '', max: '', sort: 'new' } };
+    let pubUnsubs = [], userUnsubs = [], unsubChat = null, pendingProfile = null, G = null, ED = null, AE = null;
+    const brand = () => S.settings.brand || CFG.brand;
+    const feeOf = l => (l.inspectionFee !== null && l.inspectionFee !== undefined && l.inspectionFee !== '') ? +l.inspectionFee : +(S.settings.defaultFee || 0);
+    const waNum = p => { let d = String(p || '').replace(/\D/g, ''); if (d.startsWith('0')) d = '234' + d.slice(1); return d };
+    const unreadAdmin = () => S.threads.filter(t => t.unreadAdmin).length;
+
+    // ===== images / video helpers =====
+    const loadImg = src => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src });
+    function toData(i, max, q) { const k = Math.min(1, max / Math.max(i.width, i.height)), c = document.createElement('canvas'); c.width = Math.round(i.width * k); c.height = Math.round(i.height * k); c.getContext('2d').drawImage(i, 0, 0, c.width, c.height); return c.toDataURL('image/jpeg', q) }
+    async function compress(file, max = 1280) { const url = URL.createObjectURL(file); try { const i = await loadImg(url); let q = .74, d = toData(i, max, q); while (d.length > 850000 && q > .4) { q -= .1; d = toData(i, max, q) } return d } finally { URL.revokeObjectURL(url) } }
+    async function thumb(data, max = 640) { return toData(await loadImg(data), max, .65) }
+    function videoHtml(url) {
+      url = String(url || '').trim(); if (!/^https?:\/\//i.test(url)) return '';
+      const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([\w-]{11})/);
+      if (yt) return `<iframe src="https://www.youtube.com/embed/${yt[1]}" allowfullscreen loading="lazy"></iframe>`;
+      if (/\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url) || /res\.cloudinary\.com\/.+\/video\/upload/i.test(url)) return `<video controls preload="metadata" src="${esc(url)}"></video>`;
+      return `<a class="btn2" target="_blank" rel="noopener" href="${esc(url)}">▶ Watch video ↗</a>`;
+    }
+
+    // ===== theme / modal =====
+    const getTheme = () => document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const themeIcon = () => getTheme() === 'dark'
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>';
+    function toggleTheme() { const t = getTheme() === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('estate-theme', t) } catch { } document.querySelector('meta[name="theme-color"]').setAttribute('content', t === 'dark' ? '#0c1720' : '#f7f5f0'); renderTop() }
+    function openModal(html, wide) { $('mbody').innerHTML = html; $('mbox').classList.toggle('wide', !!wide); $('modal').classList.add('show'); $('modal').scrollTop = 0; document.body.style.overflow = 'hidden' }
+    function closeModal() { $('modal').classList.remove('show'); $('mbody').innerHTML = ''; document.body.style.overflow = ''; S.authOpen = false; G = null; if (location.hash.startsWith('#l=')) history.replaceState(null, '', location.pathname + location.search) }
+    window.addEventListener('offline', () => toast('You are offline', 'warning')); window.addEventListener('online', () => toast('Back online'));
+
+    // ===== auth =====
+    function openAuth(mode) {
+      const su = mode === 'signup'; S.authOpen = true;
+      openModal(`<h2>${su ? 'Create your account' : 'Welcome back'}</h2><p class="muted small" style="margin-bottom:.8rem">${su ? 'Save homes, book inspections, pay securely and chat with us.' : 'Log in to continue.'}</p>
+        ${su ? '<input id="a_n" class="inp" placeholder="Full name" autocomplete="name"><input id="a_ph" class="inp" type="tel" placeholder="Phone number" autocomplete="tel">' : ''}
+        <input id="a_e" class="inp" type="email" placeholder="Email" autocomplete="email">
+        <input id="a_p" class="inp" type="password" placeholder="Password (min 6 characters)" autocomplete="${su ? 'new-password' : 'current-password'}" onkeydown="if(event.key==='Enter')authGo('${mode}')">
+        <button class="btn w100" onclick="authGo('${mode}')">${su ? 'Create account' : 'Log in'}</button>
+        <div class="or">or</div><button class="btn2 w100" onclick="googleGo()">Continue with Google</button>
+        <p class="center small" style="margin-top:.8rem"><a onclick="resetPw()">Forgot password?</a></p>
+        <p class="center small" style="margin-top:.3rem"><a onclick="openAuth('${su ? 'login' : 'signup'}')">${su ? 'Have an account? Log in' : 'New here? Sign up'}</a></p>`);
+    }
+    async function authGo(mode) {
+      const e = $('a_e').value.trim().toLowerCase(), p = $('a_p').value;
+      if (!/^\S+@\S+\.\S+$/.test(e)) return toast('Enter a valid email', 'error');
+      if (p.length < 6) return toast('Password must be at least 6 characters', 'error');
+      try {
+        if (mode === 'signup') {
+          const name = $('a_n').value.trim(), phone = $('a_ph').value.trim();
+          if (!name) return toast('Enter your name', 'error'); if (phone.replace(/\D/g, '').length < 7) return toast('Enter a valid phone number', 'error');
+          pendingProfile = { name, phone }; await createUserWithEmailAndPassword(au, e, p);
+        } else await signInWithEmailAndPassword(au, e, p);
+      } catch (x) { pendingProfile = null; toast(x.code === 'auth/email-already-in-use' ? 'Account exists. Log in instead.' : (x.code === 'auth/invalid-credential' || x.code === 'auth/wrong-password') ? 'Incorrect email or password.' : x.message, 'error') }
+    }
+    async function googleGo() { try { await signInWithPopup(au, new GoogleAuthProvider()) } catch (x) { toast('Google sign-in failed: ' + x.message, 'error') } }
+    function resetPw() { const e = $('a_e')?.value.trim(); if (!e) return toast('Type your email first', 'warning'); sendPasswordResetEmail(au, e).then(() => Swal.fire('Check your email', 'A reset link was sent if the account exists.', 'success')).catch(x => toast(x.message, 'error')) }
+    async function ensureProfile(user) {
+      let snap; try { snap = await getDoc(doc(fs, 'users', user.uid)) } catch (e) { return showErr('Loading your profile', e) }
+      if (snap.exists()) { updateDoc(doc(fs, 'users', user.uid), { lastLogin: Date.now() }).catch(() => { }); return }
+      let p = pendingProfile; pendingProfile = null;
+      if (!p) {
+        const r = await Swal.fire({ title: 'Complete your profile', allowOutsideClick: false, allowEscapeKey: false, confirmButtonText: 'Save', html: `<input id="cp_n" class="inp" placeholder="Full name" value="${esc(user.displayName || '')}"><input id="cp_p" class="inp" type="tel" placeholder="Phone number">`, preConfirm: () => { const name = $('cp_n').value.trim(), phone = $('cp_p').value.trim(); if (!name) return Swal.showValidationMessage('Enter your name'); if (phone.replace(/\D/g, '').length < 7) return Swal.showValidationMessage('Enter a valid phone number'); return { name, phone } } });
+        p = r.value;
       }
+      try { await setDoc(doc(fs, 'users', user.uid), { uid: user.uid, name: p.name, phone: p.phone, email: user.email, saved: [], createdAt: Date.now(), lastLogin: Date.now() }) } catch (e) { showErr('Saving your profile', e) }
+    }
+    async function profile() {
+      const u = S.me || {};
+      const r = await Swal.fire({ title: 'Your profile', showCancelButton: true, confirmButtonText: 'Save', showDenyButton: true, denyButtonText: 'Log out', html: `<label class="lbl">Name</label><input id="pf_n" class="inp" value="${esc(u.name)}"><label class="lbl">Phone</label><input id="pf_p" class="inp" type="tel" value="${esc(u.phone)}"><label class="lbl">Email</label><input class="inp" value="${esc(S.user.email)}" disabled>${S.isAdmin ? '<p class="small ok">✓ You are an admin</p>' : ''}`, preConfirm: () => { const name = $('pf_n').value.trim(); if (!name) return Swal.showValidationMessage('Name cannot be empty'); return { name, phone: $('pf_p').value.trim() } } });
+      if (r.isDenied) { await signOut(au); toast('Logged out', 'info'); return }
+      if (r.isConfirmed) { await updateDoc(doc(fs, 'users', S.user.uid), r.value).catch(e => showErr('Saving profile', e)); toast('Profile updated') }
+    }
+
+    // ===== data listeners =====
+    function startPublic() {
+      pubUnsubs.push(onSnapshot(query(collection(fs, 'listings'), orderBy('createdAt', 'desc')), s => {
+        S.listings = s.docs.map(d => ({ id: d.id, ...d.data() })); S.ready = true; refresh();
+        if (!S.hashDone && location.hash.startsWith('#l=')) { S.hashDone = true; openListing(location.hash.slice(3)) }
+      }, e => showErr('Loading properties', e)));
+      pubUnsubs.push(onSnapshot(query(collection(fs, 'announcements'), orderBy('createdAt', 'desc')), s => { S.anns = s.docs.map(d => ({ id: d.id, ...d.data() })); refresh() }, e => showErr('Loading announcements', e)));
+      pubUnsubs.push(onSnapshot(doc(fs, 'settings', 'site'), s => { S.settings = s.exists() ? s.data() : {}; renderTop(); renderFoot(); const h = $('heroT'); if (h && S.settings.tagline) h.textContent = S.settings.tagline }, () => { }));
+    }
+    function stopUser() { userUnsubs.forEach(f => f()); userUnsubs = []; if (unsubChat) unsubChat(); unsubChat = null }
+    async function startUser(u) {
+      let admin = false; try { admin = (await getDoc(doc(fs, 'admins', u.uid))).exists() } catch { }
+      S.isAdmin = admin;
+      userUnsubs.push(onSnapshot(doc(fs, 'users', u.uid), s => { S.me = s.exists() ? s.data() : null; refresh() }, e => showErr('Loading profile', e)));
+      userUnsubs.push(onSnapshot(admin ? query(collection(fs, 'requests'), orderBy('createdAt', 'desc')) : query(collection(fs, 'requests'), where('uid', '==', u.uid)), s => {
+        S.reqs = s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.createdAt - a.createdAt); refresh();
+      }, e => showErr('Loading requests', e)));
+      userUnsubs.push(onSnapshot(doc(fs, 'threads', u.uid), s => { S.thread = s.exists() ? s.data() : null; renderTop() }, () => { }));
+      if (admin) {
+        userUnsubs.push(onSnapshot(collection(fs, 'users'), s => { S.users = s.docs.map(d => d.data()).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); refresh() }, e => showErr('Loading users', e)));
+        userUnsubs.push(onSnapshot(collection(fs, 'threads'), s => { S.threads = s.docs.map(d => d.data()).sort((a, b) => (b.lastAt || 0) - (a.lastAt || 0)); renderTop(); if (S.view === 'admin' && S.tab === 'messages') renderThreadList() }, e => showErr('Loading messages', e)));
+      }
+    }
+    onAuthStateChanged(au, async u => {
+      stopUser(); Object.assign(S, { user: u, me: null, isAdmin: false, reqs: [], users: [], threads: [], thread: null, chatUid: null });
+      if (u) { if (S.authOpen) closeModal(); await ensureProfile(u); await startUser(u) }
+      if (!u && ['saved', 'mine', 'chat', 'admin'].includes(S.view)) S.view = 'home';
+      if (u && S.view === 'admin' && !S.isAdmin) S.view = 'home';
+      show();
     });
 
-    // Content Display Template: Marketplace listings
-    async function renderBrowseView() {
-      const container = document.getElementById("main");
-      container.innerHTML = `
-        <h2>Available Collections</h2>
-        <p class="muted">Active real estate property allocations.</p>
-        <div id="listings-grid" class="grid">
-          <div class="center muted" style="padding: 2rem;">Loading listings portfolio...</div>
-        </div>
-      `;
+    // ===== navigation / rendering =====
+    function go(v) {
+      if (['saved', 'mine', 'chat'].includes(v) && !S.user) return openAuth('login');
+      if (v === 'admin' && !S.isAdmin) return;
+      if (v !== 'chat' && !(v === 'admin' && S.tab === 'messages') && unsubChat) { unsubChat(); unsubChat = null }
+      S.view = v; show(); scrollTo(0, 0);
+    }
+    function show() { renderTop(); ({ home: viewHome, saved: viewSaved, mine: viewMine, chat: viewChat, admin: viewAdmin }[S.view])(); renderFoot() }
+    function refresh() { renderTop(); renderFoot(); const v = S.view; if (v === 'home') { renderAnns(); renderGrid() } else if (v === 'saved') viewSaved(); else if (v === 'mine') viewMine(); else if (v === 'admin') refreshAdmin() }
+    function renderTop() {
+      const un = S.isAdmin ? unreadAdmin() : (S.thread?.unreadUser ? 1 : 0);
+      const nav = [['home', 'Browse'], ...(S.user ? [['saved', '♥ Saved'], ['mine', 'My activity']] : []), ...(S.user && !S.isAdmin ? [['chat', 'Messages']] : []), ...(S.isAdmin ? [['admin', 'Admin']] : [])];
+      $('top').innerHTML = `<div class="wrap fx ac jb g3"><a class="brand" onclick="go('home')">🏡 ${esc(brand())}</a>
+        <nav class="nav">${nav.map(([k, l]) => `<button class="${S.view === k ? 'on' : ''}" onclick="go('${k}')">${l}${un && (k === 'chat' || k === 'admin') ? '<i class="dotb"></i>' : ''}</button>`).join('')}</nav>
+        <div class="fx ac g2"><button class="ib" onclick="toggleTheme()" aria-label="Toggle theme">${themeIcon()}</button>
+        ${S.user ? `<button class="avt" onclick="profile()" title="Profile">${esc((S.me?.name || S.user.email || '?')[0].toUpperCase())}</button>` : `<button class="btn2" onclick="openAuth('login')">Log in</button><button class="btn" onclick="openAuth('signup')">Sign up</button>`}</div></div>`;
+    }
+    function renderFoot() {
+      const s = S.settings;
+      $('foot').innerHTML = `<div class="wrap fx jb fw g3"><div><b style="color:var(--fg)">🏡 ${esc(brand())}</b><br>${esc(s.address || '')}</div><div>${s.phone ? `📞 <a href="tel:${esc(s.phone)}">${esc(s.phone)}</a> · <a target="_blank" rel="noopener" href="https://wa.me/${waNum(s.phone)}">WhatsApp</a>` : ''}</div></div>`;
+    }
 
+    // ===== home =====
+    function viewHome() {
+      const f = S.f;
+      $('main').innerHTML = `<section class="hero"><div class="wrap"><p class="eyebrow">${esc(brand())}</p><h1 id="heroT">${esc(S.settings.tagline || 'Find your next home, shop or office')}</h1>
+        <p class="muted" style="max-width:52ch">Houses, apartments, shops and offices for sale and rent. Book an inspection, pay securely online and chat with us directly.</p>
+        <div class="fbar"><div class="seg">${[['all', 'All'], ['sale', 'Buy'], ['rent', 'Rent']].map(([k, l]) => `<button class="${f.purpose === k ? 'on' : ''}" onclick="setF('purpose','${k}')">${l}</button>`).join('')}</div>
+        <select onchange="setF('type',this.value)"><option value="all">All types</option>${Object.entries(TL).map(([k, v]) => `<option value="${k}" ${f.type === k ? 'selected' : ''}>${v}</option>`).join('')}</select>
+        <input class="inp" placeholder="Search title or location" value="${esc(f.q)}" oninput="setF('q',this.value)">
+        <input class="inp" type="number" min="0" placeholder="Max price (₦)" value="${esc(f.max)}" oninput="setF('max',this.value)">
+        <select onchange="setF('sort',this.value)">${[['new', 'Newest'], ['low', 'Price: low to high'], ['high', 'Price: high to low']].map(([k, v]) => `<option value="${k}" ${f.sort === k ? 'selected' : ''}>${v}</option>`).join('')}</select></div></div></section>
+        <section class="wrap" id="annwrap"></section>
+        <section class="wrap"><div class="fx jb ac"><h2>Properties</h2><span id="count" class="muted small"></span></div><div id="grid" class="grid"></div></section>`;
+      renderAnns(); renderGrid();
+    }
+    function setF(k, v) { S.f[k] = v; k === 'purpose' ? viewHome() : renderGrid() }
+    const priceTxt = l => money(l.price) + (l.purpose === 'rent' ? `<small> / ${l.period === 'month' ? 'month' : 'year'}</small>` : '');
+    const metaTxt = l => [TL[l.type], l.beds ? `🛏 ${l.beds}` : '', l.baths ? `🛁 ${l.baths}` : '', l.size ? `${l.size} m²` : ''].filter(Boolean).join(' · ');
+    function card(l) {
+      const saved = (S.me?.saved || []).includes(l.id);
+      return `<article class="lcard" onclick="openListing('${l.id}')"><div class="ph">${l.cover ? `<img loading="lazy" src="${l.cover}" alt="${esc(l.title)}">` : `<div class="noimg">${IC[l.type] || '🏠'}</div>`}
+        <span class="tag ${l.purpose}">${l.purpose === 'rent' ? 'For rent' : 'For sale'}</span>${l.status !== 'available' ? `<span class="st ${l.status}">${l.status === 'sold' ? 'Sold' : 'Rented'}</span>` : ''}${l.featured ? '<span class="feat">★ Featured</span>' : ''}
+        <button class="heart ${saved ? 'on' : ''}" onclick="event.stopPropagation();toggleSave('${l.id}')" aria-label="Save">${saved ? '♥' : '♡'}</button></div>
+        <div class="lb"><div class="price">${priceTxt(l)}</div><h3 class="tr">${esc(l.title)}</h3><p class="muted small tr">📍 ${esc(l.location)}</p><div class="meta">${esc(metaTxt(l))}</div></div></article>`;
+    }
+    function renderGrid() {
+      const el = $('grid'); if (!el) return; const f = S.f, q = f.q.trim().toLowerCase();
+      let a = S.listings.filter(l => (f.purpose === 'all' || l.purpose === f.purpose) && (f.type === 'all' || l.type === f.type) && (!q || (l.title + ' ' + l.location + ' ' + (l.address || '')).toLowerCase().includes(q)) && (!f.max || l.price <= +f.max));
+      a.sort((x, y) => f.sort === 'low' ? x.price - y.price : f.sort === 'high' ? y.price - x.price : ((y.featured ? 1 : 0) - (x.featured ? 1 : 0)) || y.createdAt - x.createdAt);
+      $('count').textContent = S.ready ? a.length + ' found' : '';
+      el.innerHTML = !S.ready ? '<p class="muted">Loading properties…</p>' : a.map(card).join('') || '<p class="muted">No properties match your search yet.</p>';
+    }
+    function renderAnns() {
+      const el = $('annwrap'); if (!el) return;
+      const a = [...S.anns].sort((x, y) => (y.pinned ? 1 : 0) - (x.pinned ? 1 : 0) || y.createdAt - x.createdAt).slice(0, 6);
+      el.innerHTML = a.length ? `<h2>Announcements</h2><div class="anns">${a.map(x => `<div class="ann ${x.pinned ? 'pin' : ''}" onclick="openAnn('${x.id}')">${x.image ? `<img src="${x.image}" alt="">` : ''}<div class="f1"><b>${x.pinned ? '📌 ' : ''}${esc(x.title)}</b><p class="muted small">${esc((x.body || '').slice(0, 110))}${(x.body || '').length > 110 ? '…' : ''}</p><span class="small muted">${dstr(x.createdAt)}</span></div></div>`).join('')}</div>` : '';
+    }
+    function openAnn(id) {
+      const x = S.anns.find(a => a.id === id); if (!x) return;
+      openModal(`${x.image ? `<img src="${x.image}" style="width:100%;border-radius:.8rem;margin-bottom:.8rem">` : ''}<p class="small muted">${dstr(x.createdAt)}</p><h2>${esc(x.title)}</h2><p class="desc">${esc(x.body)}</p>${x.video ? `<div style="margin-top:.8rem">${videoHtml(x.video)}</div>` : ''}`);
+    }
+    async function toggleSave(id) {
+      if (!S.user) return openAuth('login');
+      const has = (S.me?.saved || []).includes(id);
+      try { await updateDoc(doc(fs, 'users', S.user.uid), { saved: has ? arrayRemove(id) : arrayUnion(id) }); const b = $('svbtn'); if (b) b.textContent = has ? '♡ Save' : '♥ Saved'; toast(has ? 'Removed from saved' : 'Saved', 'success') } catch (e) { showErr('Saving', e) }
+    }
+    function viewSaved() {
+      const a = S.listings.filter(l => (S.me?.saved || []).includes(l.id));
+      $('main').innerHTML = `<section class="wrap" style="padding-top:1.6rem"><h2>Saved properties</h2><div class="grid">${a.map(card).join('') || '<p class="muted">Nothing saved yet. Tap the ♡ on any property.</p>'}</div></section>`;
+    }
+    function viewMine() {
+      const cards = S.reqs.map(r => {
+        const l = S.listings.find(x => x.id === r.listingId);
+        return `<div class="ann" style="cursor:default">${l?.cover ? `<img src="${l.cover}" onclick="openListing('${l.id}')" style="cursor:pointer">` : '<div class="th" style="width:74px;height:74px">🏠</div>'}
+        <div class="f1"><b>${esc(r.listingTitle)}</b><div style="margin:.2rem 0"><span class="badge b-${r.type}">${RL[r.type]}</span> <span class="badge s-${r.status}">${r.status}</span></div>
+        <p class="small muted">${r.amount ? `Paid ${money(r.amount)} · ref ${esc(r.paystackRef || '')}<br>` : ''}${r.date ? `Inspection: ${esc(r.date.replace('T', ' '))}<br>` : ''}Requested ${dstr(r.createdAt)}</p></div></div>`;
+      }).join('') || '<p class="muted">No requests yet. Open a property to book an inspection, rent or buy.</p>';
+      $('main').innerHTML = `<section class="wrap" style="padding-top:1.6rem"><h2>My activity</h2><div class="anns">${cards}</div></section>`;
+    }
+
+    // ===== listing detail =====
+    async function openListing(id) {
+      const l = S.listings.find(x => x.id === id); if (!l) return;
+      history.replaceState(null, '', '#l=' + id);
+      const avail = l.status === 'available', fee = feeOf(l), saved = (S.me?.saved || []).includes(id), ph = S.settings.phone;
+      const vids = (l.videos || []).map(videoHtml).filter(Boolean);
+      openModal(`<div class="det"><div><div id="gmain" class="gmain">${l.cover ? `<img src="${l.cover}" alt="">` : `<div class="noimg">${IC[l.type] || '🏠'}</div>`}</div><div id="gthumbs" class="gthumbs"></div></div>
+        <div><div class="fx g2 fw"><span class="badge b-${l.purpose === 'rent' ? 'rent' : 'buy'}">${l.purpose === 'rent' ? 'For rent' : 'For sale'}</span>${!avail ? `<span class="badge s-cancelled">${l.status === 'sold' ? 'Sold' : 'Rented'}</span>` : '<span class="badge s-completed">Available</span>'}</div>
+        <h2 style="margin:.4rem 0 .2rem">${esc(l.title)}</h2><div class="price" style="font-size:1.5rem">${priceTxt(l)}</div><p class="muted">📍 ${esc(l.location)}${l.address ? ' · ' + esc(l.address) : ''}</p>
+        <div class="specs"><div>Type: <b>${TL[l.type] || ''}</b></div>${l.beds ? `<div>🛏 Bedrooms: <b>${l.beds}</b></div>` : ''}${l.baths ? `<div>🛁 Bathrooms: <b>${l.baths}</b></div>` : ''}${l.size ? `<div>📐 Size: <b>${l.size} m²</b></div>` : ''}</div>
+        ${(l.features || []).length ? `<div class="chips">${l.features.map(f => `<span>${esc(f)}</span>`).join('')}</div>` : ''}
+        <div class="desc">${esc(l.desc)}</div>
+        <div class="acts">${avail ? `<button class="btn" onclick="bookInspection('${id}')">📅 Book inspection · ${fee ? money(fee) : 'Free'}</button>${l.purpose === 'rent' ? `<button class="btn gold" onclick="startDeal('${id}','rent')">🔑 Rent this property</button>` : `<button class="btn gold" onclick="startDeal('${id}','buy')">🏷 Buy / Reserve</button>`}` : '<p class="note">This property is no longer available. Browse similar listings or message us.</p>'}
+        <div class="fx g2 fw"><button class="btn2 f1" onclick="askAdmin('${id}')">💬 Message admin</button><button id="svbtn" class="btn2 f1" onclick="toggleSave('${id}')">${saved ? '♥ Saved' : '♡ Save'}</button><button class="btn2 f1" onclick="shareL('${id}')">🔗 Share</button></div>
+        ${ph ? `<div class="fx g2"><a class="btn2 f1 center" href="tel:${esc(ph)}">📞 Call</a><a class="btn2 f1 center" target="_blank" rel="noopener" href="https://wa.me/${waNum(ph)}?text=${encodeURIComponent('Hi, I am interested in: ' + l.title)}">WhatsApp</a></div>` : ''}</div></div></div>
+        ${vids.length ? `<h3 style="margin-top:1.2rem">Videos</h3><div class="vids">${vids.join('')}</div>` : ''}`, true);
+      try { const s = await getDocs(query(collection(fs, 'listings', id, 'media'), orderBy('n'))); if ($('gmain')) { G = { imgs: s.docs.map(d => d.data().data), i: 0 }; renderGal() } } catch (e) { showErr('Loading photos', e) }
+    }
+    function renderGal() {
+      if (!G || !$('gmain') || !G.imgs.length) return; const im = G.imgs;
+      $('gmain').innerHTML = `<img src="${im[G.i]}" alt="">${im.length > 1 ? `<button class="gn p" onclick="galGo(-1)" aria-label="Previous">‹</button><button class="gn n" onclick="galGo(1)" aria-label="Next">›</button><span class="gc">${G.i + 1}/${im.length}</span>` : ''}`;
+      $('gthumbs').innerHTML = im.length > 1 ? im.map((s, i) => `<img class="${i === G.i ? 'on' : ''}" src="${s}" onclick="galSet(${i})" alt="">`).join('') : '';
+    }
+    const galGo = d => { if (G) { G.i = (G.i + d + G.imgs.length) % G.imgs.length; renderGal() } };
+    const galSet = i => { if (G) { G.i = i; renderGal() } };
+    function shareL(id) {
+      const url = location.origin + location.pathname + '#l=' + id, l = S.listings.find(x => x.id === id);
+      if (navigator.share) navigator.share({ title: l?.title, url }).catch(() => { }); else navigator.clipboard?.writeText(url).then(() => toast('Link copied'));
+    }
+    function askAdmin(id) {
+      if (!S.user) return openAuth('login'); const l = S.listings.find(x => x.id === id);
+      S.draft = `Hi, I'm interested in "${l.title}" (${money(l.price)}). Is it still available?`; closeModal(); go('chat');
+    }
+
+    // ===== payments & requests =====
+    function payThen(amount, label, done) {
+      if (!window.PaystackPop) return Swal.fire('Paystack failed to load', 'Check your connection or ad-blocker.', 'error');
+      PaystackPop.setup({
+        key: CFG.paystackKey, email: S.user.email, amount: Math.round(amount * 100), currency: 'NGN', ref: 'HV_' + Date.now(),
+        metadata: { custom_fields: [{ display_name: 'Item', variable_name: 'item', value: label }] },
+        onClose() { toast('Payment cancelled', 'info') },
+        callback(r) { done(r.reference) }
+      }).openIframe();
+    }
+    async function createRequest({ type, l, amount, ref, date, note }) {
       try {
-        const snap = await getDocs(collection(db, "properties"));
-        const grid = document.getElementById("listings-grid");
-        grid.innerHTML = "";
-        
-        if (snap.empty) {
-          grid.innerHTML = `<div class="muted">No current active estate listings published yet.</div>`;
-          return;
-        }
-
-        snap.forEach((doc) => {
-          const property = doc.data();
-          grid.innerHTML += `
-            <div class="lcard">
-              <h3 style="color: var(--accent);">${property.title || "Elite Asset"}</h3>
-              <p class="muted small">${property.location || "Premium District"}</p>
-              <div class="price" style="margin-top:0.5rem; font-weight:bold; color:var(--gold);">$${property.price || "Contact info"}</div>
-            </div>`;
-        });
-      } catch (err) {
-        document.getElementById("listings-grid").innerHTML = `<div class="muted">Inventory currently empty. Create records in your Firebase panel to view live updates here.</div>`;
-      }
+        await addDoc(collection(fs, 'requests'), { uid: S.user.uid, userName: S.me?.name || '', userEmail: S.user.email, userPhone: S.me?.phone || '', listingId: l.id, listingTitle: l.title, type, amount: amount || 0, paid: !!ref, paystackRef: ref || null, verified: false, date: date || null, note: note || '', status: 'pending', createdAt: Date.now() });
+        closeModal(); Swal.fire({ icon: 'success', title: 'Request sent ✅', html: `<p class="small">${type === 'inspection' ? 'Your inspection is booked. We will confirm the time shortly.' : type === 'rent' ? 'Your rental request is received. We will contact you to complete the process.' : 'Your purchase request is received. We will contact you shortly.'}${ref ? `<br><br>Payment reference: <b>${esc(ref)}</b>` : ''}</p>`, confirmButtonText: 'View my activity' }).then(() => go('mine'));
+      } catch (e) { showErr('Saving request', e); if (ref) Swal.fire('Payment received', `Your payment went through but we could not save the request. Keep this reference and message us: ${ref}`, 'warning') }
+    }
+    async function bookInspection(id) {
+      if (!S.user) return openAuth('login'); const l = S.listings.find(x => x.id === id), fee = feeOf(l), min = new Date(Date.now() + 36e5).toISOString().slice(0, 16);
+      const r = await Swal.fire({ title: 'Book an inspection', showCancelButton: true, confirmButtonText: fee ? `Pay ${money(fee)} & book` : 'Book inspection', html: `<p class="small muted" style="margin-bottom:.6rem">${esc(l.title)}</p><label class="lbl">Preferred date &amp; time</label><input id="bi_d" type="datetime-local" class="inp" min="${min}"><label class="lbl">Note (optional)</label><textarea id="bi_n" class="inp" rows="2" placeholder="Anything we should know?"></textarea><p class="small">${fee ? `Inspection fee: <b>${money(fee)}</b>, paid securely with Paystack.` : 'Inspection is free.'}</p>`, preConfirm: () => { const d = $('bi_d').value; if (!d) return Swal.showValidationMessage('Pick a date and time'); if (new Date(d) < new Date()) return Swal.showValidationMessage('Choose a future date'); return { date: d, note: $('bi_n').value.trim() } } });
+      if (!r.isConfirmed) return;
+      const finish = ref => createRequest({ type: 'inspection', l, amount: fee, ref, date: r.value.date, note: r.value.note });
+      fee > 0 ? payThen(fee, 'Inspection: ' + l.title, finish) : finish(null);
+    }
+    async function startDeal(id, type) {
+      if (!S.user) return openAuth('login'); const l = S.listings.find(x => x.id === id);
+      const pay = +l.payNow > 0 ? +l.payNow : (type === 'rent' ? +l.price : 0);
+      const text = type === 'rent' ? (pay ? `Pay <b>${money(pay)}</b> now to secure this rental. The admin will contact you to complete the agreement.` : 'Send a rental request. The admin will contact you.') : (pay ? `Pay a deposit of <b>${money(pay)}</b> to reserve this property. The admin will contact you to complete the purchase.` : 'Send a purchase request. The admin will contact you.');
+      const r = await Swal.fire({ title: type === 'rent' ? 'Rent this property' : 'Buy / reserve', showCancelButton: true, confirmButtonText: pay ? `Pay ${money(pay)}` : 'Send request', html: `<p class="small muted" style="margin-bottom:.5rem">${esc(l.title)}</p><p class="small" style="margin-bottom:.6rem">${text}</p><label class="lbl">Note (optional)</label><textarea id="dl_n" class="inp" rows="2"></textarea>`, preConfirm: () => $('dl_n').value.trim() });
+      if (!r.isConfirmed) return;
+      const finish = ref => createRequest({ type, l, amount: pay, ref, note: r.value });
+      pay > 0 ? payThen(pay, (type === 'rent' ? 'Rent: ' : 'Deposit: ') + l.title, finish) : finish(null);
     }
 
-    // Content Display Template: Administrative Management Terminal Dashboard
-    function renderAdminView() {
-      const container = document.getElementById("main");
-      container.innerHTML = `
-        <div style="background: var(--panel); padding: 2rem; border-radius: 1rem; border:1px solid var(--line);">
-          <div class="fx jb ac">
-            <h2>Administrative System Settings</h2>
-            <span class="badge">Privilege Tier 1</span>
-          </div>
-          <p class="muted" style="margin-top: 0.25rem;">Management control log for ademolamichael204@gmail.com</p>
-          
-          <div class="grid" style="margin-top: 2rem;">
-            <div class="stat-box">
-              <span>Managed Portfolios</span>
-              <b>34 Active</b>
-            </div>
-            <div class="stat-box">
-              <span>Pending Bookings</span>
-              <b style="color: var(--warn);">3 Audits</b>
-            </div>
-            <div class="stat-box">
-              <span>Gross Escrow Pipeline</span>
-              <b style="color: var(--ok);">$1,249,000</b>
-            </div>
-          </div>
-        </div>
-      `;
+    // ===== chat =====
+    function chatPane(uid) { return `<div class="chat"><div id="cmsgs" class="cmsgs"></div><div class="cin"><input id="ci" class="inp" placeholder="Type a message" autocomplete="off" onkeydown="if(event.key==='Enter')sendChat()"><button class="btn" onclick="sendChat()">Send</button></div></div>` }
+    function openChatFor(uid) {
+      if (unsubChat) unsubChat(); S.chatUid = uid; S.chatMsgs = [];
+      unsubChat = onSnapshot(query(collection(fs, 'threads', uid, 'messages'), orderBy('at', 'desc'), limit(200)), s => { S.chatMsgs = s.docs.map(d => ({ id: d.id, ...d.data() })).reverse(); renderChatMsgs(); markThreadRead() }, e => showErr('Loading messages', e));
+    }
+    function renderChatMsgs() {
+      const el = $('cmsgs'); if (!el) return; const own = S.chatUid === S.user.uid, tname = S.threads.find(t => t.uid === S.chatUid)?.name || 'Customer';
+      el.innerHTML = S.chatMsgs.map(m => { const mine = m.from === S.user.uid; return `<div class="cb ${mine ? 'me' : ''}">${esc(m.text)}<small>${mine ? 'You' : own ? esc(brand()) + ' support' : esc(tname)} · ${dstr(m.at)} ${tstr(m.at)}</small></div>` }).join('') || `<p class="muted center small" style="margin:auto">${own ? 'Send us a message. We usually reply quickly.' : 'No messages yet.'}</p>`;
+      el.scrollTop = el.scrollHeight;
+    }
+    function markThreadRead() {
+      if (!S.user) return;
+      if (S.chatUid === S.user.uid) { if (S.thread?.unreadUser) updateDoc(doc(fs, 'threads', S.chatUid), { unreadUser: false }).catch(() => { }) }
+      else if (S.isAdmin) { const t = S.threads.find(x => x.uid === S.chatUid); if (t?.unreadAdmin) updateDoc(doc(fs, 'threads', S.chatUid), { unreadAdmin: false }).catch(() => { }) }
+    }
+    function viewChat() {
+      openChatFor(S.user.uid);
+      $('main').innerHTML = `<section class="wrap narrow" style="padding-top:1.6rem"><h2>Chat with ${esc(brand())}</h2>${chatPane(S.user.uid)}</section>`;
+      renderChatMsgs(); if (S.draft) { $('ci').value = S.draft; S.draft = ''; $('ci').focus() }
+    }
+    async function sendChat() {
+      const inp = $('ci'), t = inp.value.trim(); if (!t) return; inp.value = '';
+      const uid = S.chatUid, at = Date.now(), own = uid === S.user.uid, u = own ? { name: S.me?.name || '', email: S.user.email } : (S.users.find(x => x.uid === uid) || {});
+      const base = { uid, name: u.name || '', email: u.email || '', lastMsg: t.slice(0, 80), lastAt: at };
+      try {
+        await setDoc(doc(fs, 'threads', uid), own ? { ...base, unreadAdmin: true, unreadUser: false } : { ...base, unreadUser: true, unreadAdmin: false }, { merge: true });
+        await addDoc(collection(fs, 'threads', uid, 'messages'), { from: S.user.uid, text: t, at });
+      } catch (e) { inp.value = t; showErr('Could not send', e) }
     }
 
-    // View Mapping Routing Logic
-    window.switchView = function(view) {
-      document.querySelectorAll(".nav button").forEach(b => b.classList.remove("on"));
-      if (view === "admin") {
-        if (!isAdminUser) {
-          Swal.fire("Access Restrained", "Administrative login keys required.", "error");
-          switchView("browse");
-          return;
-        }
-        document.getElementById("nav-admin").classList.add("on");
-        renderAdminView();
-      } else {
-        document.getElementById("nav-browse").classList.add("on");
-        renderBrowseView();
-      }
-    };
+    // ===== admin: shell =====
+    function viewAdmin() {
+      const tabs = [['dash', '📊 Dashboard'], ['listings', '🏠 Properties'], ['requests', '📋 Requests'], ['users', '👥 Users'], ['messages', '💬 Messages'], ['anns', '📢 Announcements'], ['settings', '⚙ Settings']];
+      $('main').innerHTML = `<div class="wrap" style="padding-top:1rem"><h2>Admin</h2><div class="tabs">${tabs.map(([k, l]) => `<button class="${S.tab === k ? 'on' : ''}" onclick="setTab('${k}')">${l}${k === 'messages' && unreadAdmin() ? `<span class="dot">${unreadAdmin()}</span>` : ''}</button>`).join('')}</div><div id="atab"></div></div>`;
+      renderTab();
+    }
+    function setTab(k) { S.tab = k; if (k !== 'messages' && unsubChat) { unsubChat(); unsubChat = null } viewAdmin() }
+    const renderTab = () => ({ dash: tDash, listings: tListings, requests: tRequests, users: tUsers, messages: tMessages, anns: tAnns, settings: tSettings }[S.tab])();
+    function refreshAdmin() { if (!$('atab')) return; if (S.tab === 'messages') return renderThreadList(); if (S.tab === 'settings') return; if (S.tab === 'users') return renderUsersTable(); renderTab() }
+    const statusBadge = s => `<span class="badge s-${s}">${s}</span>`;
 
-    window.handleLogout = function() {
-      signOut(auth).then(() => { window.location.href = "./index.html"; });
-    };
+    function reqRows(list) {
+      return list.map(r => {
+        const l = S.listings.find(x => x.id === r.listingId);
+        return `<tr><td><div class="fx ac g2">${l?.cover ? `<img class="th" src="${l.cover}" onclick="openListing('${l.id}')" alt="">` : '<div class="th">🏠</div>'}<div><b>${esc(r.listingTitle)}</b>${l ? '' : '<br><span class="small bad">listing removed</span>'}</div></div></td>
+        <td>${esc(r.userName)}<br><span class="small muted">${esc(r.userPhone || '')} · ${esc(r.userEmail)}</span></td>
+        <td><span class="badge b-${r.type}">${RL[r.type]}</span>${r.date ? `<br><span class="small muted">${esc(r.date.replace('T', ' '))}</span>` : ''}${r.note ? `<br><span class="small muted">“${esc(r.note)}”</span>` : ''}</td>
+        <td>${r.amount ? money(r.amount) : '—'}${r.paystackRef ? `<br><span class="small muted">${esc(r.paystackRef)}</span>` : ''}${r.paid ? `<br><button class="lnk ${r.verified ? 'ok' : ''}" onclick="toggleVerify('${r.id}',${!r.verified})">${r.verified ? '✓ verified' : 'mark verified'}</button>` : ''}</td>
+        <td><select onchange="setReqStatus('${r.id}',this.value)">${['pending', 'confirmed', 'completed', 'cancelled'].map(s => `<option ${r.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select><br><span class="small muted">${dstr(r.createdAt)}</span></td>
+        <td><button class="lnk bad" onclick="delReq('${r.id}')">Delete</button></td></tr>`;
+      }).join('') || '<tr><td colspan="6" class="muted center">Nothing here yet.</td></tr>';
+    }
+    const reqTable = list => `<div class="tw"><table class="tbl"><thead><tr><th>Property</th><th>Customer</th><th>Type</th><th>Payment</th><th>Status</th><th></th></tr></thead><tbody>${reqRows(list)}</tbody></table></div>`;
+    const setReqStatus = (id, v) => updateDoc(doc(fs, 'requests', id), { status: v }).then(() => toast('Status updated')).catch(e => showErr('Updating', e));
+    const toggleVerify = (id, v) => updateDoc(doc(fs, 'requests', id), { verified: v }).catch(e => showErr('Updating', e));
+    async function delReq(id) { const r = await Swal.fire({ title: 'Delete this request?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Delete' }); if (r.isConfirmed) deleteDoc(doc(fs, 'requests', id)).then(() => toast('Deleted', 'info')).catch(e => showErr('Deleting', e)) }
+
+    function tDash() {
+      const rev = S.reqs.filter(r => r.paid).reduce((a, r) => a + (+r.amount || 0), 0), st = (n, l) => `<div class="stat"><b>${n}</b><span>${l}</span></div>`;
+      $('atab').innerHTML = `<div class="stats">${st(S.listings.length, 'Properties')}${st(S.listings.filter(l => l.status === 'available').length, 'Available')}${st(S.users.length, 'Registered users')}${st(S.reqs.filter(r => r.status === 'pending').length, 'Pending requests')}${st(S.reqs.filter(r => r.type === 'inspection').length, 'Inspections')}${st(S.reqs.filter(r => r.type === 'rent').length, 'Rent requests')}${st(S.reqs.filter(r => r.type === 'buy').length, 'Purchase requests')}${st(money(rev), 'Payments received')}</div><h3 style="margin-bottom:.6rem">Latest requests</h3>${reqTable(S.reqs.slice(0, 8))}<p class="small muted" style="margin-top:.6rem">Payments are recorded from the customer's browser. Always confirm the reference on your Paystack dashboard, then click "mark verified".</p>`;
+    }
+    function tRequests() {
+      const f = S.rf, a = S.reqs.filter(r => (f.type === 'all' || r.type === f.type) && (f.status === 'all' || r.status === f.status));
+      $('atab').innerHTML = `<div class="fx g2 fw" style="margin-bottom:.8rem"><select style="width:auto;margin:0" onchange="setRF('type',this.value)">${[['all', 'All types'], ['inspection', 'Inspections'], ['rent', 'Rent'], ['buy', 'Purchase']].map(([k, v]) => `<option value="${k}" ${f.type === k ? 'selected' : ''}>${v}</option>`).join('')}</select><select style="width:auto;margin:0" onchange="setRF('status',this.value)">${['all', 'pending', 'confirmed', 'completed', 'cancelled'].map(k => `<option value="${k}" ${f.status === k ? 'selected' : ''}>${k === 'all' ? 'All statuses' : k}</option>`).join('')}</select><span class="muted small" style="align-self:center">${a.length} request(s)</span></div>${reqTable(a)}`;
+    }
+    const setRF = (k, v) => { S.rf[k] = v; tRequests() };
+
+    // ===== admin: users =====
+    let uq = '';
+    function tUsers() {
+      $('atab').innerHTML = `<input class="inp" style="max-width:340px" placeholder="Search name, email or phone" value="${esc(uq)}" oninput="uq_set(this.value)"><div id="utbl"></div>`; renderUsersTable();
+    }
+    const uq_set = v => { uq = v.toLowerCase(); renderUsersTable() };
+    function renderUsersTable() {
+      const el = $('utbl'); if (!el) return;
+      const a = S.users.filter(u => !uq || (u.name + ' ' + u.email + ' ' + (u.phone || '')).toLowerCase().includes(uq));
+      el.innerHTML = `<div class="tw"><table class="tbl"><thead><tr><th>User</th><th>Phone</th><th>Joined</th><th>Requests</th><th>Saved</th><th></th></tr></thead><tbody>${a.map(u => {
+        const rs = S.reqs.filter(r => r.uid === u.uid);
+        return `<tr><td><b>${esc(u.name)}</b><br><span class="small muted">${esc(u.email)}</span></td><td>${esc(u.phone || '—')}</td><td>${dstr(u.createdAt)}</td><td>${rs.length}${rs.filter(r => r.status === 'pending').length ? ` <span class="badge s-pending">${rs.filter(r => r.status === 'pending').length} pending</span>` : ''}</td><td>${(u.saved || []).length}</td><td><button class="lnk" onclick="openUser('${u.uid}')">View details</button></td></tr>`;
+      }).join('') || '<tr><td colspan="6" class="muted center">No users found.</td></tr>'}</tbody></table></div>`;
+    }
+    function openUser(uid) {
+      const u = S.users.find(x => x.uid === uid); if (!u) return; const rs = S.reqs.filter(r => r.uid === uid), saved = S.listings.filter(l => (u.saved || []).includes(l.id));
+      const th = l => l?.cover ? `<img class="th" src="${l.cover}" alt="">` : '<div class="th">🏠</div>';
+      openModal(`<h2>${esc(u.name)}</h2><p class="muted small">${esc(u.email)} · ${esc(u.phone || 'no phone')}<br>Joined ${dstr(u.createdAt)}${u.lastLogin ? ' · last login ' + dstr(u.lastLogin) : ''}</p>
+        <div class="fx g2" style="margin:.8rem 0"><button class="btn" onclick="msgUser('${uid}')">💬 Message</button>${u.phone ? `<a class="btn2" target="_blank" rel="noopener" href="https://wa.me/${waNum(u.phone)}">WhatsApp</a><a class="btn2" href="tel:${esc(u.phone)}">Call</a>` : ''}</div>
+        <h3 style="margin:.6rem 0">Properties picked (${rs.length})</h3>${rs.map(r => { const l = S.listings.find(x => x.id === r.listingId); return `<div class="fx ac g2" style="padding:.4rem 0;border-bottom:1px solid var(--line)">${th(l)}<div class="f1"><b class="tr">${esc(r.listingTitle)}</b><br><span class="badge b-${r.type}">${RL[r.type]}</span> ${statusBadge(r.status)}${r.date ? ` <span class="small muted">${esc(r.date.replace('T', ' '))}</span>` : ''}</div><div class="small">${r.amount ? money(r.amount) : ''}</div></div>` }).join('') || '<p class="muted small">No requests yet.</p>'}
+        <h3 style="margin:1rem 0 .6rem">Saved properties (${saved.length})</h3>${saved.map(l => `<div class="fx ac g2" style="padding:.3rem 0">${th(l)}<span class="tr">${esc(l.title)}</span></div>`).join('') || '<p class="muted small">None.</p>'}`, true);
+    }
+    function msgUser(uid) { closeModal(); S.tab = 'messages'; viewAdmin(); pickThread(uid) }
+
+    // ===== admin: messages =====
+    function tMessages() {
+      $('atab').innerHTML = `<div class="two"><div class="tl" id="tlist"></div><div id="tchat"><div class="note">Select a conversation.</div></div></div>`; renderThreadList();
+      if (S.chatUid && S.chatUid !== S.user.uid) pickThread(S.chatUid);
+    }
+    function renderThreadList() {
+      const el = $('tlist'); if (!el) return;
+      el.innerHTML = S.threads.map(t => `<div class="tli ${S.chatUid === t.uid ? 'on' : ''}" onclick="pickThread('${t.uid}')"><div class="fx jb"><b class="tr">${esc(t.name || t.email)}</b>${t.unreadAdmin ? '<span class="dot">new</span>' : ''}</div><div class="small muted tr">${esc(t.lastMsg || '')}</div><div class="small muted">${t.lastAt ? dstr(t.lastAt) + ' ' + tstr(t.lastAt) : ''}</div></div>`).join('') || '<p class="muted small" style="padding:1rem">No conversations yet.</p>';
+    }
+    function pickThread(uid) {
+      const t = S.threads.find(x => x.uid === uid) || S.users.find(x => x.uid === uid) || {};
+      openChatFor(uid); renderThreadList();
+      $('tchat').innerHTML = `<div class="fx ac jb" style="margin-bottom:.5rem"><div><b>${esc(t.name || 'Customer')}</b><br><span class="small muted">${esc(t.email || '')}</span></div><button class="lnk" onclick="openUser('${uid}')">View details</button></div>${chatPane(uid)}`;
+      renderChatMsgs();
+    }
+
+    // ===== admin: properties =====
+    function tListings() {
+      $('atab').innerHTML = `<div class="fx jb ac" style="margin-bottom:.8rem"><span class="muted small">${S.listings.length} propert${S.listings.length === 1 ? 'y' : 'ies'}</span><button class="btn" onclick="editListing()">＋ Add property</button></div>
+      <div class="tw"><table class="tbl"><thead><tr><th>Property</th><th>Type</th><th>Price</th><th>Status</th><th></th></tr></thead><tbody>${S.listings.map(l => `<tr><td><div class="fx ac g2">${l.cover ? `<img class="th" src="${l.cover}" onclick="openListing('${l.id}')" alt="">` : '<div class="th">🏠</div>'}<div><b>${esc(l.title)}</b>${l.featured ? ' ★' : ''}<br><span class="small muted">${esc(l.location)} · ${l.imgCount || 0} photo(s)${(l.videos || []).length ? ' · ' + l.videos.length + ' video(s)' : ''}</span></div></div></td><td>${TL[l.type]}<br><span class="small muted">${l.purpose === 'rent' ? 'Rent' : 'Sale'}</span></td><td>${money(l.price)}</td>
+      <td><select onchange="setLStatus('${l.id}',this.value)">${['available', 'sold', 'rented'].map(s => `<option ${l.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></td>
+      <td class="fx g2" style="border:0"><button class="lnk" onclick="editListing('${l.id}')">Edit</button><button class="lnk bad" onclick="delListing('${l.id}')">Delete</button></td></tr>`).join('') || '<tr><td colspan="5" class="muted center">No properties yet. Click “Add property”.</td></tr>'}</tbody></table></div>`;
+    }
+    const setLStatus = (id, v) => updateDoc(doc(fs, 'listings', id), { status: v }).then(() => toast('Status updated')).catch(e => showErr('Updating', e));
+    async function delListing(id) {
+      const l = S.listings.find(x => x.id === id), r = await Swal.fire({ title: 'Delete this property?', text: `"${l?.title}" and all its photos will be removed for everyone.`, icon: 'warning', showCancelButton: true, confirmButtonText: 'Delete' });
+      if (!r.isConfirmed) return;
+      try { const m = await getDocs(collection(fs, 'listings', id, 'media')); await Promise.all(m.docs.map(d => deleteDoc(d.ref))); await deleteDoc(doc(fs, 'listings', id)); toast('Property deleted', 'info') } catch (e) { showErr('Deleting property', e) }
+    }
+    const opt = (list, cur) => list.map(([k, v]) => `<option value="${k}" ${cur === k ? 'selected' : ''}>${v}</option>`).join('');
+    async function editListing(id) {
+      const L = id ? S.listings.find(x => x.id === id) : { type: 'house', purpose: 'sale', status: 'available', period: 'year', features: [], videos: [], inspectionFee: null, payNow: 0, featured: false };
+      ED = { id: id || null, items: [], removed: [] };
+      const v = x => esc(x ?? '');
+      openModal(`<h2>${id ? 'Edit property' : 'Add property'}</h2><div class="frm">
+        <div class="full"><label class="lbl">Title</label><input id="e_title" class="inp" value="${v(L.title)}" placeholder="e.g. 4-bedroom duplex with BQ"></div>
+        <div><label class="lbl">Type</label><select id="e_type">${opt(Object.entries(TL), L.type)}</select></div>
+        <div><label class="lbl">Purpose</label><select id="e_purpose">${opt([['sale', 'For sale'], ['rent', 'For rent']], L.purpose)}</select></div>
+        <div><label class="lbl">Price (₦)</label><input id="e_price" class="inp" type="number" min="0" value="${v(L.price)}"></div>
+        <div><label class="lbl">Rent period</label><select id="e_period">${opt([['year', 'per year'], ['month', 'per month']], L.period)}</select></div>
+        <div><label class="lbl">Location (area, city)</label><input id="e_loc" class="inp" value="${v(L.location)}"></div>
+        <div><label class="lbl">Address (optional)</label><input id="e_addr" class="inp" value="${v(L.address)}"></div>
+        <div><label class="lbl">Bedrooms</label><input id="e_beds" class="inp" type="number" min="0" value="${v(L.beds)}"></div>
+        <div><label class="lbl">Bathrooms</label><input id="e_baths" class="inp" type="number" min="0" value="${v(L.baths)}"></div>
+        <div><label class="lbl">Size (m²)</label><input id="e_size" class="inp" type="number" min="0" value="${v(L.size)}"></div>
+        <div><label class="lbl">Status</label><select id="e_status">${opt([['available', 'Available'], ['sold', 'Sold'], ['rented', 'Rented']], L.status)}</select></div>
+        <div><label class="lbl">Inspection fee (₦, blank = default)</label><input id="e_fee" class="inp" type="number" min="0" value="${v(L.inspectionFee)}"></div>
+        <div><label class="lbl">Pay-now amount (₦)</label><input id="e_pay" class="inp" type="number" min="0" value="${v(L.payNow)}" placeholder="deposit / first payment"></div>
+        <div class="full"><label class="lbl">Features (comma separated)</label><input id="e_feat" class="inp" value="${v((L.features || []).join(', '))}" placeholder="Swimming pool, 24h power, Fenced, CCTV"></div>
+        <div class="full"><label class="lbl">Description</label><textarea id="e_desc" class="inp" rows="5" placeholder="Describe the property...">${v(L.desc)}</textarea></div>
+        <div class="full"><label class="lbl">Photos <span id="e_cnt" class="muted"></span> (first photo is the cover)</label><div id="e_media" class="mgrid"></div><input type="file" accept="image/*" multiple onchange="edAdd(this)"></div>
+        <div class="full" style="margin-top:.6rem"><label class="lbl">Video links (one per line: YouTube or direct .mp4 link)</label><textarea id="e_videos" class="inp" rows="2">${v((L.videos || []).join('\n'))}</textarea>${CFG.cloudinary.cloud ? '<button class="btn2" onclick="uploadVideo()">⬆ Upload a video file</button>' : '<p class="small muted">Tip: upload videos to YouTube (unlisted) or Cloudinary and paste the link here.</p>'}</div>
+        <div class="full" style="margin:.8rem 0"><label><input id="e_featured" type="checkbox" ${L.featured ? 'checked' : ''}> ★ Feature this property (shows first)</label></div></div>
+        <button class="btn w100" onclick="saveListing()">${id ? 'Save changes' : 'Publish property'}</button>`, true);
+      renderEdMedia();
+      if (id) { try { const s = await getDocs(query(collection(fs, 'listings', id, 'media'), orderBy('n'))); ED.items = s.docs.map(d => ({ id: d.id, data: d.data().data, n: d.data().n, n0: d.data().n })); renderEdMedia() } catch (e) { showErr('Loading photos', e) } }
+    }
+    function renderEdMedia() {
+      const el = $('e_media'); if (!el || !ED) return; ED.items.sort((a, b) => a.n - b.n);
+      el.innerHTML = ED.items.map((m, i) => `<div class="mi ${i === 0 ? 'cover' : ''}"><img src="${m.data}" alt=""><span class="cv">${i === 0 ? 'COVER' : ''}</span><div class="mt">${i ? `<button onclick="edCover(${i})" title="Make cover">★</button>` : ''}<button onclick="edDel(${i})" title="Remove">🗑</button></div></div>`).join('') || '<p class="muted small">No photos yet.</p>';
+      $('e_cnt').textContent = ED.items.length + '/12';
+    }
+    async function edAdd(inp) {
+      const files = [...inp.files]; inp.value = ''; if (!files.length) return;
+      if (ED.items.length + files.length > 12) return toast('Maximum 12 photos per property', 'warning');
+      Swal.fire({ title: 'Processing photos…', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      try { let k = 0; for (const f of files) ED.items.push({ id: null, data: await compress(f), n: Date.now() + (k++), n0: null }) } catch { toast('One of the files is not a supported image', 'error') }
+      Swal.close(); renderEdMedia();
+    }
+    const edDel = i => { const m = ED.items[i]; if (m.id) ED.removed.push(m.id); ED.items.splice(i, 1); renderEdMedia() };
+    const edCover = i => { ED.items[i].n = ED.items[0].n - 1; renderEdMedia() };
+    async function saveListing() {
+      const g = id => $(id).value.trim(), num = id => g(id) === '' ? null : +g(id);
+      if (!g('e_title')) return toast('Enter a title', 'error'); if (!(num('e_price') > 0)) return toast('Enter a price', 'error'); if (!g('e_loc')) return toast('Enter a location', 'error');
+      Swal.fire({ title: 'Saving…', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      try {
+        const lid = ED.id || doc(collection(fs, 'listings')).id; ED.items.sort((a, b) => a.n - b.n);
+        const data = { title: g('e_title'), type: g('e_type'), purpose: g('e_purpose'), status: g('e_status'), price: num('e_price'), period: g('e_period'), location: g('e_loc'), address: g('e_addr'), beds: num('e_beds'), baths: num('e_baths'), size: num('e_size'), inspectionFee: num('e_fee'), payNow: num('e_pay') || 0, features: g('e_feat').split(/[,\n]/).map(x => x.trim()).filter(Boolean), desc: $('e_desc').value.trim(), videos: $('e_videos').value.split('\n').map(x => x.trim()).filter(Boolean), featured: $('e_featured').checked, cover: ED.items[0] ? await thumb(ED.items[0].data) : null, imgCount: ED.items.length, updatedAt: Date.now() };
+        if (!ED.id) data.createdAt = Date.now();
+        await setDoc(doc(fs, 'listings', lid), data, { merge: true });
+        await Promise.all(ED.removed.map(mid => deleteDoc(doc(fs, 'listings', lid, 'media', mid))));
+        for (const m of ED.items) {
+          if (!m.id) await setDoc(doc(collection(fs, 'listings', lid, 'media')), { data: m.data, n: m.n });
+          else if (m.n !== m.n0) await updateDoc(doc(fs, 'listings', lid, 'media', m.id), { n: m.n });
+        }
+        Swal.close(); closeModal(); toast(ED.id ? 'Property updated' : 'Property published'); ED = null;
+      } catch (e) { Swal.close(); showErr('Saving property', e) }
+    }
+    function uploadVideo() {
+      const { cloud, preset } = CFG.cloudinary, inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'video/*';
+      inp.onchange = async () => {
+        const f = inp.files[0]; if (!f) return; if (f.size > 100 * 1024 * 1024) return toast('Video must be under 100MB', 'error');
+        Swal.fire({ title: 'Uploading video…', text: 'Please keep this tab open.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        try { const fd = new FormData(); fd.append('file', f); fd.append('upload_preset', preset); const r = await fetch(`https://api.cloudinary.com/v1_1/${cloud}/video/upload`, { method: 'POST', body: fd }), j = await r.json(); if (!j.secure_url) throw new Error(j.error?.message || 'Upload failed'); const ta = $('e_videos'); ta.value = (ta.value.trim() + '\n' + j.secure_url).trim(); Swal.close(); toast('Video uploaded') } catch (e) { Swal.close(); showErr('Video upload', e) }
+      };
+      inp.click();
+    }
+
+    // ===== admin: announcements =====
+    function tAnns() {
+      $('atab').innerHTML = `<div class="fx jb ac" style="margin-bottom:.8rem"><span class="muted small">${S.anns.length} announcement(s)</span><button class="btn" onclick="editAnn()">＋ New announcement</button></div><div class="anns">${S.anns.map(x => `<div class="ann" style="cursor:default">${x.image ? `<img src="${x.image}" alt="">` : ''}<div class="f1"><b>${x.pinned ? '📌 ' : ''}${esc(x.title)}</b><p class="muted small">${esc((x.body || '').slice(0, 90))}</p><span class="small muted">${dstr(x.createdAt)}</span><div class="fx g3" style="margin-top:.3rem"><button class="lnk" onclick="editAnn('${x.id}')">Edit</button><button class="lnk bad" onclick="delAnn('${x.id}')">Delete</button></div></div></div>`).join('') || '<p class="muted">No announcements yet.</p>'}</div>`;
+    }
+    function editAnn(id) {
+      const x = id ? S.anns.find(a => a.id === id) : { title: '', body: '', video: '', pinned: false, image: null }; AE = { id: id || null, image: x.image || null };
+      openModal(`<h2>${id ? 'Edit' : 'New'} announcement</h2><label class="lbl">Title</label><input id="a_title" class="inp" value="${esc(x.title)}"><label class="lbl">Message</label><textarea id="a_body" class="inp" rows="5">${esc(x.body)}</textarea><label class="lbl">Video link (optional)</label><input id="a_video" class="inp" value="${esc(x.video || '')}" placeholder="YouTube or .mp4 link"><label class="lbl">Image (optional)</label><div id="a_prev"></div><input type="file" accept="image/*" onchange="annImg(this)"><p style="margin:.7rem 0"><label><input id="a_pin" type="checkbox" ${x.pinned ? 'checked' : ''}> 📌 Pin to the top</label></p><button class="btn w100" onclick="saveAnn()">${id ? 'Save changes' : 'Publish'}</button>`);
+      annPrev();
+    }
+    const annPrev = () => { const el = $('a_prev'); if (el) el.innerHTML = AE?.image ? `<div class="fx ac g3" style="margin-bottom:.4rem"><img src="${AE.image}" style="width:90px;border-radius:.5rem"><button class="lnk bad" onclick="annRm()">Remove image</button></div>` : '' };
+    const annRm = () => { AE.image = null; annPrev() };
+    async function annImg(inp) { const f = inp.files[0]; if (!f) return; try { AE.image = await compress(f, 900); annPrev() } catch { toast('Unsupported image', 'error') } }
+    async function saveAnn() {
+      const t = $('a_title').value.trim(), b = $('a_body').value.trim(); if (!t || !b) return toast('Add a title and a message', 'error');
+      try { const id = AE.id || doc(collection(fs, 'announcements')).id, d = { title: t, body: b, video: $('a_video').value.trim(), pinned: $('a_pin').checked, image: AE.image || null, updatedAt: Date.now() }; if (!AE.id) d.createdAt = Date.now(); await setDoc(doc(fs, 'announcements', id), d, { merge: true }); closeModal(); toast('Announcement saved') } catch (e) { showErr('Saving announcement', e) }
+    }
+    async function delAnn(id) { const r = await Swal.fire({ title: 'Delete announcement?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Delete' }); if (r.isConfirmed) deleteDoc(doc(fs, 'announcements', id)).then(() => toast('Deleted', 'info')).catch(e => showErr('Deleting', e)) }
+
+    // ===== admin: settings =====
+    function tSettings() {
+      const s = S.settings;
+      $('atab').innerHTML = `<div class="narrow"><label class="lbl">Business name</label><input id="s_brand" class="inp" value="${esc(s.brand || CFG.brand)}"><label class="lbl">Headline on the home page</label><input id="s_tag" class="inp" value="${esc(s.tagline || '')}" placeholder="Find your next home, shop or office"><label class="lbl">Phone / WhatsApp number</label><input id="s_phone" class="inp" value="${esc(s.phone || '')}" placeholder="0803 000 0000"><label class="lbl">Office address</label><input id="s_addr" class="inp" value="${esc(s.address || '')}"><label class="lbl">Default inspection fee (₦, 0 = free)</label><input id="s_fee" class="inp" type="number" min="0" value="${esc(s.defaultFee ?? 0)}"><button class="btn" onclick="saveSettings()">Save settings</button></div>`;
+    }
+    async function saveSettings() {
+      try { await setDoc(doc(fs, 'settings', 'site'), { brand: $('s_brand').value.trim() || CFG.brand, tagline: $('s_tag').value.trim(), phone: $('s_phone').value.trim(), address: $('s_addr').value.trim(), defaultFee: +$('s_fee').value || 0 }, { merge: true }); toast('Settings saved') } catch (e) { showErr('Saving settings', e) }
+    }
+
+    window.addEventListener('unhandledrejection', e => { const m = String(e.reason?.message || ''); if (m && !/Config missing/.test(m)) showErr('Something went wrong', e.reason) });
+    window.addEventListener('hashchange', () => { if (location.hash.startsWith('#l=')) openListing(location.hash.slice(3)) });
+    Object.assign(window, { toggleTheme, closeModal, go, openAuth, authGo, googleGo, resetPw, profile, setF, openListing, openAnn, toggleSave, galGo, galSet, shareL, askAdmin, bookInspection, startDeal, sendChat, setTab, setReqStatus, toggleVerify, delReq, setRF, uq_set, openUser, msgUser, pickThread, setLStatus, delListing, editListing, edAdd, edDel, edCover, saveListing, uploadVideo, editAnn, annImg, annRm, saveAnn, delAnn, saveSettings });
+    startPublic();
   </script>
 </body>
+
 </html>
-git add .
-git commit -m "Configure direct admin guard override parameters for staff email verification"
-git push origin main
