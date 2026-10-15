@@ -3,118 +3,288 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Empire Estates - Premium Property Group</title>
+  <title>Empire Estates | Premium Properties & Corporate Spaces</title>
   <link href="https://googleapis.com" rel="stylesheet">
   <style>
     :root {
-      --bg: #f7f5f0;
-      --panel: #ffffff;
-      --fg: #14202b;
-      --muted: #5d6b78;
-      --accent: #0b3a53;
-      --gold: #c8962e;
+      --bg: #0c1720;
+      --panel: #13232f;
+      --panel2: #1a2f3d;
+      --fg: #eef2f5;
+      --muted: #92a3b0;
+      --line: rgba(255, 255, 255, 0.08);
+      --accent: #d9a93f;
+      --accent-hover: #f1c453;
+      --on: #1a1200;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      background: var(--bg);
+      background-color: var(--bg);
       color: var(--fg);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      line-height: 1.6;
       overflow-x: hidden;
     }
-    header {
-      display: flex;
-      justify-content: jb;
-      align-items: center;
-      padding: 1.5rem 2rem;
+
+    h1, h2, h3 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .wrap {
       max-width: 1200px;
       margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Navbar styling */
+    nav {
+      border-bottom: 1px solid var(--line);
+      background: rgba(12, 23, 32, 0.85);
+      backdrop-filter: blur(12px);
+      position: fixed;
+      top: 0;
       width: 100%;
+      z-index: 1000;
     }
-    .brand {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.8rem;
-      color: var(--accent);
-    }
-    .auth-buttons {
+    .nav-container {
       display: flex;
-      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
     }
-    .btn {
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.5rem;
+    .logo {
+      font-size: 1.6rem;
+      color: var(--accent);
       font-weight: 700;
-      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--fg); }
+
+    /* Button variants */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem 1.8rem;
+      border-radius: 0.75rem;
+      font-weight: 700;
       text-decoration: none;
       transition: all 0.2s ease;
+      cursor: pointer;
     }
-    .btn.outline {
-      border: 1px solid var(--accent);
-      color: var(--accent);
+    .btn.primary {
+      background-color: var(--accent);
+      color: var(--on);
     }
-    .btn.fill {
-      background: var(--accent);
-      color: #fff;
-    }
-    .btn:hover {
+    .btn.primary:hover {
+      background-color: var(--accent-hover);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(11, 58, 83, 0.15);
+      box-shadow: 0 8px 20px rgba(217, 169, 63, 0.25);
     }
-    .hero {
+    .btn.secondary {
+      border: 1px solid var(--line);
+      background-color: var(--panel);
+      color: var(--fg);
+    }
+    .btn.secondary:hover {
+      background-color: var(--panel2);
+      border-color: var(--muted);
+    }
+
+    /* Hero section */
+    .hero-section {
+      padding: 160px 0 60px;
+      background: linear-gradient(180deg, rgba(217,169,63,0.05) 0%, rgba(12,23,32,0) 100%);
+    }
+    .hero-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 4rem;
       align-items: center;
-      max-width: 1200px;
-      margin: 4rem auto;
-      padding: 0 2rem;
-      gap: 2rem;
+    }
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1rem;
     }
     .hero-text h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 3.5rem;
-      line-height: 1.1;
-      color: var(--fg);
+      font-size: clamp(2.5rem, 5vw, 4rem);
       margin-bottom: 1.5rem;
     }
     .hero-text p {
       color: var(--muted);
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-      max-width: 45ch;
+      font-size: 1.15rem;
+      margin-bottom: 2.5rem;
+      max-width: 52ch;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1.2rem;
+    }
+    .hero-image {
+      position: relative;
     }
     .hero-image img {
       width: 100%;
       border-radius: 1.5rem;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      border: 1px solid var(--line);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
     }
-    @media (max-width: 768px) {
-      .hero { grid-template-columns: 1fr; text-align: center; margin: 2rem auto; }
-      .hero-text h1 { font-size: 2.5rem; }
-      .hero-text p { margin: 1rem auto 2rem; }
+
+    /* Features section */
+    .features-section {
+      padding: 100px 0;
+      background-color: var(--panel);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .section-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .section-header p {
+      color: var(--muted);
+      max-width: 60ch;
+      margin: 0 auto;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .feature-card {
+      background-color: var(--bg);
+      border: 1px solid var(--line);
+      padding: 2.5rem;
+      border-radius: 1.25rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    .feature-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+    .feature-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Footer styling */
+    footer {
+      padding: 4rem 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
+      .hero-text p { margin-left: auto; margin-right: auto; }
+      .hero-actions { justify-content: center; }
+      .nav-links a { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="brand">🏠 Empire Estates</div>
-    <div class="auth-buttons">
-      <!-- Clicking these redirects the user securely directly into your app.html portal -->
-      <a href="./app.html" class="btn outline">Log In</a>
-      <a href="./app.html" class="btn fill">Get Started</a>
+  <!-- Premium Sticky Header Navigation -->
+  <nav>
+    <div class="wrap nav-container">
+      <div class="logo">🏰 Empire Estates</div>
+      <div class="nav-links">
+        <a href="#features">Portfolios</a>
+        <a href="#about">About Group</a>
+        <a href="./app.html" class="btn secondary">Client Portal</a>
+        <a href="./app.html" class="btn primary">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- High-End Luxury Hero Section -->
+  <header class="hero-section">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <div class="eyebrow">Signature Real Estate Group</div>
+        <h1>Elevate Your Living & Workspace Standards</h1>
+        <p>Discover an elite portfolio of premium architectural houses, modern retail shops, enterprise-grade executive offices, and luxury residential rentals curated for discerning asset managers.</p>
+        <div class="hero-actions">
+          <a href="./app.html" class="btn primary">Explore Live Listings</a>
+          <a href="./app.html" class="btn secondary">Schedule Inspection</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://unsplash.com" alt="Empire Estates Luxury Real Estate Asset Portfolio">
+      </div>
     </div>
   </header>
 
-  <main class="hero">
-    <div class="hero-text">
-      <div style="text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); font-weight: 700; margin-bottom: 0.5rem;">Welcome to Luxury Living</div>
-      <h1>Find Your Next Premium Haven</h1>
-      <p>Explore high-end signature houses, shops, modern corporate offices, and premium luxury rentals tailored specifically for your lifestyle portfolio.</p>
-      <a href="./app.html" class="btn fill" style="display: inline-block;">Browse Active Listings</a>
+  <!-- Strategic Value Propositions -->
+  <section id="features" class="features-section">
+    <div class="wrap">
+      <div class="section-header">
+        <h2>Engineered for Premium Management</h2>
+        <p>We connect industry leaders and families with tier-one physical spaces verified through advanced interactive tracking dashboards.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">🏠</span>
+          <h3>Luxury Estates</h3>
+          <p>Signature residential architectural homes built with cutting-edge materials in the world's most secure exclusive neighborhoods.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🏢</span>
+          <h3>Corporate Offices</h3>
+          <p>Enterprise-grade dynamic modern spaces designed to maximize team performance, output bandwidth, and professional stature.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🏪</span>
+          <h3>Premium Retail</h3>
+          <p>High-foot-traffic signature storefronts, showrooms, and commercial retail spots positioned inside high-conversion luxury zones.</p>
+        </div>
+      </div>
     </div>
-    <div class="hero-image">
-      <img src="https://unsplash.com" alt="Premium Modern Villa Architecture">
+  </section>
+
+  <!-- Modern Clean Footer -->
+  <footer>
+    <div class="wrap">
+      <p>&copy; 2026 Empire Estates Group Inc. All luxury security privileges reserved.</p>
     </div>
-  </main>
+  </footer>
 
 </body>
 </html>
