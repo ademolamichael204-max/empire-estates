@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f4ef">
+<meta name="description" content="Houses, apartments, shops and offices for sale and rent. Book inspections and pay securely online.">
+<title>Empire Inc | Houses, Shops, Offices &amp; Rentals</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A1%3C/text%3E%3C/svg%3E">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('estate-theme')}catch(e){}
+if(t!=='light'&&t!=='dark')t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';
+document.documentElement.setAttribute('data-theme',t);document.documentElement.classList.add('js')})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f4ef;--bg2:#ece8de;--panel:#fff;--panel2:#f3f0e9;--fg:#101c26;--muted:#5b6977;--line:rgba(16,28,38,.12);--accent:#0b3a53;--accent2:#14577d;--on:#fff;--gold:#c8962e;--ok:#15803d;--bad:#b91c1c;--warn:#b45309;--r:.85rem;--rl:1.25rem;--ease:cubic-bezier(.22,.8,.3,1);--sh1:0 1px 2px rgba(16,28,38,.06),0 2px 8px rgba(16,28,38,.06);--sh2:0 14px 34px rgba(16,28,38,.18);color-scheme:light}
+:root[data-theme=dark]{--bg:#0b1620;--bg2:#0f1d29;--panel:#132330;--panel2:#1a2f3e;--fg:#eef2f5;--muted:#93a4b1;--line:rgba(255,255,255,.12);--accent:#d9a93f;--accent2:#e8bd5c;--on:#1a1200;--gold:#d9a93f;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24;--sh1:0 1px 2px rgba(0,0,0,.3),0 2px 8px rgba(0,0,0,.25);--sh2:0 14px 34px rgba(0,0,0,.5);color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:'DM Sans',system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.55;min-height:100dvh;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400;line-height:1.15;letter-spacing:-.01em}
+h2{font-size:clamp(1.45rem,3vw,1.9rem);margin-bottom:.9rem}h3{font-size:1.15rem}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:var(--accent);cursor:pointer;text-decoration:none}img{max-width:100%;display:block}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:.4rem}
+::selection{background:var(--gold);color:#1a1200}
+.wrap{max-width:1200px;margin:0 auto;padding:0 1.25rem}.narrow{max-width:780px}
+.fx{display:flex}.ac{align-items:center}.jb{justify-content:space-between}.jc{justify-content:center}.fw{flex-wrap:wrap}.g2{gap:.5rem}.g3{gap:.9rem}.f1{flex:1;min-width:0}
+.tr{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.muted{color:var(--muted)}.small{font-size:.82rem}.center{text-align:center}.bad{color:var(--bad)}.ok{color:var(--ok)}.w100{width:100%}
+.sec{padding:2.2rem 0 .6rem}.sech{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:1rem}.sech h2{margin:0}
+.inp,select,textarea{width:100%;padding:.7rem .9rem;border-radius:var(--r);background:var(--panel);color:var(--fg);border:1px solid var(--line);font:inherit;margin-bottom:.7rem;transition:border-color .2s,box-shadow .2s}
+textarea{resize:vertical}
+.inp:hover,select:hover,textarea:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+.inp:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.lbl{display:block;font-size:.72rem;font-weight:700;margin:.25rem 0 .3rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+input[type=checkbox]{accent-color:var(--accent);width:1rem;height:1rem;vertical-align:-2px;margin-right:.3rem}
+.btn,.btn2{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.68rem 1.25rem;border-radius:var(--r);font-weight:700;line-height:1.2;transition:transform .18s var(--ease),box-shadow .2s,background .2s,filter .2s;position:relative;overflow:hidden}
+.btn{background:var(--accent);color:var(--on);box-shadow:var(--sh1)}
+.btn.gold{background:linear-gradient(135deg,#d8a73a,#b9851f);color:#1a1200}
+.btn2{border:1px solid var(--line);background:var(--panel);font-weight:500}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--sh2);filter:brightness(1.08)}
+.btn2:hover{background:var(--panel2);transform:translateY(-1px)}
+.btn:active,.btn2:active{transform:scale(.97)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.lnk{font-size:.82rem;text-decoration:underline;text-underline-offset:3px;color:var(--accent)}
+.ib{position:relative;width:2.4rem;height:2.4rem;border-radius:9999px;border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;background:var(--panel);transition:transform .2s var(--ease),background .2s}
+.ib:hover{background:var(--panel2);transform:rotate(-8deg) scale(1.06)}.ib svg{width:18px;height:18px}
+.cnt{position:absolute;top:-.25rem;right:-.25rem;min-width:1.1rem;height:1.1rem;padding:0 .25rem;border-radius:9999px;background:var(--bad);color:#fff;font-size:.68rem;font-style:normal;display:flex;align-items:center;justify-content:center}
+.ib.ring{animation:ring 2.6s ease-in-out infinite}
+#bar{display:none;align-items:center;justify-content:center;gap:.8rem;padding:.45rem 2.4rem .45rem 1rem;background:linear-gradient(90deg,var(--accent),var(--accent2));color:var(--on);font-size:.82rem;position:relative;animation:slideDown .5s var(--ease)}
+#bar span{cursor:pointer;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#bar button{position:absolute;right:.8rem;color:inherit;opacity:.8}
+#top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--panel) 90%,transparent);backdrop-filter:blur(12px) saturate(1.4);border-bottom:1px solid var(--line);transition:box-shadow .3s,padding .3s}
+#top.sc{box-shadow:var(--sh1)}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-top:.7rem;padding-bottom:.7rem;transition:padding .3s}
+#top.sc .hd{padding-top:.45rem;padding-bottom:.45rem}
+.brand{display:flex;align-items:center;gap:.55rem;font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--fg);white-space:nowrap}
+.logo{width:2.1rem;height:2.1rem;border-radius:.6rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--on);display:inline-flex;align-items:center;justify-content:center;transition:transform .4s var(--ease)}
+.brand:hover .logo{transform:rotate(-10deg) scale(1.08)}.logo svg{width:1.2rem;height:1.2rem}
+.nav{display:flex;gap:.2rem;overflow-x:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}
+.nav button{padding:.48rem .9rem;border-radius:9999px;font-weight:500;white-space:nowrap;position:relative;transition:background .2s,color .2s}
+.nav button:hover{background:var(--panel2)}.nav button.on{background:var(--accent);color:var(--on)}
+.dotb{position:absolute;top:.3rem;right:.35rem;width:.5rem;height:.5rem;border-radius:9999px;background:var(--bad);animation:pulse 1.8s infinite}
+.hact{display:flex;align-items:center;gap:.5rem}
+.avt{width:2.4rem;height:2.4rem;border-radius:9999px;background:linear-gradient(135deg,#d8a73a,#b9851f);color:#1a1200;font-weight:700;transition:transform .2s var(--ease)}.avt:hover{transform:scale(1.08)}
+.hero{position:relative;overflow:hidden;padding:clamp(3rem,8vw,5.5rem) 0 clamp(2rem,5vw,3rem);background:linear-gradient(160deg,color-mix(in srgb,var(--accent) 16%,var(--bg)),var(--bg) 70%)}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;pointer-events:none}
+.b1{width:340px;height:340px;background:var(--gold);top:-120px;right:-60px;animation:float 11s ease-in-out infinite}
+.b2{width:300px;height:300px;background:var(--accent2);bottom:-140px;left:-80px;opacity:.3;animation:float 14s ease-in-out infinite reverse}
+.hero .wrap{position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:.4rem;text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;font-weight:700;color:var(--gold);animation:fadeUp .7s var(--ease) both}
+.hero h1{font-size:clamp(2.2rem,6vw,4rem);max-width:17ch;margin:.6rem 0 .8rem;animation:fadeUp .7s .08s var(--ease) both}
+.hero p.lead{max-width:54ch;color:var(--muted);font-size:1.05rem;animation:fadeUp .7s .16s var(--ease) both}
+.hstats{display:flex;gap:2rem;margin:1.4rem 0 0;flex-wrap:wrap;animation:fadeUp .7s .24s var(--ease) both}
+.hstats b{display:block;font-family:'DM Serif Display',serif;font-size:2rem;font-weight:400;line-height:1}.hstats span{font-size:.8rem;color:var(--muted)}
+.fbar{display:grid;gap:.6rem;grid-template-columns:auto 1fr 1.4fr 1fr auto;margin-top:1.6rem;align-items:start;background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);padding:.8rem;box-shadow:var(--sh2);animation:fadeUp .7s .32s var(--ease) both}
+.fbar select,.fbar .inp{margin:0}
+.seg{display:flex;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;height:2.7rem}
+.seg button{padding:0 1.1rem;font-weight:500;transition:background .2s,color .2s}.seg button:hover{background:var(--panel2)}.seg button.on{background:var(--accent);color:var(--on)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:1.25rem}
+.lcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);overflow:hidden;cursor:pointer;box-shadow:var(--sh1);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.lcard.an{animation:cardIn .6s var(--ease) both;animation-delay:calc(var(--i)*55ms)}
+.lcard:hover{transform:translateY(-6px);box-shadow:var(--sh2)}
+.ph{position:relative;aspect-ratio:4/3;background:var(--panel2);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}.lcard:hover .ph img{transform:scale(1.07)}
+.ph::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),transparent 35%,transparent 65%,rgba(0,0,0,.35));pointer-events:none}
+.noimg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem}
+.tags{position:absolute;left:.7rem;top:.7rem;display:flex;gap:.35rem;z-index:2}
+.tag{font-size:.7rem;font-weight:700;padding:.22rem .65rem;border-radius:9999px;background:var(--accent);color:var(--on)}
+.tag.rent{background:var(--gold);color:#1a1200}.tag.new{background:#16a34a;color:#fff;animation:pulse 2s infinite}
+.st{position:absolute;left:.7rem;bottom:.7rem;z-index:2;font-size:.72rem;font-weight:700;padding:.25rem .7rem;border-radius:9999px;background:var(--bad);color:#fff}.st.rented{background:var(--warn)}
+.feat{position:absolute;right:.7rem;bottom:.7rem;z-index:2;font-size:.7rem;font-weight:700;padding:.25rem .65rem;border-radius:9999px;background:rgba(0,0,0,.7);color:#ffd36b}
+.pa{position:absolute;right:.7rem;top:.7rem;z-index:2;display:flex;flex-direction:column;gap:.4rem}
+.pa button{width:2.1rem;height:2.1rem;border-radius:9999px;background:rgba(255,255,255,.94);color:#14202b;font-size:1.05rem;box-shadow:0 2px 8px rgba(0,0,0,.2);transition:transform .2s var(--ease)}.pa button:hover{transform:scale(1.12)}
+.heart.on{background:#b91c1c;color:#fff;animation:pop .45s var(--ease)}.cmpb.on{background:var(--accent);color:var(--on)}
+.lb{padding:1rem 1.1rem 1.15rem}
+.price{font-weight:700;font-size:1.25rem;color:var(--accent)}.price small{font-weight:400;color:var(--muted);font-size:.8rem}
+.lb h3{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1rem;margin:.15rem 0}
+.meta{margin-top:.5rem;padding-top:.5rem;border-top:1px dashed var(--line);font-size:.8rem;color:var(--muted)}
+.skel{border-radius:var(--rl);height:330px;background:linear-gradient(100deg,var(--panel2) 30%,var(--panel) 50%,var(--panel2) 70%);background-size:300% 100%;animation:shimmer 1.4s infinite linear;border:1px solid var(--line)}
+.row{display:flex;gap:1.1rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:.3rem .2rem 1rem;scrollbar-width:none}.row::-webkit-scrollbar{display:none}
+.row .lcard{flex:0 0 min(300px,80%);scroll-snap-align:start}
+.arrows{display:flex;gap:.4rem}
+.anns{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.9rem}
+.ann{display:flex;gap:.9rem;padding:.9rem;background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);cursor:pointer;box-shadow:var(--sh1);transition:transform .25s var(--ease),box-shadow .25s}
+.ann:hover{transform:translateY(-3px);box-shadow:var(--sh2)}.ann.pin{border-color:var(--gold)}
+.ann img{width:76px;height:76px;object-fit:cover;border-radius:.7rem;flex:none}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem}
+.why div{background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);padding:1.3rem;box-shadow:var(--sh1);transition:transform .3s var(--ease)}.why div:hover{transform:translateY(-4px)}
+.why i{font-style:normal;font-size:1.7rem;display:block;margin-bottom:.5rem}.why b{display:block;margin-bottom:.2rem}
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.steps div{counter-increment:s;position:relative;padding:1.2rem 1.2rem 1.2rem 3.6rem;background:var(--panel2);border-radius:var(--rl)}
+.steps div::before{content:counter(s);position:absolute;left:1rem;top:1.1rem;width:1.9rem;height:1.9rem;border-radius:9999px;background:var(--accent);color:var(--on);display:flex;align-items:center;justify-content:center;font-weight:700}
+.js .rv{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}.js .rv.in{opacity:1;transform:none}
+.view-in{animation:fadeUp .5s var(--ease) both}.fade{animation:fadeIn .35s ease both}
+.ov{position:fixed;inset:0;z-index:100;background:rgba(6,14,22,.62);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:1.2rem .8rem}
+.ov.show{display:flex;animation:fadeIn .25s ease}
+.mbox{position:relative;background:var(--panel);border-radius:var(--rl);padding:1.5rem;width:100%;max-width:450px;margin:auto;border:1px solid var(--line);box-shadow:var(--sh2)}
+.ov.show .mbox{animation:modalIn .4s var(--ease)}.mbox.wide{max-width:1000px}
+.mx{position:absolute;right:.8rem;top:.7rem;font-size:1.5rem;line-height:1;z-index:3;width:2.2rem;height:2.2rem;border-radius:9999px;background:var(--panel);border:1px solid var(--line);transition:transform .25s var(--ease)}.mx:hover{transform:rotate(90deg)}
+.det{display:grid;grid-template-columns:1.15fr 1fr;gap:1.5rem}
+.gmain{position:relative;aspect-ratio:4/3;border-radius:var(--rl);overflow:hidden;background:var(--panel2);cursor:zoom-in}
+.gmain img{width:100%;height:100%;object-fit:cover;animation:fadeIn .4s ease}
+.gn{position:absolute;top:50%;transform:translateY(-50%);width:2.5rem;height:2.5rem;border-radius:9999px;background:rgba(0,0,0,.55);color:#fff;font-size:1.5rem;transition:background .2s,transform .2s}
+.gn:hover{background:rgba(0,0,0,.8);transform:translateY(-50%) scale(1.1)}.gn.p{left:.6rem}.gn.n{right:.6rem}
+.gc{position:absolute;bottom:.6rem;right:.6rem;background:rgba(0,0,0,.65);color:#fff;font-size:.75rem;padding:.1rem .6rem;border-radius:9999px}
+.gthumbs{display:flex;gap:.4rem;overflow-x:auto;margin-top:.55rem;scrollbar-width:thin}
+.gthumbs img{width:68px;height:52px;object-fit:cover;border-radius:.5rem;cursor:pointer;opacity:.55;flex:none;transition:opacity .2s,transform .2s}
+.gthumbs img:hover{opacity:.9}.gthumbs img.on{opacity:1;outline:2px solid var(--accent);transform:translateY(-2px)}
+.specs{display:grid;grid-template-columns:repeat(2,1fr);gap:.45rem;margin:.9rem 0}
+.specs div{background:var(--panel2);border-radius:.7rem;padding:.5rem .75rem;font-size:.85rem}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}.chips span{background:var(--panel2);border-radius:9999px;padding:.2rem .8rem;font-size:.8rem}
+.acts{display:grid;gap:.55rem;margin-top:1.1rem}
+.vids{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.vids iframe,.vids video{width:100%;aspect-ratio:16/9;border:0;border-radius:var(--r);background:#000}
+.desc{white-space:pre-wrap;margin-top:.6rem}
+.note{background:var(--panel2);padding:.7rem .9rem;border-radius:var(--r);font-size:.86rem}
+.calc{background:var(--panel2);border-radius:var(--rl);padding:1.1rem;margin-top:1.3rem}
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:.6rem 0}
+.cg label{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase}.cg input{margin:.25rem 0 0}
+.cout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.6rem}
+.cout div{background:var(--panel);border-radius:.8rem;padding:.7rem .9rem}.cout b{display:block;font-size:1.15rem;color:var(--accent)}.cout span{font-size:.75rem;color:var(--muted)}
+.minis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.7rem}
+.mini{display:flex;gap:.7rem;align-items:center;padding:.55rem;border:1px solid var(--line);border-radius:var(--r);cursor:pointer;transition:transform .2s,background .2s}
+.mini:hover{background:var(--panel2);transform:translateY(-2px)}.mini img{width:64px;height:50px;object-fit:cover;border-radius:.5rem;flex:none}
+#mapbox iframe{width:100%;height:320px;border:0;border-radius:var(--r);margin-top:.7rem;animation:fadeIn .4s}
+.cmpt{width:100%;border-collapse:collapse;font-size:.88rem}
+.cmpt th,.cmpt td{padding:.6rem .7rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.cmpt th{color:var(--muted);font-weight:500;width:110px}
+.cmpt img{width:100%;max-width:200px;aspect-ratio:4/3;object-fit:cover;border-radius:.6rem}
+#cmpbar{position:fixed;left:50%;bottom:1.2rem;transform:translate(-50%,140%);z-index:60;background:var(--fg);color:var(--bg);padding:.6rem .7rem .6rem 1.2rem;border-radius:9999px;display:flex;align-items:center;gap:.8rem;box-shadow:var(--sh2);transition:transform .45s var(--ease)}
+#cmpbar.show{transform:translate(-50%,0)}#cmpbar .btn{padding:.45rem 1rem}#cmpbar .lnk{color:inherit;opacity:.8}
+#totop{position:fixed;right:1.1rem;bottom:1.2rem;z-index:55;width:2.8rem;height:2.8rem;border-radius:9999px;background:var(--accent);color:var(--on);box-shadow:var(--sh2);opacity:0;transform:translateY(20px);pointer-events:none;transition:opacity .3s,transform .3s var(--ease)}
+#totop.show{opacity:1;transform:none;pointer-events:auto}
+#lb{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center}
+#lb.show{display:flex;animation:fadeIn .25s}
+#lb img{max-width:94vw;max-height:88vh;border-radius:.6rem;animation:modalIn .4s var(--ease)}
+#lb button{position:absolute;color:#fff;font-size:2rem;width:3rem;height:3rem;border-radius:9999px;background:rgba(255,255,255,.12)}
+#lb button:hover{background:rgba(255,255,255,.25)}#lb .x{top:1rem;right:1rem}#lb .p{left:1rem;top:50%}#lb .n{right:1rem;top:50%}
+#lbc{position:absolute;bottom:1rem;color:#fff;font-size:.85rem}
+.roles{display:flex;background:var(--panel2);border-radius:var(--r);padding:.25rem;margin:.8rem 0 1rem}
+.roles button{flex:1;padding:.5rem;border-radius:.65rem;font-weight:500;transition:background .25s,color .25s,box-shadow .25s}
+.roles button.on{background:var(--panel);box-shadow:var(--sh1);font-weight:700}
+.or{text-align:center;color:var(--muted);margin:.7rem 0;font-size:.8rem}
+.tabs{display:flex;gap:.3rem;overflow-x:auto;margin:1rem 0 1.2rem;padding-bottom:.6rem;border-bottom:1px solid var(--line);scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs button{padding:.55rem 1rem;border-radius:var(--r);white-space:nowrap;font-weight:500;transition:background .2s}
+.tabs button:hover{background:var(--panel2)}.tabs button.on{background:var(--accent);color:var(--on)}
+.dot{background:var(--bad);color:#fff;border-radius:9999px;padding:0 .45rem;font-size:.72rem;margin-left:.25rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:.9rem;margin-bottom:1.4rem}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);padding:1.1rem 1.2rem;box-shadow:var(--sh1);transition:transform .3s var(--ease)}.stat:hover{transform:translateY(-3px)}
+.stat b{display:block;font-family:'DM Serif Display',serif;font-size:1.9rem;font-weight:400;line-height:1.1}.stat span{color:var(--muted);font-size:.8rem}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);padding:1.2rem;box-shadow:var(--sh1)}
+.cols{display:grid;grid-template-columns:1.3fr 1fr;gap:1rem;margin-bottom:1.4rem}
+.chart{display:flex;align-items:flex-end;gap:.6rem;height:150px;margin-top:.8rem}
+.chart div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:.72rem;color:var(--muted)}
+.chart i{display:block;width:100%;border-radius:.45rem .45rem 0 0;background:linear-gradient(180deg,var(--gold),var(--accent));transform-origin:bottom;animation:grow .8s var(--ease) both;min-height:3px}
+.chart b{font-weight:700;color:var(--fg);margin-bottom:.2rem}
+.up{display:flex;gap:.8rem;align-items:center;padding:.55rem 0;border-bottom:1px solid var(--line)}.up:last-child{border:0}
+.up .d{width:3.1rem;text-align:center;background:var(--panel2);border-radius:.7rem;padding:.3rem 0;line-height:1.1}
+.up .d b{display:block;font-size:1.15rem}.up .d span{font-size:.65rem;text-transform:uppercase;color:var(--muted)}
+.tw{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);box-shadow:var(--sh1)}
+.tbl{width:100%;border-collapse:collapse;font-size:.86rem}
+.tbl th{text-align:left;padding:.7rem .9rem;color:var(--muted);font-weight:500;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--panel2)}
+.tbl td{padding:.7rem .9rem;border-top:1px solid var(--line);vertical-align:middle}
+.tbl tbody tr{transition:background .2s}.tbl tbody tr:hover{background:color-mix(in srgb,var(--panel2) 60%,transparent)}
+.tbl select{margin:0;padding:.3rem .5rem;width:auto}
+.th{width:56px;height:44px;border-radius:.5rem;object-fit:cover;background:var(--panel2);cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center}
+.badge{display:inline-block;padding:.12rem .65rem;border-radius:9999px;font-size:.72rem;font-weight:700;background:var(--panel2)}
+.b-inspection{background:#dbeafe;color:#1e40af}.b-rent{background:#fef3c7;color:#92400e}.b-buy{background:#dcfce7;color:#166534}.b-offer{background:#f3e8ff;color:#6b21a8}
+:root[data-theme=dark] .b-inspection{background:#1e3a8a;color:#dbeafe}:root[data-theme=dark] .b-rent{background:#78350f;color:#fef3c7}:root[data-theme=dark] .b-buy{background:#14532d;color:#dcfce7}:root[data-theme=dark] .b-offer{background:#581c87;color:#f3e8ff}
+.s-pending{background:#fef3c7;color:#92400e}.s-confirmed{background:#dbeafe;color:#1e40af}.s-completed{background:#dcfce7;color:#166534}.s-cancelled{background:#fee2e2;color:#991b1b}
+.two{display:grid;grid-template-columns:310px 1fr;gap:1rem}
+.tl{background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);max-height:70vh;overflow-y:auto}
+.tli{padding:.8rem 1rem;border-bottom:1px solid var(--line);cursor:pointer;transition:background .2s}.tli:hover,.tli.on{background:var(--panel2)}
+.mi{position:relative;border-radius:.7rem;overflow:hidden;aspect-ratio:4/3;background:var(--panel2);animation:pop .4s var(--ease)}
+.mi img{width:100%;height:100%;object-fit:cover}.mi.cover{outline:3px solid var(--gold)}
+.cv{position:absolute;left:.3rem;top:.3rem;font-size:.62rem;font-weight:700;background:var(--gold);color:#1a1200;padding:0 .4rem;border-radius:9999px}
+.mt{position:absolute;right:.3rem;bottom:.3rem;display:flex;gap:.2rem}.mt button{background:rgba(0,0,0,.7);color:#fff;border-radius:.45rem;width:1.9rem;height:1.9rem}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.55rem;margin:.4rem 0 .7rem}
+.frm{display:grid;grid-template-columns:repeat(2,1fr);gap:0 .9rem}.frm .full{grid-column:1/-1}
+.chat{background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);display:flex;flex-direction:column;height:64vh;min-height:360px;box-shadow:var(--sh1)}
+.cmsgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.4rem}
+.cb{max-width:78%;padding:.5rem .85rem;border-radius:1rem 1rem 1rem .3rem;background:var(--panel2);word-break:break-word;white-space:pre-wrap;align-self:flex-start;animation:pop .35s var(--ease)}
+.cb.me{align-self:flex-end;background:var(--accent);color:var(--on);border-radius:1rem 1rem .3rem 1rem}
+.cb small{display:block;opacity:.65;font-size:.68rem;margin-top:.15rem}
+.cin{display:flex;gap:.5rem;padding:.7rem;border-top:1px solid var(--line)}.cin .inp{margin:0}
+.note-i{display:flex;gap:.8rem;padding:.8rem 0;border-bottom:1px solid var(--line)}.note-i.un{font-weight:700}.note-i i{font-style:normal;font-size:1.3rem}
+#err{display:none;position:fixed;left:0;right:0;top:0;z-index:10000;background:var(--bad);color:#fff;padding:.7rem 2.6rem .7rem 1rem;font-size:.82rem;animation:slideDown .4s var(--ease)}
+#err button{position:absolute;right:.8rem;top:.6rem;color:#fff}
+footer{margin-top:4rem;background:var(--bg2);border-top:1px solid var(--line);padding:2.6rem 0 1.5rem;color:var(--muted);font-size:.9rem}
+.fcols{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2rem}
+footer b{color:var(--fg);display:block;margin-bottom:.5rem}footer a{display:block;color:var(--muted);padding:.12rem 0}footer a:hover{color:var(--accent)}
+.copy{margin-top:2rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.8rem}
+.confetti{position:fixed;inset:0;z-index:2000;pointer-events:none;overflow:hidden}
+.confetti i{position:absolute;top:-20px;width:9px;height:14px;border-radius:2px;animation:fall linear forwards}
+.swal2-popup{background:var(--panel)!important;color:var(--fg)!important;font-family:inherit!important;border-radius:var(--rl)!important}
+.swal2-html-container,.swal2-title{color:var(--fg)!important}.swal2-html-container{text-align:left}
+/* ===== customer dashboard + dock ===== */
+.an2{animation:cardIn .6s var(--ease) both;animation-delay:calc(var(--d,0)*70ms)}
+.dh{position:relative;overflow:hidden;border-radius:1.6rem;padding:clamp(1.4rem,4vw,2.3rem);margin-top:1.4rem;color:#fff;background:linear-gradient(135deg,#0b3a53,#14577d 55%,#1d6f9c);box-shadow:var(--sh2)}
+:root[data-theme=dark] .dh{background:linear-gradient(135deg,#1a2f3e,#21394b 60%,#2c4a60)}
+.dh::after{content:'';position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(216,167,58,.55),transparent 70%);animation:float 10s ease-in-out infinite;pointer-events:none}
+.dh h1{font-size:clamp(1.6rem,4.5vw,2.4rem);position:relative}.dh p{opacity:.85;position:relative;max-width:52ch;margin-top:.3rem}
+.nxt{position:relative;display:flex;align-items:center;gap:1rem;margin-top:1.2rem;padding:.8rem 1rem;border-radius:var(--rl);background:rgba(255,255,255,.12);backdrop-filter:blur(8px);cursor:pointer;transition:background .2s,transform .2s var(--ease)}
+.nxt:hover{background:rgba(255,255,255,.2);transform:translateY(-2px)}
+.nxt .big{font-family:'DM Serif Display',serif;font-size:2rem;line-height:1;min-width:3.4rem;text-align:center}.nxt small{display:block;opacity:.75;font-size:.72rem;font-family:'DM Sans',sans-serif}
+.dstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.9rem;margin:1.1rem 0}
+.dstat{background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);padding:1rem 1.1rem;box-shadow:var(--sh1);cursor:pointer;position:relative;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s}
+.dstat:hover{transform:translateY(-4px);box-shadow:var(--sh2)}.dstat i{font-style:normal;font-size:1.3rem;display:block;margin-bottom:.35rem}
+.dstat b{display:block;font-family:'DM Serif Display',serif;font-size:1.8rem;font-weight:400;line-height:1.1}.dstat span{font-size:.78rem;color:var(--muted)}
+.dstat::after{content:'';position:absolute;left:0;bottom:0;height:3px;width:100%;background:linear-gradient(90deg,var(--gold),var(--accent),var(--gold));background-size:200% 100%;animation:sweep 3s linear infinite;opacity:.7}
+.qa{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:.7rem;margin-bottom:1.2rem}
+.qa button{display:flex;flex-direction:column;align-items:center;gap:.3rem;padding:.9rem .5rem;border-radius:var(--rl);background:var(--panel2);font-weight:500;font-size:.85rem;transition:transform .25s var(--ease),background .2s}
+.qa button:hover{transform:translateY(-3px);background:var(--panel)}.qa b{font-size:1.4rem;font-weight:400}
+.dcols{display:grid;grid-template-columns:1.5fr 1fr;gap:1.1rem;align-items:start}
+.chipf{display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;margin-bottom:.8rem}.chipf::-webkit-scrollbar{display:none}
+.chipf button{padding:.35rem .9rem;border-radius:9999px;border:1px solid var(--line);font-size:.82rem;white-space:nowrap;background:var(--panel);transition:background .2s,color .2s}
+.chipf button.on{background:var(--accent);color:var(--on);border-color:transparent}
+.act{display:flex;gap:.9rem;padding:.9rem;background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);box-shadow:var(--sh1);margin-bottom:.7rem;transition:transform .25s var(--ease),box-shadow .25s}
+.act:hover{transform:translateX(4px);box-shadow:var(--sh2)}
+.act img,.act .th{width:84px;height:84px;border-radius:.8rem;object-fit:cover;flex:none;cursor:pointer}
+.prog{display:flex;align-items:center;gap:.3rem;margin:.4rem 0}.prog i{flex:1;height:5px;border-radius:9999px;background:var(--line);transition:background .4s}.prog i.on{background:var(--ok)}
+.prog span{font-size:.72rem;font-weight:700;text-transform:capitalize;margin-left:.3rem;color:var(--muted)}.prog.x span{color:var(--bad);margin:0}
+.side .panel{margin-bottom:1rem}
+.mrow{display:flex;gap:.7rem;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--line);cursor:pointer}.mrow:last-child{border:0}
+.mrow img{width:54px;height:44px;border-radius:.5rem;object-fit:cover}
+.empty{text-align:center;padding:2rem 1rem;color:var(--muted)}.empty b{display:block;font-size:2.2rem;margin-bottom:.3rem}
+#dock{display:none;position:fixed;left:.7rem;right:.7rem;bottom:calc(.6rem + env(safe-area-inset-bottom,0px));z-index:58;background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(16px) saturate(1.5);border:1px solid var(--line);border-radius:1.4rem;box-shadow:var(--sh2);padding:.35rem;justify-content:space-around;animation:cardIn .5s var(--ease)}
+#dock button{flex:1;display:flex;flex-direction:column;align-items:center;gap:.05rem;padding:.4rem 0;border-radius:1rem;font-size:.68rem;font-weight:500;color:var(--muted);position:relative;transition:background .25s,color .25s,transform .2s var(--ease)}
+#dock button b{font-size:1.2rem;font-weight:400;line-height:1.2}#dock button.on{background:var(--accent);color:var(--on);transform:translateY(-2px)}#dock .dotb{top:.2rem;right:32%}
+@keyframes sweep{from{background-position:0 0}to{background-position:200% 0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes cardIn{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes modalIn{from{opacity:0;transform:translateY(30px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes shimmer{to{background-position:-300% 0}}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,24px)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.65;transform:scale(1.12)}}
+@keyframes ring{0%,86%,100%{transform:rotate(0)}90%{transform:rotate(14deg)}94%{transform:rotate(-12deg)}98%{transform:rotate(8deg)}}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
+@media(max-width:900px){.fbar{grid-template-columns:1fr 1fr}.seg{grid-column:1/-1}.fbar .inp{grid-column:1/-1}.det,.two,.frm,.cols,.fcols,.dcols{grid-template-columns:1fr}.cg{grid-template-columns:1fr 1fr 1fr}.hstats{gap:1.2rem}
+#dock{display:flex}body{padding-bottom:calc(5rem + env(safe-area-inset-bottom,0px))}#cmpbar{bottom:5.4rem}#totop{bottom:5.6rem}.nav{display:none}.hd{flex-wrap:nowrap}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.js .rv{opacity:1;transform:none}}
+/* ===== v3: ambient background, cursor, spotlight, admin console ===== */
+#bgc{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#top,main,footer,#bar{position:relative;z-index:1}#top{position:sticky}
+.hero{background:linear-gradient(160deg,color-mix(in srgb,var(--accent) 12%,transparent),transparent 75%)}
+.lcard,.dstat,.stat,.kpi,.panel,.act,.why div,.ann{position:relative}
+.lcard::before,.dstat::before,.stat::before,.kpi::before,.panel::before,.act::before,.why div::before,.ann::before{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--gold) 20%,transparent),transparent 62%);opacity:0;transition:opacity .35s;pointer-events:none;z-index:1}
+.lcard:hover::before,.dstat:hover::before,.stat:hover::before,.kpi:hover::before,.panel:hover::before,.act:hover::before,.why div:hover::before,.ann:hover::before{opacity:1}
+#cur,#ring{position:fixed;left:0;top:0;pointer-events:none;z-index:99999;display:none;border-radius:50%}
+#cur{width:8px;height:8px;margin:-4px;background:var(--gold)}
+#ring{width:38px;height:38px;margin:-19px;border:1.5px solid var(--gold);transition:width .25s var(--ease),height .25s var(--ease),margin .25s var(--ease),background .25s,opacity .3s}
+#ring.h{width:62px;height:62px;margin:-31px;background:color-mix(in srgb,var(--gold) 14%,transparent)}
+#ring.d{width:26px;height:26px;margin:-13px;background:color-mix(in srgb,var(--gold) 30%,transparent)}
+body.fp #cur,body.fp #ring{display:block}
+.rip{position:fixed;width:10px;height:10px;margin:-5px;border-radius:50%;border:2px solid var(--gold);pointer-events:none;z-index:99998;animation:rip .6s ease-out forwards}
+@keyframes rip{to{transform:scale(7);opacity:0}}
+.heroword{display:inline-block;animation:fadeUp .8s var(--ease) both}
+/* admin console */
+.adm{display:grid;grid-template-columns:232px 1fr;gap:1.2rem;align-items:start}
+.anav{position:sticky;top:5rem;background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);padding:.6rem;display:flex;flex-direction:column;gap:.15rem;box-shadow:var(--sh1)}
+.anav .who{display:flex;align-items:center;gap:.6rem;padding:.6rem .6rem .8rem;border-bottom:1px solid var(--line);margin-bottom:.4rem}
+.anav .who .avt{width:2.4rem;height:2.4rem;flex:none;cursor:default}
+.anav button{display:flex;align-items:center;gap:.6rem;padding:.62rem .8rem;border-radius:.8rem;text-align:left;font-weight:500;transition:background .2s,color .2s,transform .2s var(--ease)}
+.anav button:hover{background:var(--panel2);transform:translateX(3px)}.anav button.on{background:var(--accent);color:var(--on)}
+.anav button span.i{width:1.4rem;text-align:center}.anav .dot{margin-left:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.9rem;margin-bottom:1.1rem}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--rl);padding:1.1rem;box-shadow:var(--sh1);overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s}
+.kpi:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.kpi .ic{width:2.4rem;height:2.4rem;border-radius:.8rem;display:flex;align-items:center;justify-content:center;font-size:1.15rem;background:color-mix(in srgb,var(--gold) 20%,var(--panel2));margin-bottom:.6rem}
+.kpi b{display:block;font-family:'DM Serif Display',serif;font-size:1.8rem;font-weight:400;line-height:1.1}
+.kpi span{font-size:.78rem;color:var(--muted)}
+.chip{display:inline-block;margin-left:.4rem;padding:.05rem .5rem;border-radius:9999px;font-size:.68rem;font-weight:700;background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}.chip.dn{background:color-mix(in srgb,var(--bad) 18%,transparent);color:var(--bad)}
+.alrts{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.alrt{display:flex;align-items:center;gap:.5rem;padding:.55rem .9rem;border-radius:9999px;background:color-mix(in srgb,var(--warn) 16%,var(--panel));border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);font-size:.82rem;font-weight:500;transition:transform .2s var(--ease)}.alrt:hover{transform:translateY(-2px)}
+.g3c{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:1rem;margin-bottom:1.1rem}.g2c{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.1rem}
+.donutw{display:flex;gap:1rem;align-items:center;margin-top:.8rem;flex-wrap:wrap}
+.donut{width:120px;height:120px;border-radius:50%;position:relative;flex:none;animation:pop .7s var(--ease)}.donut::after{content:attr(data-t);position:absolute;inset:18px;border-radius:50%;background:var(--panel);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:1.5rem}
+.leg div{display:flex;align-items:center;gap:.4rem;font-size:.8rem;padding:.1rem 0;text-transform:capitalize}.leg i{width:.6rem;height:.6rem;border-radius:50%;flex:none}
+.hb{margin:.55rem 0}.hb .l{display:flex;justify-content:space-between;font-size:.8rem;gap:.5rem}.hb .bar{height:6px;border-radius:9999px;background:var(--panel2);overflow:hidden;margin-top:.25rem}.hb .bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--gold),var(--accent));transform-origin:left;animation:growx .9s var(--ease) both}
+@keyframes growx{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.chart.rev i{background:linear-gradient(180deg,var(--ok),var(--accent2))}
+@media(max-width:900px){.adm{grid-template-columns:1fr}.anav{position:static;flex-direction:row;overflow-x:auto;scrollbar-width:none}.anav::-webkit-scrollbar{display:none}.anav .who{display:none}.anav button{white-space:nowrap}.g3c,.g2c{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<canvas id="bgc" aria-hidden="true"></canvas><div id="cur"></div><div id="ring"></div>
+<div id="err"></div>
+<div id="bar"></div>
+<header id="top"></header>
+<main id="main"></main>
+<footer id="foot"></footer>
+<div id="cmpbar"></div>
+<button id="totop" onclick="scrollTo({top:0})" aria-label="Back to top">↑</button>
+<div id="modal" class="ov" onclick="if(event.target===this)closeModal()"><div id="mbox" class="mbox"><button class="mx" onclick="closeModal()" aria-label="Close">×</button><div id="mbody"></div></div></div>
+<div id="lb" onclick="if(event.target===this)closeLb()"><button class="x" onclick="closeLb()" aria-label="Close">×</button><button class="p" onclick="lbGo(-1)" aria-label="Previous">‹</button><img id="lbimg" alt=""><button class="n" onclick="lbGo(1)" aria-label="Next">›</button><span id="lbc"></span></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { initializeFirestore, doc, getDoc, getDocs, setDoc, addDoc, updateDoc, deleteDoc, writeBatch, arrayUnion, arrayRemove, collection, query, where, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+ 
+const CFG = {
+  firebase: { apiKey: "AIzaSyB2AeRD5eg_n7VmaUOKDQTGEcUtfCHsCrc", authDomain: "empireinc-46a7a.firebaseapp.com", projectId: "empireinc-46a7a", storageBucket: "empireinc-46a7a.firebasestorage.app", messagingSenderId: "120270953383", appId: "1:120270953383:web:79b8e558bb21f25c4b3482" },
+  paystackKey: "pk_test_018fb18b5349cab2486a2f8e39447ed91ae2e718",
+  brand: "Empire Inc",
+  cloudinary: { cloud: "", preset: "" }
+};
+const MAX_ADMINS = 2; // must match the limit in firestore.rules
+ 
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const toast = (title, icon = 'success') => Swal.fire({ toast: true, position: 'top-end', icon, title, showConfirmButton: false, timer: 2200, timerProgressBar: true });
+const money = n => '₦' + Number(n || 0).toLocaleString('en-NG');
+const dstr = t => t ? new Date(t).toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+const tstr = t => new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+const reduce = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TL = { house: 'House', apartment: 'Apartment', shop: 'Shop', office: 'Office', land: 'Land' };
+const IC = { house: '🏠', apartment: '🏢', shop: '🏪', office: '💼', land: '🌳' };
+const RL = { inspection: 'Inspection', rent: 'Rent', buy: 'Purchase', offer: 'Offer' };
+const LOGO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>';
+ 
+function showErr(where, e) {
+  const code = e?.code || '', msg = e?.message || String(e); let hint = '';
+  if (/index/i.test(msg)) hint = 'Open the browser console (F12) and click the link in the error to create the missing index.';
+  else if (/permission-denied/.test(code) || /insufficient permissions/i.test(msg)) hint = 'Firestore rules are blocking this. Paste firestore.rules into Firebase Console > Firestore > Rules and click Publish. For admin actions, make sure your account is an admin.';
+  else if (/unavailable|failed-precondition|not-found|deadline/.test(code) || /offline|reach/i.test(msg)) hint = 'Cannot reach Firestore. Check that the Firestore database is created, that you are online, and that no VPN or ad-blocker blocks firestore.googleapis.com.';
+  $('err').innerHTML = `<b>${esc(where)}</b>: ${esc(code || msg)}${hint ? '<br><span>' + esc(hint) + '</span>' : ''}<button onclick="this.parentNode.style.display='none'" aria-label="Close">✕</button>`;
+  $('err').style.display = 'block'; console.error(where, e);
+}
+if (CFG.firebase.apiKey.startsWith('YOUR')) {
+  $('main').innerHTML = `<div class="wrap narrow" style="padding-top:3rem"><h2>Setup needed</h2><p class="muted">Open <b>index.html</b>, find <b>CFG</b> near the top of the script and paste your Firebase config.</p></div>`;
+  throw new Error('Config missing');
+}
+const fbApp = initializeApp(CFG.firebase), au = getAuth(fbApp), fs = initializeFirestore(fbApp, { experimentalAutoDetectLongPolling: true });
+ 
+// ===== state =====
+const S = { user: null, me: null, isAdmin: false, listings: [], anns: [], settings: {}, reqs: [], users: [], admins: [], threads: [], thread: null, notes: [], cmp: [], view: 'home', tab: 'dash', ready: false, hashDone: false, authOpen: false, draft: '', chatUid: null, chatMsgs: [], curId: null, statsDone: false, adminFull: false, mf: 'all', _ds: false, rf: { type: 'all', status: 'all' }, f: { purpose: 'all', type: 'all', q: '', max: '', sort: 'new' } };
+let pubUnsubs = [], userUnsubs = [], unsubChat = null, pendingProfile = null, G = null, ED = null, AE = null, io = null;
+const brand = () => S.settings.brand || CFG.brand;
+const feeOf = l => (l.inspectionFee !== null && l.inspectionFee !== undefined && l.inspectionFee !== '') ? +l.inspectionFee : +(S.settings.defaultFee || 0);
+const waNum = p => { let d = String(p || '').replace(/\D/g, ''); if (d.startsWith('0')) d = '234' + d.slice(1); return d };
+const unreadAdmin = () => S.threads.filter(t => t.unreadAdmin).length;
+const adminIds = () => new Set(S.admins.map(a => a.uid));
+const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch { return d } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch { } };
+ 
+// ===== images / video helpers =====
+const loadImg = src => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src });
+function toData(i, max, q) { const k = Math.min(1, max / Math.max(i.width, i.height)), c = document.createElement('canvas'); c.width = Math.round(i.width * k); c.height = Math.round(i.height * k); c.getContext('2d').drawImage(i, 0, 0, c.width, c.height); return c.toDataURL('image/jpeg', q) }
+async function compress(file, max = 1280) { const url = URL.createObjectURL(file); try { const i = await loadImg(url); let q = .74, d = toData(i, max, q); while (d.length > 850000 && q > .4) { q -= .1; d = toData(i, max, q) } return d } finally { URL.revokeObjectURL(url) } }
+async function thumb(data, max = 640) { return toData(await loadImg(data), max, .65) }
+function videoHtml(url) {
+  url = String(url || '').trim(); if (!/^https?:\/\//i.test(url)) return '';
+  const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([\w-]{11})/);
+  if (yt) return `<iframe src="https://www.youtube.com/embed/${yt[1]}" allowfullscreen loading="lazy"></iframe>`;
+  if (/\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url) || /res\.cloudinary\.com\/.+\/video\/upload/i.test(url)) return `<video controls preload="metadata" src="${esc(url)}"></video>`;
+  return `<a class="btn2" target="_blank" rel="noopener" href="${esc(url)}">▶ Watch video ↗</a>`;
+}
+ 
+// ===== motion helpers =====
+function observe() {
+  const els = document.querySelectorAll('.rv:not(.in)'); if (!els.length) return;
+  if (reduce() || !('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); return }
+  if (!io) io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } }), { threshold: .12 });
+  els.forEach(e => io.observe(e));
+}
+function animateCounts(root = document) {
+  root.querySelectorAll('[data-count]').forEach(el => {
+    const to = +el.dataset.count, isMoney = el.dataset.fmt === 'money', f = v => isMoney ? money(v) : v.toLocaleString();
+    if (reduce()) { el.textContent = f(to); return }
+    const t0 = performance.now(), d = 900, tick = t => { const p = Math.min(1, (t - t0) / d), e = 1 - Math.pow(1 - p, 3); el.textContent = f(Math.round(to * e)); if (p < 1) requestAnimationFrame(tick) }; requestAnimationFrame(tick);
+  });
+}
+function confetti() {
+  if (reduce()) return; const box = document.createElement('div'); box.className = 'confetti'; const cols = ['#c8962e', '#0b3a53', '#15803d', '#b91c1c', '#2563eb', '#d9a93f', '#9333ea'];
+  for (let i = 0; i < 70; i++) { const s = document.createElement('i'); s.style.cssText = `left:${Math.random() * 100}%;background:${cols[i % cols.length]};animation-delay:${Math.random() * .6}s;animation-duration:${1.7 + Math.random() * 1.5}s;transform:rotate(${Math.random() * 360}deg)`; box.appendChild(s) }
+  document.body.appendChild(box); setTimeout(() => box.remove(), 4200);
+}
+window.addEventListener('scroll', () => { $('top').classList.toggle('sc', scrollY > 8); $('totop').classList.toggle('show', scrollY > 700) }, { passive: true });
+ 
+// ===== ambient background (particles that react to the mouse) =====
+(function bg() {
+  const c = $('bgc'), x = c.getContext('2d'); let W, H, P = [], mx = -999, my = -999, run = true;
+  const N = () => Math.min(70, Math.round(innerWidth * innerHeight / 24000));
+  function size() { const d = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight; c.width = W * d; c.height = H * d; x.setTransform(d, 0, 0, d, 0, 0); P = Array.from({ length: N() }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35, r: 1 + Math.random() * 1.8 })) }
+  addEventListener('resize', size); addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY }, { passive: true }); addEventListener('pointerleave', () => { mx = my = -999 });
+  document.addEventListener('visibilitychange', () => { run = !document.hidden; if (run) loop() });
+  const col = () => getComputedStyle(document.documentElement).getPropertyValue(document.documentElement.getAttribute('data-theme') === 'dark' ? '--gold' : '--accent').trim() || '#c8962e';
+  function loop() {
+    if (!run) return; x.clearRect(0, 0, W, H); const k = col();
+    for (const p of P) {
+      const dx = p.x - mx, dy = p.y - my, d = Math.hypot(dx, dy);
+      if (d < 140) { p.vx += dx / d * .02; p.vy += dy / d * .02 }
+      p.vx *= .995; p.vy *= .995; p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1;
+      x.globalAlpha = .45; x.fillStyle = k; x.beginPath(); x.arc(p.x, p.y, p.r, 0, 6.283); x.fill();
+    }
+    for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) { const a = P[i], b = P[j], d = Math.hypot(a.x - b.x, a.y - b.y); if (d < 120) { x.globalAlpha = (1 - d / 120) * .16; x.strokeStyle = k; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke() } }
+    for (const p of P) { const d = Math.hypot(p.x - mx, p.y - my); if (d < 160) { x.globalAlpha = (1 - d / 160) * .35; x.strokeStyle = k; x.beginPath(); x.moveTo(p.x, p.y); x.lineTo(mx, my); x.stroke() } }
+    requestAnimationFrame(loop);
+  }
+  if (reduce()) { c.style.display = 'none'; return } size(); loop();
+})();
+ 
+// ===== cursor: dot + ring, card spotlight, magnetic buttons, click ripple =====
+(function cursor() {
+  if (reduce() || !matchMedia('(pointer:fine)').matches) return;
+  document.body.classList.add('fp'); const cur = $('cur'), ring = $('ring'); let rx = 0, ry = 0, tx = 0, ty = 0;
+  addEventListener('pointermove', e => {
+    tx = e.clientX; ty = e.clientY; cur.style.transform = `translate(${tx}px,${ty}px)`;
+    const t = e.target.closest?.('a,button,select,input,textarea,.lcard,.ann,.mini,.dstat,.tli,.act');
+    ring.classList.toggle('h', !!t);
+    const g = e.target.closest?.('.lcard,.dstat,.stat,.kpi,.panel,.act,.why div,.ann');
+    if (g) { const r = g.getBoundingClientRect(); g.style.setProperty('--mx', (e.clientX - r.left) + 'px'); g.style.setProperty('--my', (e.clientY - r.top) + 'px') }
+    const b = e.target.closest?.('.btn,.btn2'); document.querySelectorAll('.btn.mg,.btn2.mg').forEach(o => { if (o !== b) { o.style.transform = ''; o.classList.remove('mg') } });
+    if (b && !b.disabled) { const r = b.getBoundingClientRect(); b.classList.add('mg'); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .12}px,${(e.clientY - r.top - r.height / 2) * .18}px)` }
+  }, { passive: true });
+  addEventListener('pointerdown', e => { ring.classList.add('d'); const r = document.createElement('i'); r.className = 'rip'; r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px'; document.body.appendChild(r); setTimeout(() => r.remove(), 650) });
+  addEventListener('pointerup', () => ring.classList.remove('d'));
+  document.addEventListener('mouseleave', () => { ring.style.opacity = 0; cur.style.opacity = 0 }); document.addEventListener('mouseenter', () => { ring.style.opacity = 1; cur.style.opacity = 1 });
+  (function f() { rx += (tx - rx) * .16; ry += (ty - ry) * .16; ring.style.transform = `translate(${rx}px,${ry}px)`; requestAnimationFrame(f) })();
+})();
+ 
+// ===== theme / modal / lightbox =====
+const getTheme = () => document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+const themeIcon = () => getTheme() === 'dark'
+  ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+  : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>';
+function toggleTheme() { const t = getTheme() === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('estate-theme', t) } catch { } document.querySelector('meta[name="theme-color"]').setAttribute('content', t === 'dark' ? '#0b1620' : '#f6f4ef'); renderTop() }
+function openModal(html, wide) { $('mbody').innerHTML = html; $('mbox').classList.toggle('wide', !!wide); $('modal').classList.add('show'); $('modal').scrollTop = 0; document.body.style.overflow = 'hidden' }
+function closeModal() { $('modal').classList.remove('show'); $('mbody').innerHTML = ''; document.body.style.overflow = ''; S.authOpen = false; S.curId = null; G = null; if (location.hash.startsWith('#l=')) history.replaceState(null, '', location.pathname + location.search) }
+function openLb(i) { if (!G?.imgs.length) return; G.i = i; $('lb').classList.add('show'); renderLb() }
+const renderLb = () => { $('lbimg').src = G.imgs[G.i]; $('lbc').textContent = `${G.i + 1} / ${G.imgs.length}` };
+const lbGo = d => { if (G) { G.i = (G.i + d + G.imgs.length) % G.imgs.length; renderLb(); renderGal() } };
+const closeLb = () => $('lb').classList.remove('show');
+document.addEventListener('keydown', e => { if ($('lb').classList.contains('show')) { if (e.key === 'Escape') closeLb(); if (e.key === 'ArrowRight') lbGo(1); if (e.key === 'ArrowLeft') lbGo(-1) } else if (e.key === 'Escape' && $('modal').classList.contains('show')) closeModal() });
+window.addEventListener('offline', () => toast('You are offline', 'warning')); window.addEventListener('online', () => toast('Back online'));
+ 
+// ===== auth: ONE login for everyone. Admin status comes from the account, not from a button =====
+function openAuth(mode, role = 'customer') {
+  const su = mode === 'signup', code = su && role === 'admin' && !S.adminFull; S.authOpen = true;
+  openModal(`<h2>${su ? 'Create your account' : 'Welcome back'}</h2><p class="small muted" style="margin:.3rem 0 1rem">${su ? 'Save homes, book inspections and track every request.' : 'Log in with your email and password.'}</p>
+    ${su ? '<input id="a_n" class="inp" placeholder="Full name" autocomplete="name"><input id="a_ph" class="inp" type="tel" placeholder="Phone number" autocomplete="tel">' : ''}
+    <input id="a_e" class="inp" type="email" placeholder="Email" autocomplete="email">
+    <input id="a_p" class="inp" type="password" placeholder="Password (min 6 characters)" autocomplete="${su ? 'new-password' : 'current-password'}" onkeydown="if(event.key==='Enter')authGo('${mode}','${code ? 'admin' : 'customer'}')">
+    ${code ? `<input id="a_c" class="inp" type="password" placeholder="Admin access code" autocomplete="off"><p class="small muted" style="margin:-.3rem 0 .8rem">Only ${MAX_ADMINS} admin accounts are allowed.</p>` : ''}
+    <button class="btn w100" onclick="authGo('${mode}','${code ? 'admin' : 'customer'}')">${su ? 'Create account' : 'Log in'}</button>
+    ${!code ? `<div class="or">or</div><button class="btn2 w100" onclick="googleGo()">Continue with Google</button>` : ''}
+    ${mode === 'login' ? '<p class="center small" style="margin-top:.9rem"><a onclick="resetPw()">Forgot password?</a></p>' : ''}
+    <p class="center small" style="margin-top:.3rem"><a onclick="openAuth('${su ? 'login' : 'signup'}')">${su ? 'Have an account? Log in' : 'New here? Sign up'}</a></p>
+    ${su && !S.adminFull ? `<p class="center small muted" style="margin-top:.3rem"><a onclick="openAuth('signup','${code ? 'customer' : 'admin'}')">${code ? 'Back to normal sign-up' : 'Have an admin access code?'}</a></p>` : ''}`);
+}
+async function authGo(mode, role) {
+  const e = $('a_e').value.trim().toLowerCase(), p = $('a_p').value;
+  if (!/^\S+@\S+\.\S+$/.test(e)) return toast('Enter a valid email', 'error');
+  if (p.length < 6) return toast('Password must be at least 6 characters', 'error');
+  try {
+    if (mode === 'signup') {
+      const name = $('a_n').value.trim(), phone = $('a_ph').value.trim(), code = role === 'admin' ? $('a_c').value.trim() : '';
+      if (!name) return toast('Enter your name', 'error'); if (phone.replace(/\D/g, '').length < 7) return toast('Enter a valid phone number', 'error');
+      if (role === 'admin' && !code) return toast('Enter the admin access code', 'error');
+      pendingProfile = { name, phone, adminCode: code }; await createUserWithEmailAndPassword(au, e, p);
+    } else await signInWithEmailAndPassword(au, e, p);
+  } catch (x) { pendingProfile = null; toast(x.code === 'auth/email-already-in-use' ? 'Account exists. Log in instead.' : (x.code === 'auth/invalid-credential' || x.code === 'auth/wrong-password') ? 'Incorrect email or password.' : x.message, 'error') }
+}
+async function googleGo() { try { await signInWithPopup(au, new GoogleAuthProvider()) } catch (x) { toast('Google sign-in failed: ' + x.message, 'error') } }
+function resetPw() { const e = $('a_e')?.value.trim(); if (!e) return toast('Type your email first', 'warning'); sendPasswordResetEmail(au, e).then(() => Swal.fire('Check your email', 'A reset link was sent if the account exists.', 'success')).catch(x => toast(x.message, 'error')) }
+ 
+async function checkAdminSlots() {
+  S.adminFull = lsGet('estate-af', false);
+  try { const m = await getDoc(doc(fs, 'meta', 'adminCount')); S.adminFull = (m.exists() ? m.data().count : 0) >= MAX_ADMINS; lsSet('estate-af', S.adminFull) } catch (e) { }
+}
+async function claimAdmin(user, name, code) {
+  try {
+    const m = await getDoc(doc(fs, 'meta', 'adminCount')), n = m.exists() ? m.data().count : 0;
+    if (n >= MAX_ADMINS) return { ok: false, msg: `The admin limit has been reached (${MAX_ADMINS} of ${MAX_ADMINS}).` };
+    const b = writeBatch(fs);
+    b.set(doc(fs, 'admins', user.uid), { uid: user.uid, name, email: user.email, code, createdAt: Date.now() });
+    b.set(doc(fs, 'meta', 'adminCount'), { count: n + 1 });
+    await b.commit(); return { ok: true };
+  } catch (e) { return { ok: false, msg: /permission/i.test((e.code || '') + (e.message || '')) ? 'Wrong access code, or the admin limit has been reached.' : e.message } }
+}
+async function ensureProfile(user) {
+  let snap; try { snap = await getDoc(doc(fs, 'users', user.uid)) } catch (e) { showErr('Loading your profile', e); return true }
+  if (snap.exists()) { updateDoc(doc(fs, 'users', user.uid), { lastLogin: Date.now() }).catch(() => { }); return true }
+  let p = pendingProfile; pendingProfile = null;
+  if (!p) {
+    const r = await Swal.fire({ title: 'Complete your profile', allowOutsideClick: false, allowEscapeKey: false, confirmButtonText: 'Save', html: `<input id="cp_n" class="inp" placeholder="Full name" value="${esc(user.displayName || '')}"><input id="cp_p" class="inp" type="tel" placeholder="Phone number">`, preConfirm: () => { const name = $('cp_n').value.trim(), phone = $('cp_p').value.trim(); if (!name) return Swal.showValidationMessage('Enter your name'); if (phone.replace(/\D/g, '').length < 7) return Swal.showValidationMessage('Enter a valid phone number'); return { name, phone } } });
+    p = r.value;
+  }
+  if (p.adminCode) {
+    const r = await claimAdmin(user, p.name, p.adminCode);
+    if (!r.ok) { try { await user.delete() } catch { await signOut(au) } Swal.fire('Admin sign-up failed', r.msg, 'error'); return false }
+  }
+  try { await setDoc(doc(fs, 'users', user.uid), { uid: user.uid, name: p.name, phone: p.phone, email: user.email, saved: [], createdAt: Date.now(), lastLogin: Date.now() }) } catch (e) { showErr('Saving your profile', e) }
+  return true;
+}
+async function becomeAdmin() {
+  const r = await Swal.fire({ title: 'Admin access', input: 'password', inputPlaceholder: 'Admin access code', showCancelButton: true, confirmButtonText: 'Verify', text: `Only ${MAX_ADMINS} admin accounts are allowed.` });
+  if (!r.isConfirmed || !r.value) return;
+  const x = await claimAdmin(S.user, S.me?.name || S.user.email, r.value.trim());
+  if (!x.ok) return Swal.fire('Not allowed', x.msg, 'error');
+  toast('You are now an admin 🎉'); stopUser(); await startUser(S.user); S.view = 'admin'; show();
+}
+async function profile() {
+  const u = S.me || {};
+  const r = await Swal.fire({ title: 'Your profile', showCancelButton: true, confirmButtonText: 'Save', showDenyButton: true, denyButtonText: 'Log out', html: `<label class="lbl">Name</label><input id="pf_n" class="inp" value="${esc(u.name)}"><label class="lbl">Phone</label><input id="pf_p" class="inp" type="tel" value="${esc(u.phone)}"><label class="lbl">Email</label><input class="inp" value="${esc(S.user.email)}" disabled>${S.isAdmin ? '<p class="small ok">✓ You are an admin</p>' : ''}`, preConfirm: () => { const name = $('pf_n').value.trim(); if (!name) return Swal.showValidationMessage('Name cannot be empty'); return { name, phone: $('pf_p').value.trim() } } });
+  if (r.isDenied) { await signOut(au); toast('Logged out', 'info'); return }
+  if (r.isConfirmed) { await updateDoc(doc(fs, 'users', S.user.uid), r.value).catch(e => showErr('Saving profile', e)); toast('Profile updated') }
+}
+ 
+// ===== data listeners =====
+function startPublic() {
+  checkAdminSlots();
+  pubUnsubs.push(onSnapshot(query(collection(fs, 'listings'), orderBy('createdAt', 'desc')), s => {
+    S.listings = s.docs.map(d => ({ id: d.id, ...d.data() })); S.ready = true; refresh();
+    if (!S.hashDone && location.hash.startsWith('#l=')) { S.hashDone = true; openListing(location.hash.slice(3)) }
+  }, e => showErr('Loading properties', e)));
+  pubUnsubs.push(onSnapshot(query(collection(fs, 'announcements'), orderBy('createdAt', 'desc')), s => { S.anns = s.docs.map(d => ({ id: d.id, ...d.data() })); refresh() }, e => showErr('Loading announcements', e)));
+  pubUnsubs.push(onSnapshot(doc(fs, 'settings', 'site'), s => { S.settings = s.exists() ? s.data() : {}; renderTop(); renderFoot(); const h = $('heroT'); if (h && S.settings.tagline) h.textContent = S.settings.tagline }, () => { }));
+}
+function stopUser() { userUnsubs.forEach(f => f()); userUnsubs = []; if (unsubChat) unsubChat(); unsubChat = null }
+async function startUser(u) {
+  let admin = false; try { admin = (await getDoc(doc(fs, 'admins', u.uid))).exists() } catch { }
+  S.isAdmin = admin;
+  userUnsubs.push(onSnapshot(doc(fs, 'users', u.uid), s => { S.me = s.exists() ? s.data() : null; refresh() }, e => showErr('Loading profile', e)));
+  userUnsubs.push(onSnapshot(admin ? query(collection(fs, 'requests'), orderBy('createdAt', 'desc')) : query(collection(fs, 'requests'), where('uid', '==', u.uid)), s => { S.reqs = s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.createdAt - a.createdAt); refresh() }, e => showErr('Loading requests', e)));
+  userUnsubs.push(onSnapshot(doc(fs, 'threads', u.uid), s => { S.thread = s.exists() ? s.data() : null; renderTop() }, () => { }));
+  userUnsubs.push(onSnapshot(query(collection(fs, 'notifications'), where('uid', '==', u.uid)), s => { S.notes = s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.at - a.at); renderTop(); if (S.view === 'mine') viewMine() }, () => { }));
+  if (admin) {
+    userUnsubs.push(onSnapshot(collection(fs, 'users'), s => { S.users = s.docs.map(d => d.data()).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); refresh() }, e => showErr('Loading users', e)));
+    userUnsubs.push(onSnapshot(collection(fs, 'admins'), s => { S.admins = s.docs.map(d => d.data()); refresh() }, e => showErr('Loading admins', e)));
+    userUnsubs.push(onSnapshot(collection(fs, 'threads'), s => { S.threads = s.docs.map(d => d.data()).sort((a, b) => (b.lastAt || 0) - (a.lastAt || 0)); renderTop(); if (S.view === 'admin' && S.tab === 'messages') renderThreadList(); else if (S.view === 'admin') renderAnav() }, e => showErr('Loading messages', e)));
+  }
+}
+onAuthStateChanged(au, async u => {
+  stopUser(); Object.assign(S, { user: u, me: null, isAdmin: false, reqs: [], users: [], admins: [], threads: [], thread: null, notes: [], chatUid: null });
+  if (u) {
+    const ok = await ensureProfile(u); if (!ok) return;
+    const wasAuth = S.authOpen; if (S.authOpen) closeModal(); await startUser(u); checkAdminSlots();
+    if (wasAuth) { if (S.isAdmin) { S.view = 'admin'; S.tab = 'dash'; toast('Welcome back, admin 👋') } else { S.view = 'mine'; S._ds = false; toast('Welcome, ' + ((S.me?.name || '').split(' ')[0] || 'friend') + ' 👋') } }
+  }
+  if (!u && ['saved', 'mine', 'chat', 'admin'].includes(S.view)) S.view = 'home';
+  if (u && S.view === 'admin' && !S.isAdmin) S.view = 'home';
+  show();
+});
+ 
+// ===== navigation / rendering =====
+function go(v) {
+  if (['saved', 'mine', 'chat'].includes(v) && !S.user) return openAuth('login');
+  if (v === 'admin' && !S.isAdmin) return;
+  if (v !== 'chat' && !(v === 'admin' && S.tab === 'messages') && unsubChat) { unsubChat(); unsubChat = null }
+  S.view = v; S._ds = false; show(); scrollTo(0, 0);
+}
+function show() {
+  renderTop(); renderBar(); const m = $('main'); m.classList.remove('view-in'); void m.offsetWidth; m.classList.add('view-in');
+  ({ home: viewHome, saved: viewSaved, mine: viewMine, chat: viewChat, admin: viewAdmin }[S.view])(); renderFoot(); renderCmp(); observe();
+}
+function refresh() { renderTop(); renderBar(); renderFoot(); renderCmp(); const v = S.view; if (v === 'home') { renderFeat(); renderAnns(); renderGrid(false); renderRV() } else if (v === 'saved') viewSaved(); else if (v === 'mine') viewMine(); else if (v === 'admin') refreshAdmin() }
+function renderDock() {
+  let d = $('dock'); if (!d) { d = document.createElement('nav'); d.id = 'dock'; d.setAttribute('aria-label', 'Quick navigation'); document.body.appendChild(d) }
+  if (!S.user) { d.style.display = 'none'; return } d.style.display = '';
+  const un = S.isAdmin ? unreadAdmin() : (S.thread?.unreadUser ? 1 : 0);
+  const it = S.isAdmin ? [['home', '🔍', 'Browse'], ['saved', '♥', 'Saved'], ['admin', '⚙', 'Console']] : [['home', '🔍', 'Browse'], ['saved', '♥', 'Saved'], ['mine', '▦', 'Dashboard'], ['chat', '💬', 'Messages']];
+  d.innerHTML = it.map(([k, i, l]) => `<button class="${S.view === k ? 'on' : ''}" onclick="go('${k}')"><b>${i}</b>${l}${un && (k === 'chat' || k === 'admin') ? '<i class="dotb"></i>' : ''}</button>`).join('');
+}
+function renderTop() {
+  renderDock();
+  const un = S.isAdmin ? unreadAdmin() : (S.thread?.unreadUser ? 1 : 0), nn = S.notes.filter(n => !n.read).length;
+  const nav = [['home', 'Browse'], ...(S.user ? [['saved', '♥ Saved']] : []), ...(S.user && !S.isAdmin ? [['mine', 'Dashboard'], ['chat', 'Messages']] : []), ...(S.isAdmin ? [['admin', 'Admin console']] : [])];
+  $('top').innerHTML = `<div class="wrap hd"><a class="brand" onclick="go('home')"><span class="logo">${LOGO}</span><span>${esc(brand())}</span></a>
+    <nav class="nav" aria-label="Main">${nav.map(([k, l]) => `<button class="${S.view === k ? 'on' : ''}" onclick="go('${k}')">${l}${un && (k === 'chat' || k === 'admin') ? '<i class="dotb"></i>' : ''}</button>`).join('')}</nav>
+    <div class="hact">${S.user ? `<button class="ib ${nn ? 'ring' : ''}" onclick="openNotes()" aria-label="Notifications">🔔${nn ? `<i class="cnt">${nn}</i>` : ''}</button>` : ''}<button class="ib" onclick="toggleTheme()" aria-label="Toggle theme">${themeIcon()}</button>
+    ${S.user ? `<button class="avt" onclick="profile()" title="Profile" aria-label="Profile">${esc((S.me?.name || S.user.email || '?')[0].toUpperCase())}</button>` : `<button class="btn2" onclick="openAuth('login')">Log in</button><button class="btn" onclick="openAuth('signup')">Sign up</button>`}</div></div>`;
+}
+function renderBar() {
+  const el = $('bar'), a = [...S.anns].sort((x, y) => (y.pinned ? 1 : 0) - (x.pinned ? 1 : 0) || y.createdAt - x.createdAt)[0];
+  let gone = false; try { gone = sessionStorage.getItem('estate-bar') === (a?.id || '') } catch { }
+  if (!a || gone) { el.style.display = 'none'; return }
+  if (el.dataset.id !== a.id) { el.dataset.id = a.id; el.innerHTML = `<span onclick="openAnn('${a.id}')">📢 <b>${esc(a.title)}</b> · ${esc((a.body || '').slice(0, 90))}</span><button onclick="closeBar('${a.id}')" aria-label="Dismiss">✕</button>` }
+  el.style.display = 'flex';
+}
+function closeBar(id) { try { sessionStorage.setItem('estate-bar', id) } catch { } $('bar').style.display = 'none' }
+function renderFoot() {
+  const s = S.settings;
+  $('foot').innerHTML = `<div class="wrap"><div class="fcols"><div><b style="font-family:'DM Serif Display',serif;font-size:1.3rem">${esc(brand())}</b>Houses, apartments, shops and offices for sale and rent. Inspect with confidence, pay securely and talk to a real person.</div>
+    <div><b>Explore</b><a onclick="go('home')">Browse properties</a>${S.user ? `<a onclick="go('${S.isAdmin ? 'admin' : 'mine'}')">${S.isAdmin ? 'Admin console' : 'My dashboard'}</a>${S.isAdmin ? '' : `<a onclick="go('chat')">Message us</a>`}` : `<a onclick="openAuth('login')">Log in</a><a onclick="openAuth('signup')">Create account</a>`}</div>
+    <div><b>Contact</b>${s.phone ? `<a href="tel:${esc(s.phone)}">📞 ${esc(s.phone)}</a><a target="_blank" rel="noopener" href="https://wa.me/${waNum(s.phone)}">💬 WhatsApp</a>` : ''}${s.email ? `<a href="mailto:${esc(s.email)}">✉ ${esc(s.email)}</a>` : ''}${s.address ? `<span>📍 ${esc(s.address)}</span>` : ''}</div></div>
+    <div class="copy fx jb fw g2"><span>© ${new Date().getFullYear()} ${esc(brand())}. All rights reserved.</span><span>Secure payments by Paystack</span></div></div>`;
+}
+ 
+// ===== home =====
+function viewHome() {
+  const f = S.f;
+  $('main').innerHTML = `<section class="hero"><i class="blob b1"></i><i class="blob b2"></i><div class="wrap"><p class="eyebrow">★ ${esc(brand())}</p><h1 id="heroT">${esc(S.settings.tagline || 'Find your next home, shop or office')}</h1>
+    <p class="lead">Houses, apartments, shops and offices for sale and rent. Book an inspection, pay securely online and chat with us directly.</p>
+    <div class="hstats"><div><b id="st1">0</b><span>Properties</span></div><div><b id="st2">0</b><span>For sale</span></div><div><b id="st3">0</b><span>For rent</span></div></div>
+    <div class="fbar"><div class="seg">${[['all', 'All'], ['sale', 'Buy'], ['rent', 'Rent']].map(([k, l]) => `<button class="${f.purpose === k ? 'on' : ''}" onclick="setF('purpose','${k}')">${l}</button>`).join('')}</div>
+    <select onchange="setF('type',this.value)" aria-label="Property type"><option value="all">All types</option>${Object.entries(TL).map(([k, v]) => `<option value="${k}" ${f.type === k ? 'selected' : ''}>${v}</option>`).join('')}</select>
+    <input class="inp" placeholder="Search title or location" value="${esc(f.q)}" oninput="setF('q',this.value)" aria-label="Search">
+    <input class="inp" type="number" min="0" placeholder="Max price (₦)" value="${esc(f.max)}" oninput="setF('max',this.value)" aria-label="Maximum price">
+    <select onchange="setF('sort',this.value)" aria-label="Sort">${[['new', 'Newest'], ['low', 'Price: low to high'], ['high', 'Price: high to low']].map(([k, v]) => `<option value="${k}" ${f.sort === k ? 'selected' : ''}>${v}</option>`).join('')}</select></div></div></section>
+    <div class="wrap"><section class="sec rv" id="featwrap"></section><section class="sec rv" id="annwrap"></section>
+    <section class="sec" id="props"><div class="sech"><h2>Properties</h2><span id="count" class="muted small"></span></div><div id="grid" class="grid"></div></section>
+    <section class="sec rv" id="rvwrap"></section>
+    <section class="sec rv"><div class="sech"><h2>Why ${esc(brand())}</h2></div><div class="why"><div><i>✅</i><b>Verified listings</b><span class="muted small">Every property is checked and managed by our team.</span></div><div><i>🔒</i><b>Secure payments</b><span class="muted small">Pay inspection fees, rent and deposits safely with Paystack.</span></div><div><i>💬</i><b>Direct support</b><span class="muted small">Chat with us in the app, call, or message on WhatsApp.</span></div><div><i>⚡</i><b>Fast and simple</b><span class="muted small">Save, compare and book inspections in a few taps.</span></div></div></section>
+    <section class="sec rv"><div class="sech"><h2>How it works</h2></div><div class="steps"><div><b>Find</b><br><span class="muted small">Search and filter houses, shops and offices.</span></div><div><b>Inspect</b><br><span class="muted small">Book an inspection and pick a time that suits you.</span></div><div><b>Secure it</b><br><span class="muted small">Rent, reserve or make an offer and we handle the rest.</span></div></div></section></div>`;
+  renderFeat(); renderAnns(); renderGrid(true); renderRV();
+}
+function setF(k, v) { S.f[k] = v; k === 'purpose' ? viewHome() : renderGrid(true) }
+const priceTxt = l => money(l.price) + (l.purpose === 'rent' ? `<small> / ${l.period === 'month' ? 'month' : 'year'}</small>` : '');
+const metaTxt = l => [TL[l.type], l.beds ? `🛏 ${l.beds}` : '', l.baths ? `🛁 ${l.baths}` : '', l.size ? `${l.size} m²` : ''].filter(Boolean).join(' · ');
+function card(l, i = 0, anim = false) {
+  const saved = (S.me?.saved || []).includes(l.id), isNew = Date.now() - (l.createdAt || 0) < 7 * 864e5, cmp = S.cmp.includes(l.id);
+  return `<article class="lcard ${anim ? 'an' : ''}" style="--i:${Math.min(i, 12)}" onclick="openListing('${l.id}')"><div class="ph">${l.cover ? `<img loading="lazy" src="${l.cover}" alt="${esc(l.title)}">` : `<div class="noimg">${IC[l.type] || '🏠'}</div>`}
+    <div class="tags"><span class="tag ${l.purpose}">${l.purpose === 'rent' ? 'For rent' : 'For sale'}</span>${isNew && l.status === 'available' ? '<span class="tag new">NEW</span>' : ''}</div>
+    ${l.status !== 'available' ? `<span class="st ${l.status}">${l.status === 'sold' ? 'Sold' : 'Rented'}</span>` : ''}${l.featured ? '<span class="feat">★ Featured</span>' : ''}
+    <div class="pa"><button class="heart ${saved ? 'on' : ''}" onclick="event.stopPropagation();toggleSave('${l.id}')" aria-label="Save property">${saved ? '♥' : '♡'}</button><button class="cmpb ${cmp ? 'on' : ''}" onclick="event.stopPropagation();toggleCmp('${l.id}')" aria-label="Compare" title="Compare">⇄</button></div></div>
+    <div class="lb"><div class="price">${priceTxt(l)}</div><h3 class="tr">${esc(l.title)}</h3><p class="muted small tr">📍 ${esc(l.location)}</p><div class="meta">${esc(metaTxt(l))}</div></div></article>`;
+}
+function setStat(id, n) { const el = $(id); if (!el) return; if (S.statsDone || !S.ready) { el.textContent = n.toLocaleString(); return } el.dataset.count = n; animateCounts(el.parentNode) }
+function renderGrid(anim) {
+  const el = $('grid'); if (!el) return; const f = S.f, q = f.q.trim().toLowerCase();
+  if (!S.ready) { el.innerHTML = '<div class="skel"></div>'.repeat(6); return }
+  const av = S.listings.filter(l => l.status === 'available');
+  setStat('st1', S.listings.length); setStat('st2', av.filter(l => l.purpose === 'sale').length); setStat('st3', av.filter(l => l.purpose === 'rent').length); S.statsDone = true;
+  let a = S.listings.filter(l => (f.purpose === 'all' || l.purpose === f.purpose) && (f.type === 'all' || l.type === f.type) && (!q || (l.title + ' ' + l.location + ' ' + (l.address || '')).toLowerCase().includes(q)) && (!f.max || l.price <= +f.max));
+  a.sort((x, y) => f.sort === 'low' ? x.price - y.price : f.sort === 'high' ? y.price - x.price : ((y.featured ? 1 : 0) - (x.featured ? 1 : 0)) || y.createdAt - x.createdAt);
+  $('count').textContent = a.length + ' found';
+  el.innerHTML = a.map((l, i) => card(l, i, anim)).join('') || '<p class="muted">No properties match your search yet.</p>';
+}
+function renderFeat() {
+  const el = $('featwrap'); if (!el) return; const a = S.listings.filter(l => l.featured && l.status === 'available');
+  el.innerHTML = a.length ? `<div class="sech"><h2>★ Featured</h2><div class="arrows"><button class="ib" onclick="scrollFeat(-1)" aria-label="Scroll left">‹</button><button class="ib" onclick="scrollFeat(1)" aria-label="Scroll right">›</button></div></div><div class="row" id="featrow">${a.map((l, i) => card(l, i, false)).join('')}</div>` : '';
+}
+const scrollFeat = d => $('featrow')?.scrollBy({ left: d * 320, behavior: 'smooth' });
+function renderAnns() {
+  const el = $('annwrap'); if (!el) return;
+  const a = [...S.anns].sort((x, y) => (y.pinned ? 1 : 0) - (x.pinned ? 1 : 0) || y.createdAt - x.createdAt).slice(0, 6);
+  el.innerHTML = a.length ? `<div class="sech"><h2>Announcements</h2></div><div class="anns">${a.map(x => `<div class="ann ${x.pinned ? 'pin' : ''}" onclick="openAnn('${x.id}')">${x.image ? `<img src="${x.image}" alt="">` : ''}<div class="f1"><b>${x.pinned ? '📌 ' : ''}${esc(x.title)}</b><p class="muted small">${esc((x.body || '').slice(0, 110))}${(x.body || '').length > 110 ? '…' : ''}</p><span class="small muted">${dstr(x.createdAt)}</span></div></div>`).join('')}</div>` : '';
+}
+function renderRV() {
+  const el = $('rvwrap'); if (!el) return; const a = lsGet('estate-rv', []).map(id => S.listings.find(l => l.id === id)).filter(Boolean).slice(0, 6);
+  el.innerHTML = a.length ? `<div class="sech"><h2>Recently viewed</h2></div><div class="row">${a.map(l => card(l)).join('')}</div>` : '';
+}
+function openAnn(id) {
+  const x = S.anns.find(a => a.id === id); if (!x) return;
+  openModal(`${x.image ? `<img src="${x.image}" style="width:100%;border-radius:var(--r);margin-bottom:.8rem" alt="">` : ''}<p class="small muted">${dstr(x.createdAt)}</p><h2>${esc(x.title)}</h2><p class="desc">${esc(x.body)}</p>${x.video ? `<div style="margin-top:.8rem">${videoHtml(x.video)}</div>` : ''}`);
+}
+async function toggleSave(id) {
+  if (!S.user) return openAuth('login');
+  const has = (S.me?.saved || []).includes(id);
+  try { await updateDoc(doc(fs, 'users', S.user.uid), { saved: has ? arrayRemove(id) : arrayUnion(id) }); const b = $('svbtn'); if (b) b.textContent = has ? '♡ Save' : '♥ Saved'; toast(has ? 'Removed from saved' : 'Saved ♥', 'success') } catch (e) { showErr('Saving', e) }
+}
+function viewSaved() {
+  const a = S.listings.filter(l => (S.me?.saved || []).includes(l.id));
+  $('main').innerHTML = `<div class="wrap"><section class="sec"><div class="sech"><h2>Saved properties</h2><span class="muted small">${a.length} saved</span></div><div class="grid">${a.map((l, i) => card(l, i, true)).join('') || '<div class="empty" style="grid-column:1/-1"><b>♡</b>Nothing saved yet. Tap the heart on any property.<br><button class="btn" style="margin-top:.8rem" onclick="go(\'home\')">Browse properties</button></div>'}</div></section></div>`;
+}
+ 
+// ===== customer dashboard =====
+const STEPS = ['pending', 'confirmed', 'completed'];
+const prog = r => r.status === 'cancelled' ? '<div class="prog x"><span>✕ Cancelled</span></div>' : `<div class="prog">${STEPS.map((s, k) => `<i class="${k <= STEPS.indexOf(r.status) ? 'on' : ''}"></i>`).join('')}<span>${r.status}</span></div>`;
+const setMF = k => { S.mf = k; viewMine() };
+function viewMine() {
+  const me = S.me || {}, rs = S.reqs, sv = me.saved || [], saved = S.listings.filter(l => sv.includes(l.id)), an = S._ds ? '' : 'an2'; S._ds = true;
+  const pend = rs.filter(r => r.status === 'pending').length, spent = rs.filter(r => r.paid).reduce((x, r) => x + (+r.amount || 0), 0);
+  const up = rs.filter(r => r.type === 'inspection' && r.date && !['cancelled', 'completed'].includes(r.status) && new Date(r.date) >= new Date()).sort((x, y) => new Date(x.date) - new Date(y.date)), nx = up[0];
+  const hr = new Date().getHours(), gr = hr < 12 ? 'Good morning' : hr < 17 ? 'Good afternoon' : 'Good evening', first = (me.name || S.user.email || '').split(' ')[0];
+  const seen = new Set(rs.map(r => r.listingId)), liked = new Set(saved.concat(rs.map(r => S.listings.find(l => l.id === r.listingId)).filter(Boolean)).map(l => l.type));
+  const rec = S.listings.filter(l => l.status === 'available' && !seen.has(l.id) && !sv.includes(l.id)).sort((x, y) => (liked.has(y.type) ? 1 : 0) - (liked.has(x.type) ? 1 : 0)).slice(0, 6);
+  const list = rs.filter(r => S.mf === 'all' || r.type === S.mf);
+  const days = nx ? Math.max(0, Math.ceil((new Date(nx.date) - new Date()) / 864e5)) : 0, nd = nx ? new Date(nx.date) : null;
+  const done = rs.filter(r => r.status === 'completed').length, pct = rs.length ? Math.round(done / rs.length * 100) : 0;
+  const st = (i, n, l, g, m, d) => `<div class="dstat ${an}" style="--d:${d}" onclick="${g}"><i>${i}</i><b data-count="${n}" ${m ? 'data-fmt="money"' : ''}>0</b><span>${l}</span></div>`;
+  const act = r => { const l = S.listings.find(x => x.id === r.listingId); return `<div class="act">${l?.cover ? `<img src="${l.cover}" onclick="openListing('${l.id}')" alt="">` : '<div class="th">🏠</div>'}<div class="f1"><div class="fx jb g2"><b class="tr">${esc(r.listingTitle)}</b><span class="badge b-${r.type}">${RL[r.type]}</span></div>${prog(r)}<p class="small muted">${r.type === 'offer' ? `Your offer: ${money(r.amount)} · ` : r.amount ? `Paid ${money(r.amount)}${r.verified ? ' ✓' : ''} · ` : ''}${r.date ? `Inspection ${esc(r.date.replace('T', ' '))} · ` : ''}${dstr(r.createdAt)}</p><button class="lnk" onclick="askAdmin('${r.listingId}')">💬 Ask about this</button></div></div>` };
+  $('main').innerHTML = `<div class="wrap dash">
+  <div class="dh ${an}"><h1>${gr}, ${esc(first)} 👋</h1><p>${rs.length ? `You have ${pend} pending request${pend === 1 ? '' : 's'} and ${saved.length} saved propert${saved.length === 1 ? 'y' : 'ies'}. ${pct}% of your requests are completed.` : 'Welcome! Save properties, book inspections and track everything from here.'}</p>
+  ${nx ? `<div class="nxt" onclick="openListing('${nx.listingId}')"><div class="big">${days === 0 ? 'Today' : days}<small>${days === 0 ? '' : days === 1 ? 'day' : 'days'}</small></div><div class="f1 tr"><small>Next inspection</small><b class="tr">${esc(nx.listingTitle)}</b><small>${dstr(nd)} · ${tstr(nd)}</small></div><span>›</span></div>` : ''}</div>
+  <div class="dstats">${st('📋', rs.length, 'Requests', "setMF('all')", 0, 1)}${st('⏳', pend, 'Pending', "setMF('all')", 0, 2)}${st('♥', saved.length, 'Saved', "go('saved')", 0, 3)}${st('💳', spent, 'Total paid', "setMF('all')", 1, 4)}</div>
+  <div class="qa ${an}" style="--d:5"><button onclick="go('home')"><b>🔍</b>Browse</button><button onclick="go('chat')"><b>💬</b>Message us</button><button onclick="go('saved')"><b>♥</b>Saved</button><button onclick="openNotes()"><b>🔔</b>Alerts</button><button onclick="profile()"><b>👤</b>Profile</button></div>
+  <div class="dcols"><div><div class="sech"><h2>My activity</h2></div><div class="chipf">${[['all', 'All'], ['inspection', 'Inspections'], ['rent', 'Rent'], ['buy', 'Purchase'], ['offer', 'Offers']].map(([k, l]) => `<button class="${S.mf === k ? 'on' : ''}" onclick="setMF('${k}')">${l}</button>`).join('')}</div>
+  ${list.map(act).join('') || `<div class="empty"><b>🗂</b>Nothing here yet.<br><button class="btn" style="margin-top:.8rem" onclick="go('home')">Browse properties</button></div>`}</div>
+  <div class="side"><div class="panel"><h3 style="margin-bottom:.4rem">Upcoming inspections</h3>${up.slice(0, 4).map(r => { const d = new Date(r.date); return `<div class="up"><div class="d"><b>${d.getDate()}</b><span>${d.toLocaleDateString([], { month: 'short' })}</span></div><div class="f1"><b class="tr">${esc(r.listingTitle)}</b><div class="small muted">${tstr(d)}</div></div>${statusBadge(r.status)}</div>` }).join('') || '<p class="muted small">None booked.</p>'}</div>
+  <div class="panel"><h3 style="margin-bottom:.4rem">Latest alerts</h3>${S.notes.slice(0, 4).map(n => `<div class="note-i ${n.read ? '' : 'un'}"><i>${n.icon || '🔔'}</i><div class="f1 small">${esc(n.text)}</div></div>`).join('') || '<p class="muted small">No alerts yet.</p>'}</div>
+  <div class="panel"><h3 style="margin-bottom:.4rem">Saved</h3>${saved.slice(0, 4).map(l => `<div class="mrow" onclick="openListing('${l.id}')">${l.cover ? `<img src="${l.cover}" alt="">` : '<div class="th">🏠</div>'}<div class="f1"><b class="tr">${esc(l.title)}</b><div class="small" style="color:var(--accent);font-weight:700">${money(l.price)}</div></div></div>`).join('') || '<p class="muted small">Tap ♡ on any property.</p>'}</div></div></div>
+  ${rec.length ? `<section class="sec"><div class="sech"><h2>Picked for you</h2></div><div class="row">${rec.map((l, i) => card(l, i)).join('')}</div></section>` : ''}</div>`;
+  if (an) animateCounts($('main')); else $('main').querySelectorAll('[data-count]').forEach(el => { const t = +el.dataset.count; el.textContent = el.dataset.fmt === 'money' ? money(t) : t.toLocaleString() });
+}
+function openNotes() {
+  const un = S.notes.filter(n => !n.read);
+  openModal(`<h2>Notifications</h2>${S.notes.map(n => `<div class="note-i ${n.read ? '' : 'un'}"><i>${n.icon || '🔔'}</i><div class="f1">${esc(n.text)}<br><span class="small muted">${dstr(n.at)} ${tstr(n.at)}</span></div></div>`).join('') || '<p class="muted">Nothing yet. We will notify you when your requests change.</p>'}`);
+  un.forEach(n => updateDoc(doc(fs, 'notifications', n.id), { read: true }).catch(() => { }));
+}
+ 
+// ===== compare =====
+function toggleCmp(id) {
+  const i = S.cmp.indexOf(id); if (i >= 0) S.cmp.splice(i, 1); else { if (S.cmp.length >= 3) return toast('You can compare up to 3 properties', 'warning'); S.cmp.push(id) }
+  renderCmp(); if (S.view === 'home') { renderGrid(false); renderFeat(); renderRV() } else if (S.view === 'saved') viewSaved();
+}
+function renderCmp() { const b = $('cmpbar'); b.classList.toggle('show', S.cmp.length > 0); b.innerHTML = `<b>${S.cmp.length} selected</b><button class="btn gold" onclick="openCompare()" ${S.cmp.length < 2 ? 'disabled' : ''}>Compare${S.cmp.length < 2 ? ' (pick 2+)' : ''}</button><button class="lnk" onclick="clearCmp()">Clear</button>` }
+function clearCmp() { S.cmp = []; renderCmp(); if (S.view === 'home') { renderGrid(false); renderFeat(); renderRV() } }
+function openCompare() {
+  const a = S.cmp.map(id => S.listings.find(l => l.id === id)).filter(Boolean); if (a.length < 2) return;
+  const row = (label, fn) => `<tr><th>${label}</th>${a.map(l => `<td>${fn(l)}</td>`).join('')}</tr>`;
+  openModal(`<h2>Compare properties</h2><div class="tw"><table class="cmpt"><tbody>${row('', l => l.cover ? `<img src="${l.cover}" alt="">` : IC[l.type])}${row('Property', l => `<b>${esc(l.title)}</b>`)}${row('Price', l => `<b style="color:var(--accent)">${priceTxt(l)}</b>`)}${row('Type', l => TL[l.type])}${row('Purpose', l => l.purpose === 'rent' ? 'For rent' : 'For sale')}${row('Location', l => esc(l.location))}${row('Bedrooms', l => l.beds ?? '—')}${row('Bathrooms', l => l.baths ?? '—')}${row('Size', l => l.size ? l.size + ' m²' : '—')}${row('Features', l => (l.features || []).map(esc).join(', ') || '—')}${row('Status', l => l.status)}${row('', l => `<button class="btn2" onclick="openListing('${l.id}')">View</button>`)}</tbody></table></div>`, true);
+}
+ 
+// ===== listing detail =====
+async function openListing(id) {
+  const l = S.listings.find(x => x.id === id); if (!l) return;
+  history.replaceState(null, '', '#l=' + id); S.curId = id; G = l.cover ? { imgs: [l.cover], i: 0 } : null;
+  const rv = [id, ...lsGet('estate-rv', []).filter(x => x !== id)].slice(0, 8); lsSet('estate-rv', rv);
+  const avail = l.status === 'available', fee = feeOf(l), saved = (S.me?.saved || []).includes(id), ph = S.settings.phone;
+  const vids = (l.videos || []).map(videoHtml).filter(Boolean);
+  const sim = S.listings.filter(x => x.id !== id && x.type === l.type && x.purpose === l.purpose && x.status === 'available').slice(0, 3);
+  openModal(`<div class="det"><div><div id="gmain" class="gmain" onclick="openLb(G_i())">${l.cover ? `<img src="${l.cover}" alt="">` : `<div class="noimg">${IC[l.type] || '🏠'}</div>`}</div><div id="gthumbs" class="gthumbs"></div></div>
+    <div><div class="fx g2 fw"><span class="badge b-${l.purpose === 'rent' ? 'rent' : 'buy'}">${l.purpose === 'rent' ? 'For rent' : 'For sale'}</span>${!avail ? `<span class="badge s-cancelled">${l.status === 'sold' ? 'Sold' : 'Rented'}</span>` : '<span class="badge s-completed">Available</span>'}</div>
+    <h2 style="margin:.5rem 0 .2rem">${esc(l.title)}</h2><div class="price" style="font-size:1.6rem">${priceTxt(l)}</div><p class="muted">📍 ${esc(l.location)}${l.address ? ' · ' + esc(l.address) : ''}</p>
+    <div class="specs"><div>Type: <b>${TL[l.type] || ''}</b></div>${l.beds ? `<div>🛏 Bedrooms: <b>${l.beds}</b></div>` : ''}${l.baths ? `<div>🛁 Bathrooms: <b>${l.baths}</b></div>` : ''}${l.size ? `<div>📐 Size: <b>${l.size} m²</b></div>` : ''}</div>
+    ${(l.features || []).length ? `<div class="chips">${l.features.map(f => `<span>${esc(f)}</span>`).join('')}</div>` : ''}
+    <div class="desc">${esc(l.desc)}</div>
+    <div class="acts">${avail ? `<button class="btn" onclick="bookInspection('${id}')">📅 Book inspection · ${fee ? money(fee) : 'Free'}</button>${l.purpose === 'rent' ? `<button class="btn gold" onclick="startDeal('${id}','rent')">🔑 Rent this property</button>` : `<button class="btn gold" onclick="startDeal('${id}','buy')">🏷 Buy / Reserve</button><button class="btn2" onclick="makeOffer('${id}')">🤝 Make an offer</button>`}` : '<p class="note">This property is no longer available. Browse similar listings or message us.</p>'}
+    <div class="fx g2 fw"><button class="btn2 f1" onclick="askAdmin('${id}')">💬 Message</button><button id="svbtn" class="btn2 f1" onclick="toggleSave('${id}')">${saved ? '♥ Saved' : '♡ Save'}</button><button class="btn2 f1" onclick="toggleCmp('${id}');toast('Updated compare list','info')">⇄ Compare</button></div>
+    <div class="fx g2 fw"><button class="btn2 f1" onclick="shareL('${id}')">🔗 Share</button>${ph ? `<a class="btn2 f1" href="tel:${esc(ph)}">📞 Call</a><a class="btn2 f1" target="_blank" rel="noopener" href="https://wa.me/${waNum(ph)}?text=${encodeURIComponent('Hi, I am interested in: ' + l.title)}">WhatsApp</a>` : ''}</div></div></div></div>
+    ${vids.length ? `<h3 style="margin-top:1.4rem;margin-bottom:.6rem">Videos</h3><div class="vids">${vids.join('')}</div>` : ''}
+    ${calcHtml(l)}
+    <div style="margin-top:1.3rem"><button class="btn2" onclick="showMap()">🗺 View on map</button><div id="mapbox"></div></div>
+    ${sim.length ? `<h3 style="margin:1.5rem 0 .7rem">Similar properties</h3><div class="minis">${sim.map(x => `<div class="mini" onclick="openListing('${x.id}')">${x.cover ? `<img src="${x.cover}" alt="">` : '<div class="th">🏠</div>'}<div class="f1"><b class="tr">${esc(x.title)}</b><div class="small muted tr">${esc(x.location)}</div><div class="small" style="color:var(--accent);font-weight:700">${money(x.price)}</div></div></div>`).join('')}</div>` : ''}`, true);
+  calc();
+  try { const s = await getDocs(query(collection(fs, 'listings', id, 'media'), orderBy('n'))); if ($('gmain') && S.curId === id) { G = { imgs: s.docs.map(d => d.data().data), i: 0 }; if (!G.imgs.length && l.cover) G.imgs = [l.cover]; renderGal() } } catch (e) { showErr('Loading photos', e) }
+}
+const G_i = () => G?.i || 0;
+function renderGal() {
+  if (!G || !$('gmain') || !G.imgs.length) return; const im = G.imgs;
+  $('gmain').innerHTML = `<img src="${im[G.i]}" alt="">${im.length > 1 ? `<button class="gn p" onclick="event.stopPropagation();galGo(-1)" aria-label="Previous">‹</button><button class="gn n" onclick="event.stopPropagation();galGo(1)" aria-label="Next">›</button><span class="gc">${G.i + 1}/${im.length}</span>` : ''}`;
+  $('gthumbs').innerHTML = im.length > 1 ? im.map((s, i) => `<img class="${i === G.i ? 'on' : ''}" src="${s}" onclick="galSet(${i})" alt="">`).join('') : '';
+}
+const galGo = d => { if (G) { G.i = (G.i + d + G.imgs.length) % G.imgs.length; renderGal() } };
+const galSet = i => { if (G) { G.i = i; renderGal() } };
+function calcHtml(l) {
+  return l.purpose === 'sale'
+    ? `<div class="calc"><h3>Mortgage calculator</h3><div class="cg"><label>Down payment %<input id="mc_a" class="inp" type="number" value="30" min="0" max="90" oninput="calc()"></label><label>Interest % / year<input id="mc_b" class="inp" type="number" value="18" min="0" step=".5" oninput="calc()"></label><label>Years<input id="mc_c" class="inp" type="number" value="15" min="1" max="30" oninput="calc()"></label></div><div id="mc_out" class="cout"></div></div>`
+    : `<div class="calc"><h3>Move-in cost estimate</h3><div class="cg"><label>Agency fee %<input id="mc_a" class="inp" type="number" value="10" min="0" oninput="calc()"></label><label>Legal fee %<input id="mc_b" class="inp" type="number" value="10" min="0" oninput="calc()"></label><label>Other costs (₦)<input id="mc_c" class="inp" type="number" value="0" min="0" oninput="calc()"></label></div><div id="mc_out" class="cout"></div></div>`;
+}
+function calc() {
+  const l = S.listings.find(x => x.id === S.curId), out = $('mc_out'); if (!l || !out) return; const a = +$('mc_a').value || 0, b = +$('mc_b').value || 0, c = +$('mc_c').value || 0, box = (v, t) => `<div><b>${v}</b><span>${t}</span></div>`;
+  if (l.purpose === 'sale') {
+    const down = l.price * a / 100, loan = l.price - down, r = b / 1200, n = Math.max(1, c) * 12, m = r === 0 ? loan / n : loan * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+    out.innerHTML = box(money(Math.round(m)), 'Monthly payment') + box(money(Math.round(down)), 'Down payment') + box(money(Math.round(loan)), 'Loan amount') + box(money(Math.round(m * n - loan)), 'Total interest');
+  } else {
+    const agency = l.price * a / 100, legal = l.price * b / 100, total = l.price + agency + legal + c, per = l.period === 'month' ? l.price : l.price / 12;
+    out.innerHTML = box(money(Math.round(total)), 'Estimated move-in total') + box(money(Math.round(per)), 'Rent per month') + box(money(Math.round(agency + legal)), 'Agency + legal') + box(money(l.price), l.period === 'month' ? 'Monthly rent' : 'Yearly rent');
+  }
+}
+function showMap() { const l = S.listings.find(x => x.id === S.curId); if (!l) return; $('mapbox').innerHTML = `<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=${encodeURIComponent((l.address ? l.address + ', ' : '') + l.location)}&output=embed" title="Map"></iframe>` }
+function shareL(id) {
+  const url = location.origin + location.pathname + '#l=' + id, l = S.listings.find(x => x.id === id);
+  if (navigator.share) navigator.share({ title: l?.title, url }).catch(() => { }); else navigator.clipboard?.writeText(url).then(() => toast('Link copied'));
+}
+function askAdmin(id) {
+  if (!S.user) return openAuth('login'); const l = S.listings.find(x => x.id === id);
+  S.draft = `Hi, I'm interested in "${l.title}" (${money(l.price)}). Is it still available?`; closeModal(); go('chat');
+}
+ 
+// ===== payments & requests =====
+function payThen(amount, label, done) {
+  if (!window.PaystackPop) return Swal.fire('Paystack failed to load', 'Check your connection or ad-blocker.', 'error');
+  PaystackPop.setup({
+    key: CFG.paystackKey, email: S.user.email, amount: Math.round(amount * 100), currency: 'NGN', ref: 'EI_' + Date.now(),
+    metadata: { custom_fields: [{ display_name: 'Item', variable_name: 'item', value: label }] },
+    onClose() { toast('Payment cancelled', 'info') },
+    callback(r) { done(r.reference) }
+  }).openIframe();
+}
+async function createRequest({ type, l, amount, ref, date, note }) {
+  try {
+    await addDoc(collection(fs, 'requests'), { uid: S.user.uid, userName: S.me?.name || '', userEmail: S.user.email, userPhone: S.me?.phone || '', listingId: l.id, listingTitle: l.title, type, amount: amount || 0, paid: !!ref, paystackRef: ref || null, verified: false, date: date || null, note: note || '', status: 'pending', createdAt: Date.now() });
+    closeModal(); confetti();
+    const msg = { inspection: 'Your inspection is booked. We will confirm the time shortly.', rent: 'Your rental request is received. We will contact you to complete the process.', buy: 'Your purchase request is received. We will contact you shortly.', offer: 'Your offer has been sent. We will respond as soon as possible.' }[type];
+    Swal.fire({ icon: 'success', title: 'Request sent 🎉', html: `<p class="small">${msg}${ref ? `<br><br>Payment reference: <b>${esc(ref)}</b>` : ''}</p>`, confirmButtonText: 'View my dashboard' }).then(() => go('mine'));
+  } catch (e) { showErr('Saving request', e); if (ref) Swal.fire('Payment received', `Your payment went through but we could not save the request. Keep this reference and message us: ${ref}`, 'warning') }
+}
+async function bookInspection(id) {
+  if (!S.user) return openAuth('login'); const l = S.listings.find(x => x.id === id), fee = feeOf(l), min = new Date(Date.now() + 36e5).toISOString().slice(0, 16);
+  const r = await Swal.fire({ title: 'Book an inspection', showCancelButton: true, confirmButtonText: fee ? `Pay ${money(fee)} & book` : 'Book inspection', html: `<p class="small muted" style="margin-bottom:.6rem">${esc(l.title)}</p><label class="lbl">Preferred date &amp; time</label><input id="bi_d" type="datetime-local" class="inp" min="${min}"><label class="lbl">Note (optional)</label><textarea id="bi_n" class="inp" rows="2" placeholder="Anything we should know?"></textarea><p class="small">${fee ? `Inspection fee: <b>${money(fee)}</b>, paid securely with Paystack.` : 'Inspection is free.'}</p>`, preConfirm: () => { const d = $('bi_d').value; if (!d) return Swal.showValidationMessage('Pick a date and time'); if (new Date(d) < new Date()) return Swal.showValidationMessage('Choose a future date'); return { date: d, note: $('bi_n').value.trim() } } });
+  if (!r.isConfirmed) return;
+  const finish = ref => createRequest({ type: 'inspection', l, amount: fee, ref, date: r.value.date, note: r.value.note });
+  fee > 0 ? payThen(fee, 'Inspection: ' + l.title, finish) : finish(null);
+}
+async function startDeal(id, type) {
+  if (!S.user) return openAuth('login'); const l = S.listings.find(x => x.id === id);
+  const pay = +l.payNow > 0 ? +l.payNow : (type === 'rent' ? +l.price : 0);
+  const text = type === 'rent' ? (pay ? `Pay <b>${money(pay)}</b> now to secure this rental. The admin will contact you to complete the agreement.` : 'Send a rental request. The admin will contact you.') : (pay ? `Pay a deposit of <b>${money(pay)}</b> to reserve this property. The admin will contact you to complete the purchase.` : 'Send a purchase request. The admin will contact you.');
+  const r = await Swal.fire({ title: type === 'rent' ? 'Rent this property' : 'Buy / reserve', showCancelButton: true, confirmButtonText: pay ? `Pay ${money(pay)}` : 'Send request', html: `<p class="small muted" style="margin-bottom:.5rem">${esc(l.title)}</p><p class="small" style="margin-bottom:.6rem">${text}</p><label class="lbl">Note (optional)</label><textarea id="dl_n" class="inp" rows="2"></textarea>`, preConfirm: () => $('dl_n').value.trim() });
+  if (!r.isConfirmed) return;
+  const finish = ref => createRequest({ type, l, amount: pay, ref, note: r.value });
+  pay > 0 ? payThen(pay, (type === 'rent' ? 'Rent: ' : 'Deposit: ') + l.title, finish) : finish(null);
+}
+async function makeOffer(id) {
+  if (!S.user) return openAuth('login'); const l = S.listings.find(x => x.id === id);
+  const r = await Swal.fire({ title: 'Make an offer', showCancelButton: true, confirmButtonText: 'Send offer', html: `<p class="small muted" style="margin-bottom:.6rem">${esc(l.title)} · listed at <b>${money(l.price)}</b></p><label class="lbl">Your offer (₦)</label><input id="of_a" type="number" min="1" class="inp" value="${Math.round(l.price * .95)}"><label class="lbl">Note (optional)</label><textarea id="of_n" class="inp" rows="2"></textarea><p class="small muted">No payment is taken now. We will respond to your offer.</p>`, preConfirm: () => { const a = +$('of_a').value; if (!(a > 0)) return Swal.showValidationMessage('Enter an amount'); return { a, n: $('of_n').value.trim() } } });
+  if (r.isConfirmed) createRequest({ type: 'offer', l, amount: r.value.a, ref: null, note: r.value.n });
+}
+ 
+// ===== chat =====
+function chatPane() { return `<div class="chat"><div id="cmsgs" class="cmsgs"></div><div class="cin"><input id="ci" class="inp" placeholder="Type a message" autocomplete="off" onkeydown="if(event.key==='Enter')sendChat()" aria-label="Message"><button class="btn" onclick="sendChat()">Send</button></div></div>` }
+function openChatFor(uid) {
+  if (unsubChat) unsubChat(); S.chatUid = uid; S.chatMsgs = [];
+  unsubChat = onSnapshot(query(collection(fs, 'threads', uid, 'messages'), orderBy('at', 'desc'), limit(200)), s => { S.chatMsgs = s.docs.map(d => ({ id: d.id, ...d.data() })).reverse(); renderChatMsgs(); markThreadRead() }, e => showErr('Loading messages', e));
+}
+function renderChatMsgs() {
+  const el = $('cmsgs'); if (!el) return; const own = S.chatUid === S.user.uid, tname = S.threads.find(t => t.uid === S.chatUid)?.name || 'Customer';
+  el.innerHTML = S.chatMsgs.map(m => { const mine = m.from === S.user.uid; return `<div class="cb ${mine ? 'me' : ''}">${esc(m.text)}<small>${mine ? 'You' : own ? esc(brand()) + ' support' : esc(tname)} · ${dstr(m.at)} ${tstr(m.at)}</small></div>` }).join('') || `<p class="muted center small" style="margin:auto">${own ? 'Send us a message. We usually reply quickly.' : 'No messages yet.'}</p>`;
+  el.scrollTop = el.scrollHeight;
+}
+function markThreadRead() {
+  if (!S.user) return;
+  if (S.chatUid === S.user.uid) { if (S.thread?.unreadUser) updateDoc(doc(fs, 'threads', S.chatUid), { unreadUser: false }).catch(() => { }) }
+  else if (S.isAdmin) { const t = S.threads.find(x => x.uid === S.chatUid); if (t?.unreadAdmin) updateDoc(doc(fs, 'threads', S.chatUid), { unreadAdmin: false }).catch(() => { }) }
+}
+function viewChat() {
+  openChatFor(S.user.uid);
+  $('main').innerHTML = `<div class="wrap narrow"><section class="sec"><div class="sech"><h2>Chat with ${esc(brand())}</h2></div>${chatPane()}</section></div>`;
+  renderChatMsgs(); if (S.draft) { $('ci').value = S.draft; S.draft = ''; $('ci').focus() }
+}
+async function sendChat() {
+  const inp = $('ci'), t = inp.value.trim(); if (!t) return; inp.value = '';
+  const uid = S.chatUid, at = Date.now(), own = uid === S.user.uid, u = own ? { name: S.me?.name || '', email: S.user.email } : (S.users.find(x => x.uid === uid) || {});
+  const base = { uid, name: u.name || '', email: u.email || '', lastMsg: t.slice(0, 80), lastAt: at };
+  try {
+    await setDoc(doc(fs, 'threads', uid), own ? { ...base, unreadAdmin: true, unreadUser: false } : { ...base, unreadUser: true, unreadAdmin: false }, { merge: true });
+    await addDoc(collection(fs, 'threads', uid, 'messages'), { from: S.user.uid, text: t, at });
+  } catch (e) { inp.value = t; showErr('Could not send', e) }
+}
+ 
+// ===== admin console =====
+const ATABS = [['dash', '📊', 'Overview'], ['listings', '🏠', 'Properties'], ['requests', '📋', 'Requests'], ['users', '👥', 'Users'], ['messages', '💬', 'Messages'], ['anns', '📢', 'Announcements'], ['settings', '⚙', 'Settings']];
+function renderAnav() {
+  const el = $('anav'); if (!el) return; const pend = S.reqs.filter(r => r.status === 'pending').length, um = unreadAdmin();
+  el.innerHTML = `<div class="who"><span class="avt">${esc((S.me?.name || S.user.email || '?')[0].toUpperCase())}</span><div class="f1"><b class="tr">${esc(S.me?.name || S.user.email)}</b><div class="small muted">Administrator</div></div></div>${ATABS.map(([k, i, l]) => `<button class="${S.tab === k ? 'on' : ''}" onclick="setTab('${k}')"><span class="i">${i}</span>${l}${k === 'messages' && um ? `<span class="dot">${um}</span>` : ''}${k === 'requests' && pend ? `<span class="dot">${pend}</span>` : ''}</button>`).join('')}`;
+  const t = $('atitle'); if (t) t.textContent = ATABS.find(x => x[0] === S.tab)?.[2] || '';
+}
+function viewAdmin() {
+  $('main').innerHTML = `<div class="wrap"><section class="sec"><div class="adm"><aside class="anav" id="anav" aria-label="Admin sections"></aside><div style="min-width:0"><div class="sech"><h2 id="atitle"></h2><span class="muted small">${new Date().toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'long' })}</span></div><div id="atab" class="fade"></div></div></div></section></div>`;
+  renderAnav(); renderTab();
+}
+function setTab(k) { S.tab = k; if (k !== 'messages' && unsubChat) { unsubChat(); unsubChat = null } renderAnav(); const a = $('atab'); a.classList.remove('fade'); void a.offsetWidth; a.classList.add('fade'); renderTab() }
+const renderTab = () => ({ dash: tDash, listings: tListings, requests: tRequests, users: tUsers, messages: tMessages, anns: tAnns, settings: tSettings }[S.tab])();
+function refreshAdmin() { if (!$('atab')) return; renderAnav(); if (S.tab === 'messages') return renderThreadList(); if (S.tab === 'settings') return tSettings(); if (S.tab === 'users') return renderUsersTable(); if (S.tab === 'dash') { const y = scrollY; renderTab(); scrollTo(0, y); return } renderTab() }
+const statusBadge = s => `<span class="badge s-${s}">${s}</span>`;
+const amtTxt = r => r.type === 'offer' ? `Offer ${money(r.amount)}` : (r.amount ? money(r.amount) : '—');
+ 
+function reqRows(list) {
+  return list.map(r => {
+    const l = S.listings.find(x => x.id === r.listingId);
+    return `<tr><td><div class="fx ac g2">${l?.cover ? `<img class="th" src="${l.cover}" onclick="openListing('${l.id}')" alt="">` : '<div class="th">🏠</div>'}<div><b>${esc(r.listingTitle)}</b>${l ? '' : '<br><span class="small bad">listing removed</span>'}</div></div></td>
+    <td>${esc(r.userName)}<br><span class="small muted">${esc(r.userPhone || '')} · ${esc(r.userEmail)}</span></td>
+    <td><span class="badge b-${r.type}">${RL[r.type]}</span>${r.date ? `<br><span class="small muted">${esc(r.date.replace('T', ' '))}</span>` : ''}${r.note ? `<br><span class="small muted">“${esc(r.note)}”</span>` : ''}</td>
+    <td>${amtTxt(r)}${r.paystackRef ? `<br><span class="small muted">${esc(r.paystackRef)}</span>` : ''}${r.paid ? `<br><button class="lnk ${r.verified ? 'ok' : ''}" onclick="toggleVerify('${r.id}',${!r.verified})">${r.verified ? '✓ verified' : 'mark verified'}</button>` : ''}</td>
+    <td><select onchange="setReqStatus('${r.id}',this.value)" aria-label="Status">${['pending', 'confirmed', 'completed', 'cancelled'].map(s => `<option ${r.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select><br><span class="small muted">${dstr(r.createdAt)}</span></td>
+    <td><button class="lnk bad" onclick="delReq('${r.id}')">Delete</button></td></tr>`;
+  }).join('') || '<tr><td colspan="6" class="muted center" style="padding:2rem">Nothing here yet.</td></tr>';
+}
+const reqTable = list => `<div class="tw"><table class="tbl"><thead><tr><th>Property</th><th>Customer</th><th>Type</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody>${reqRows(list)}</tbody></table></div>`;
+async function setReqStatus(id, v) {
+  const r = S.reqs.find(x => x.id === id); if (!r) return;
+  try {
+    await updateDoc(doc(fs, 'requests', id), { status: v });
+    await addDoc(collection(fs, 'notifications'), { uid: r.uid, text: `Your ${RL[r.type].toLowerCase()} request for "${r.listingTitle}" is now ${v}.`, icon: v === 'confirmed' ? '✅' : v === 'completed' ? '🎉' : v === 'cancelled' ? '❌' : '⏳', at: Date.now(), read: false });
+    toast('Status updated · customer notified');
+  } catch (e) { showErr('Updating', e) }
+}
+const toggleVerify = (id, v) => updateDoc(doc(fs, 'requests', id), { verified: v }).catch(e => showErr('Updating', e));
+async function delReq(id) { const r = await Swal.fire({ title: 'Delete this request?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Delete' }); if (r.isConfirmed) deleteDoc(doc(fs, 'requests', id)).then(() => toast('Deleted', 'info')).catch(e => showErr('Deleting', e)) }
+function exportCSV(kind) {
+  const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+  const rows = kind === 'requests' ? [['Date', 'Type', 'Property', 'Customer', 'Phone', 'Email', 'Amount', 'Paid', 'Verified', 'Status', 'Reference'], ...S.reqs.map(r => [new Date(r.createdAt).toISOString(), r.type, r.listingTitle, r.userName, r.userPhone, r.userEmail, r.amount, r.paid ? 'yes' : 'no', r.verified ? 'yes' : 'no', r.status, r.paystackRef])] : [['Name', 'Email', 'Phone', 'Joined', 'Requests', 'Saved'], ...customers().map(u => [u.name, u.email, u.phone, new Date(u.createdAt || 0).toISOString(), S.reqs.filter(r => r.uid === u.uid).length, (u.saved || []).length])];
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([rows.map(r => r.map(q).join(',')).join('\n')], { type: 'text/csv' })); a.download = `${kind}-${new Date().toISOString().slice(0, 10)}.csv`; a.click(); toast('Download started');
+}
+const customers = () => { const ids = adminIds(); return S.users.filter(u => !ids.has(u.uid)) };
+ 
+function tDash() {
+  const rs = S.reqs, rev = rs.filter(r => r.paid).reduce((a, r) => a + (+r.amount || 0), 0), D = 864e5;
+  const t0 = new Date(); t0.setHours(0, 0, 0, 0); const T = t0.getTime();
+  const days = [...Array(7)].map((_, i) => { const t = T - (6 - i) * D, inR = rs.filter(r => r.createdAt >= t && r.createdAt < t + D); return { l: new Date(t).toLocaleDateString([], { weekday: 'short' }), n: inR.length, v: inR.filter(r => r.paid).reduce((a, r) => a + (+r.amount || 0), 0) } });
+  const maxN = Math.max(1, ...days.map(d => d.n)), maxV = Math.max(1, ...days.map(d => d.v));
+  const cur = rs.filter(r => r.createdAt >= T - 6 * D).length, prev = rs.filter(r => r.createdAt >= T - 13 * D && r.createdAt < T - 6 * D).length;
+  const trend = prev ? Math.round((cur - prev) / prev * 100) : (cur ? 100 : 0), chip = `<span class="chip ${trend < 0 ? 'dn' : ''}">${trend >= 0 ? '▲' : '▼'} ${Math.abs(trend)}%</span>`;
+  const pend = rs.filter(r => r.status === 'pending').length, unver = rs.filter(r => r.paid && !r.verified).length, um = unreadAdmin();
+  const SC = { pending: '#d97706', confirmed: '#2563eb', completed: '#16a34a', cancelled: '#dc2626' }, sc = Object.keys(SC).map(k => ({ k, n: rs.filter(r => r.status === k).length })), tot = rs.length || 1;
+  let acc = 0; const conic = rs.length ? sc.map(s => { const a = acc / tot * 100; acc += s.n; return `${SC[s.k]} ${a}% ${acc / tot * 100}%` }).join(',') : 'var(--line) 0 100%';
+  const byL = {}; rs.forEach(r => byL[r.listingId] = (byL[r.listingId] || 0) + 1); const top = Object.entries(byL).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([id, n]) => ({ n, l: S.listings.find(x => x.id === id), t: rs.find(r => r.listingId === id)?.listingTitle })), topMax = Math.max(1, ...top.map(x => x.n));
+  const byT = Object.keys(RL).map(k => ({ k, n: rs.filter(r => r.type === k).length })), tm = Math.max(1, ...byT.map(x => x.n));
+  const up = rs.filter(r => r.type === 'inspection' && r.date && !['cancelled', 'completed'].includes(r.status) && new Date(r.date) >= new Date()).sort((a, b) => new Date(a.date) - new Date(b.date)).slice(0, 5);
+  const kp = (i, n, l, m, extra = '') => `<div class="kpi"><div class="ic">${i}</div><b data-count="${n}" ${m ? 'data-fmt="money"' : ''}>0</b><span>${l}${extra}</span></div>`;
+  $('atab').innerHTML = `${pend || unver || um ? `<div class="alrts">${pend ? `<button class="alrt" onclick="S_rf('status','pending')">⏳ ${pend} pending request${pend > 1 ? 's' : ''} need action</button>` : ''}${unver ? `<button class="alrt" onclick="setTab('requests')">💳 ${unver} payment${unver > 1 ? 's' : ''} to verify on Paystack</button>` : ''}${um ? `<button class="alrt" onclick="setTab('messages')">💬 ${um} unread conversation${um > 1 ? 's' : ''}</button>` : ''}</div>` : ''}
+  <div class="kpis">${kp('💰', rev, 'Payments received', 1)}${kp('📋', rs.length, 'Total requests', 0, chip)}${kp('🏠', S.listings.filter(l => l.status === 'available').length, 'Available properties')}${kp('👥', customers().length, 'Customers')}</div>
+  <div class="g3c"><div class="panel"><h3>Requests this week ${chip}</h3><div class="chart">${days.map(d => `<div><b>${d.n}</b><i style="height:${Math.round(d.n / maxN * 100)}%"></i><span>${d.l}</span></div>`).join('')}</div></div>
+  <div class="panel"><h3>Status mix</h3><div class="donutw"><div class="donut" style="background:conic-gradient(${conic})" data-t="${rs.length}"></div><div class="leg">${sc.map(s => `<div><i style="background:${SC[s.k]}"></i>${s.k} · ${s.n}</div>`).join('')}</div></div></div>
+  <div class="panel"><h3>Request types</h3>${byT.map(x => `<div class="hb"><div class="l"><span>${RL[x.k]}</span><b>${x.n}</b></div><div class="bar"><i style="width:${x.n / tm * 100}%"></i></div></div>`).join('')}</div></div>
+  <div class="g2c"><div class="panel"><h3>Revenue this week</h3><div class="chart rev">${days.map(d => `<div><b>${d.v ? (d.v >= 1e6 ? (d.v / 1e6).toFixed(1) + 'M' : d.v >= 1e3 ? Math.round(d.v / 1e3) + 'k' : d.v) : 0}</b><i style="height:${Math.round(d.v / maxV * 100)}%"></i><span>${d.l}</span></div>`).join('')}</div></div>
+  <div class="panel"><h3>Most requested properties</h3>${top.map(x => `<div class="hb"><div class="l"><span class="tr" style="cursor:pointer" onclick="${x.l ? `openListing('${x.l.id}')` : ''}">${esc(x.l?.title || x.t || 'Removed listing')}</span><b>${x.n}</b></div><div class="bar"><i style="width:${x.n / topMax * 100}%"></i></div></div>`).join('') || '<p class="muted small" style="margin-top:.7rem">No requests yet.</p>'}</div></div>
+  <div class="g2c"><div class="panel"><h3>Upcoming inspections</h3>${up.map(r => { const d = new Date(r.date); return `<div class="up"><div class="d"><b>${d.getDate()}</b><span>${d.toLocaleDateString([], { month: 'short' })}</span></div><div class="f1"><b class="tr">${esc(r.listingTitle)}</b><div class="small muted">${esc(r.userName)} · ${tstr(d)}</div></div>${statusBadge(r.status)}</div>` }).join('') || '<p class="muted small" style="margin-top:.7rem">No upcoming inspections.</p>'}</div>
+  <div class="panel"><h3>Newest customers</h3>${customers().slice(0, 5).map(u => `<div class="up"><div class="d"><b>${esc((u.name || '?')[0].toUpperCase())}</b></div><div class="f1"><b class="tr">${esc(u.name)}</b><div class="small muted tr">${esc(u.email)} · ${dstr(u.createdAt)}</div></div><button class="lnk" onclick="openUser('${u.uid}')">View</button></div>`).join('') || '<p class="muted small" style="margin-top:.7rem">No customers yet.</p>'}</div></div>
+  <div class="sech"><h3>Latest requests</h3><button class="btn2" onclick="exportCSV('requests')">⬇ Export CSV</button></div>${reqTable(rs.slice(0, 8))}<p class="small muted" style="margin-top:.7rem">Payments are recorded from the customer's browser. Confirm each reference on your Paystack dashboard, then click "mark verified".</p>`;
+  animateCounts($('atab'));
+}
+const S_rf = (k, v) => { S.rf[k] = v; setTab('requests') };
+function tRequests() {
+  const f = S.rf, a = S.reqs.filter(r => (f.type === 'all' || r.type === f.type) && (f.status === 'all' || r.status === f.status));
+  $('atab').innerHTML = `<div class="fx g2 fw ac" style="margin-bottom:.9rem"><select style="width:auto;margin:0" onchange="setRF('type',this.value)" aria-label="Type">${[['all', 'All types'], ['inspection', 'Inspections'], ['rent', 'Rent'], ['buy', 'Purchase'], ['offer', 'Offers']].map(([k, v]) => `<option value="${k}" ${f.type === k ? 'selected' : ''}>${v}</option>`).join('')}</select><select style="width:auto;margin:0" onchange="setRF('status',this.value)" aria-label="Status">${['all', 'pending', 'confirmed', 'completed', 'cancelled'].map(k => `<option value="${k}" ${f.status === k ? 'selected' : ''}>${k === 'all' ? 'All statuses' : k}</option>`).join('')}</select><span class="muted small f1">${a.length} request(s)</span><button class="btn2" onclick="exportCSV('requests')">⬇ Export CSV</button></div>${reqTable(a)}`;
+}
+const setRF = (k, v) => { S.rf[k] = v; tRequests() };
+ 
+// ===== admin: users =====
+let uq = '';
+function tUsers() { $('atab').innerHTML = `<div class="fx g2 fw ac" style="margin-bottom:.9rem"><input class="inp" style="max-width:340px;margin:0" placeholder="Search name, email or phone" value="${esc(uq)}" oninput="uq_set(this.value)" aria-label="Search users"><span class="f1"></span><button class="btn2" onclick="exportCSV('users')">⬇ Export CSV</button></div><div id="utbl"></div>`; renderUsersTable() }
+const uq_set = v => { uq = v.toLowerCase(); renderUsersTable() };
+function renderUsersTable() {
+  const el = $('utbl'); if (!el) return; const a = customers().filter(u => !uq || (u.name + ' ' + u.email + ' ' + (u.phone || '')).toLowerCase().includes(uq));
+  el.innerHTML = `<div class="tw"><table class="tbl"><thead><tr><th>User</th><th>Phone</th><th>Joined</th><th>Requests</th><th>Saved</th><th></th></tr></thead><tbody>${a.map(u => {
+    const rs = S.reqs.filter(r => r.uid === u.uid), pend = rs.filter(r => r.status === 'pending').length;
+    return `<tr><td><b>${esc(u.name)}</b><br><span class="small muted">${esc(u.email)}</span></td><td>${esc(u.phone || '—')}</td><td>${dstr(u.createdAt)}</td><td>${rs.length}${pend ? ` <span class="badge s-pending">${pend} pending</span>` : ''}</td><td>${(u.saved || []).length}</td><td><button class="lnk" onclick="openUser('${u.uid}')">View details</button></td></tr>`;
+  }).join('') || '<tr><td colspan="6" class="muted center" style="padding:2rem">No users found.</td></tr>'}</tbody></table></div>`;
+}
+function openUser(uid) {
+  const u = S.users.find(x => x.uid === uid); if (!u) return; const rs = S.reqs.filter(r => r.uid === uid), saved = S.listings.filter(l => (u.saved || []).includes(l.id));
+  const th = l => l?.cover ? `<img class="th" src="${l.cover}" alt="">` : '<div class="th">🏠</div>';
+  openModal(`<h2>${esc(u.name)}</h2><p class="muted small">${esc(u.email)} · ${esc(u.phone || 'no phone')}<br>Joined ${dstr(u.createdAt)}${u.lastLogin ? ' · last login ' + dstr(u.lastLogin) : ''}</p>
+    <div class="fx g2 fw" style="margin:.9rem 0"><button class="btn" onclick="msgUser('${uid}')">💬 Message</button>${u.phone ? `<a class="btn2" target="_blank" rel="noopener" href="https://wa.me/${waNum(u.phone)}">WhatsApp</a><a class="btn2" href="tel:${esc(u.phone)}">Call</a>` : ''}</div>
+    <h3 style="margin:.6rem 0">Properties picked (${rs.length})</h3>${rs.map(r => { const l = S.listings.find(x => x.id === r.listingId); return `<div class="fx ac g2" style="padding:.5rem 0;border-bottom:1px solid var(--line)">${th(l)}<div class="f1"><b class="tr">${esc(r.listingTitle)}</b><br><span class="badge b-${r.type}">${RL[r.type]}</span> ${statusBadge(r.status)}${r.date ? ` <span class="small muted">${esc(r.date.replace('T', ' '))}</span>` : ''}</div><div class="small">${r.amount ? amtTxt(r) : ''}</div></div>` }).join('') || '<p class="muted small">No requests yet.</p>'}
+    <h3 style="margin:1.1rem 0 .6rem">Saved properties (${saved.length})</h3>${saved.map(l => `<div class="fx ac g2" style="padding:.3rem 0">${th(l)}<span class="tr">${esc(l.title)}</span></div>`).join('') || '<p class="muted small">None.</p>'}`, true);
+}
+function msgUser(uid) { closeModal(); S.tab = 'messages'; viewAdmin(); pickThread(uid) }
+ 
+// ===== admin: messages =====
+function tMessages() {
+  $('atab').innerHTML = `<div class="two"><div class="tl" id="tlist"></div><div id="tchat"><div class="note">Select a conversation.</div></div></div>`; renderThreadList();
+  if (S.chatUid && S.chatUid !== S.user.uid) pickThread(S.chatUid);
+}
+function renderThreadList() {
+  const el = $('tlist'); if (!el) return;
+  el.innerHTML = S.threads.map(t => `<div class="tli ${S.chatUid === t.uid ? 'on' : ''}" onclick="pickThread('${t.uid}')"><div class="fx jb"><b class="tr">${esc(t.name || t.email)}</b>${t.unreadAdmin ? '<span class="dot">new</span>' : ''}</div><div class="small muted tr">${esc(t.lastMsg || '')}</div><div class="small muted">${t.lastAt ? dstr(t.lastAt) + ' ' + tstr(t.lastAt) : ''}</div></div>`).join('') || '<p class="muted small" style="padding:1rem">No conversations yet.</p>';
+}
+function pickThread(uid) {
+  const t = S.threads.find(x => x.uid === uid) || S.users.find(x => x.uid === uid) || {};
+  openChatFor(uid); renderThreadList();
+  $('tchat').innerHTML = `<div class="fx ac jb" style="margin-bottom:.6rem"><div><b>${esc(t.name || 'Customer')}</b><br><span class="small muted">${esc(t.email || '')}</span></div><button class="lnk" onclick="openUser('${uid}')">View details</button></div>${chatPane()}`;
+  renderChatMsgs();
+}
+ 
+// ===== admin: properties =====
+function tListings() {
+  $('atab').innerHTML = `<div class="fx jb ac" style="margin-bottom:.9rem"><span class="muted small">${S.listings.length} propert${S.listings.length === 1 ? 'y' : 'ies'}</span><button class="btn" onclick="editListing()">＋ Add property</button></div>
+  <div class="tw"><table class="tbl"><thead><tr><th>Property</th><th>Type</th><th>Price</th><th>Status</th><th></th></tr></thead><tbody>${S.listings.map(l => `<tr><td><div class="fx ac g2">${l.cover ? `<img class="th" src="${l.cover}" onclick="openListing('${l.id}')" alt="">` : '<div class="th">🏠</div>'}<div><b>${esc(l.title)}</b>${l.featured ? ' ★' : ''}<br><span class="small muted">${esc(l.location)} · ${l.imgCount || 0} photo(s)${(l.videos || []).length ? ' · ' + l.videos.length + ' video(s)' : ''}</span></div></div></td><td>${TL[l.type]}<br><span class="small muted">${l.purpose === 'rent' ? 'Rent' : 'Sale'}</span></td><td>${money(l.price)}</td>
+  <td><select onchange="setLStatus('${l.id}',this.value)" aria-label="Status">${['available', 'sold', 'rented'].map(s => `<option ${l.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></td>
+  <td><div class="fx g3"><button class="lnk" onclick="editListing('${l.id}')">Edit</button><button class="lnk bad" onclick="delListing('${l.id}')">Delete</button></div></td></tr>`).join('') || '<tr><td colspan="5" class="muted center" style="padding:2rem">No properties yet. Click “Add property”.</td></tr>'}</tbody></table></div>`;
+}
+const setLStatus = (id, v) => updateDoc(doc(fs, 'listings', id), { status: v }).then(() => toast('Status updated')).catch(e => showErr('Updating', e));
+async function delListing(id) {
+  const l = S.listings.find(x => x.id === id), r = await Swal.fire({ title: 'Delete this property?', text: `"${l?.title}" and all its photos will be removed for everyone.`, icon: 'warning', showCancelButton: true, confirmButtonText: 'Delete' });
+  if (!r.isConfirmed) return;
+  try { const m = await getDocs(collection(fs, 'listings', id, 'media')); await Promise.all(m.docs.map(d => deleteDoc(d.ref))); await deleteDoc(doc(fs, 'listings', id)); toast('Property deleted', 'info') } catch (e) { showErr('Deleting property', e) }
+}
+const opt = (list, cur) => list.map(([k, v]) => `<option value="${k}" ${cur === k ? 'selected' : ''}>${v}</option>`).join('');
+async function editListing(id) {
+  const L = id ? S.listings.find(x => x.id === id) : { type: 'house', purpose: 'sale', status: 'available', period: 'year', features: [], videos: [], inspectionFee: null, payNow: 0, featured: false };
+  ED = { id: id || null, items: [], removed: [] };
+  const v = x => esc(x ?? '');
+  openModal(`<h2>${id ? 'Edit property' : 'Add property'}</h2><div class="frm">
+    <div class="full"><label class="lbl">Title</label><input id="e_title" class="inp" value="${v(L.title)}" placeholder="e.g. 4-bedroom duplex with BQ"></div>
+    <div><label class="lbl">Type</label><select id="e_type">${opt(Object.entries(TL), L.type)}</select></div>
+    <div><label class="lbl">Purpose</label><select id="e_purpose">${opt([['sale', 'For sale'], ['rent', 'For rent']], L.purpose)}</select></div>
+    <div><label class="lbl">Price (₦)</label><input id="e_price" class="inp" type="number" min="0" value="${v(L.price)}"></div>
+    <div><label class="lbl">Rent period</label><select id="e_period">${opt([['year', 'per year'], ['month', 'per month']], L.period)}</select></div>
+    <div><label class="lbl">Location (area, city)</label><input id="e_loc" class="inp" value="${v(L.location)}"></div>
+    <div><label class="lbl">Address (optional)</label><input id="e_addr" class="inp" value="${v(L.address)}"></div>
+    <div><label class="lbl">Bedrooms</label><input id="e_beds" class="inp" type="number" min="0" value="${v(L.beds)}"></div>
+    <div><label class="lbl">Bathrooms</label><input id="e_baths" class="inp" type="number" min="0" value="${v(L.baths)}"></div>
+    <div><label class="lbl">Size (m²)</label><input id="e_size" class="inp" type="number" min="0" value="${v(L.size)}"></div>
+    <div><label class="lbl">Status</label><select id="e_status">${opt([['available', 'Available'], ['sold', 'Sold'], ['rented', 'Rented']], L.status)}</select></div>
+    <div><label class="lbl">Inspection fee (₦, blank = default)</label><input id="e_fee" class="inp" type="number" min="0" value="${v(L.inspectionFee)}"></div>
+    <div><label class="lbl">Pay-now amount (₦)</label><input id="e_pay" class="inp" type="number" min="0" value="${v(L.payNow)}" placeholder="deposit / first payment"></div>
+    <div class="full"><label class="lbl">Features (comma separated)</label><input id="e_feat" class="inp" value="${v((L.features || []).join(', '))}" placeholder="Swimming pool, 24h power, Fenced, CCTV"></div>
+    <div class="full"><label class="lbl">Description</label><textarea id="e_desc" class="inp" rows="5" placeholder="Describe the property...">${v(L.desc)}</textarea></div>
+    <div class="full"><label class="lbl">Photos <span id="e_cnt" class="muted"></span> (first photo is the cover)</label><div id="e_media" class="mgrid"></div><input type="file" accept="image/*" multiple onchange="edAdd(this)"></div>
+    <div class="full" style="margin-top:.7rem"><label class="lbl">Video links (one per line: YouTube or direct .mp4 link)</label><textarea id="e_videos" class="inp" rows="2">${v((L.videos || []).join('\n'))}</textarea>${CFG.cloudinary.cloud ? '<button class="btn2" onclick="uploadVideo()">⬆ Upload a video file</button>' : '<p class="small muted">Tip: upload videos to YouTube (unlisted) or Cloudinary and paste the link here.</p>'}</div>
+    <div class="full" style="margin:.9rem 0"><label><input id="e_featured" type="checkbox" ${L.featured ? 'checked' : ''}> ★ Feature this property (shows in the Featured row)</label></div></div>
+    <button class="btn w100" onclick="saveListing()">${id ? 'Save changes' : 'Publish property'}</button>`, true);
+  renderEdMedia();
+  if (id) { try { const s = await getDocs(query(collection(fs, 'listings', id, 'media'), orderBy('n'))); ED.items = s.docs.map(d => ({ id: d.id, data: d.data().data, n: d.data().n, n0: d.data().n })); renderEdMedia() } catch (e) { showErr('Loading photos', e) } }
+}
+function renderEdMedia() {
+  const el = $('e_media'); if (!el || !ED) return; ED.items.sort((a, b) => a.n - b.n);
+  el.innerHTML = ED.items.map((m, i) => `<div class="mi ${i === 0 ? 'cover' : ''}"><img src="${m.data}" alt=""><span class="cv">${i === 0 ? 'COVER' : ''}</span><div class="mt">${i ? `<button onclick="edCover(${i})" title="Make cover" aria-label="Make cover">★</button>` : ''}<button onclick="edDel(${i})" title="Remove" aria-label="Remove photo">🗑</button></div></div>`).join('') || '<p class="muted small">No photos yet.</p>';
+  $('e_cnt').textContent = ED.items.length + '/12';
+}
+async function edAdd(inp) {
+  const files = [...inp.files]; inp.value = ''; if (!files.length) return;
+  if (ED.items.length + files.length > 12) return toast('Maximum 12 photos per property', 'warning');
+  Swal.fire({ title: 'Processing photos…', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+  try { let k = 0; for (const f of files) ED.items.push({ id: null, data: await compress(f), n: Date.now() + (k++), n0: null }) } catch { toast('One of the files is not a supported image', 'error') }
+  Swal.close(); renderEdMedia();
+}
+const edDel = i => { const m = ED.items[i]; if (m.id) ED.removed.push(m.id); ED.items.splice(i, 1); renderEdMedia() };
+const edCover = i => { ED.items[i].n = ED.items[0].n - 1; renderEdMedia() };
+async function saveListing() {
+  const g = id => $(id).value.trim(), num = id => g(id) === '' ? null : +g(id);
+  if (!g('e_title')) return toast('Enter a title', 'error'); if (!(num('e_price') > 0)) return toast('Enter a price', 'error'); if (!g('e_loc')) return toast('Enter a location', 'error');
+  Swal.fire({ title: 'Saving…', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+  try {
+    const lid = ED.id || doc(collection(fs, 'listings')).id; ED.items.sort((a, b) => a.n - b.n);
+    const data = { title: g('e_title'), type: g('e_type'), purpose: g('e_purpose'), status: g('e_status'), price: num('e_price'), period: g('e_period'), location: g('e_loc'), address: g('e_addr'), beds: num('e_beds'), baths: num('e_baths'), size: num('e_size'), inspectionFee: num('e_fee'), payNow: num('e_pay') || 0, features: g('e_feat').split(/[,\n]/).map(x => x.trim()).filter(Boolean), desc: $('e_desc').value.trim(), videos: $('e_videos').value.split('\n').map(x => x.trim()).filter(Boolean), featured: $('e_featured').checked, cover: ED.items[0] ? await thumb(ED.items[0].data) : null, imgCount: ED.items.length, updatedAt: Date.now() };
+    if (!ED.id) data.createdAt = Date.now();
+    await setDoc(doc(fs, 'listings', lid), data, { merge: true });
+    await Promise.all(ED.removed.map(mid => deleteDoc(doc(fs, 'listings', lid, 'media', mid))));
+    for (const m of ED.items) {
+      if (!m.id) await setDoc(doc(collection(fs, 'listings', lid, 'media')), { data: m.data, n: m.n });
+      else if (m.n !== m.n0) await updateDoc(doc(fs, 'listings', lid, 'media', m.id), { n: m.n });
+    }
+    const wasNew = !ED.id; Swal.close(); closeModal(); toast(wasNew ? 'Property published 🎉' : 'Property updated'); ED = null;
+  } catch (e) { Swal.close(); showErr('Saving property', e) }
+}
+function uploadVideo() {
+  const { cloud, preset } = CFG.cloudinary, inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'video/*';
+  inp.onchange = async () => {
+    const f = inp.files[0]; if (!f) return; if (f.size > 100 * 1024 * 1024) return toast('Video must be under 100MB', 'error');
+    Swal.fire({ title: 'Uploading video…', text: 'Please keep this tab open.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+    try { const fd = new FormData(); fd.append('file', f); fd.append('upload_preset', preset); const r = await fetch(`https://api.cloudinary.com/v1_1/${cloud}/video/upload`, { method: 'POST', body: fd }), j = await r.json(); if (!j.secure_url) throw new Error(j.error?.message || 'Upload failed'); const ta = $('e_videos'); ta.value = (ta.value.trim() + '\n' + j.secure_url).trim(); Swal.close(); toast('Video uploaded') } catch (e) { Swal.close(); showErr('Video upload', e) }
+  };
+  inp.click();
+}
+ 
+// ===== admin: announcements =====
+function tAnns() {
+  $('atab').innerHTML = `<div class="fx jb ac" style="margin-bottom:.9rem"><span class="muted small">${S.anns.length} announcement(s)</span><button class="btn" onclick="editAnn()">＋ New announcement</button></div><div class="anns">${S.anns.map(x => `<div class="ann" style="cursor:default">${x.image ? `<img src="${x.image}" alt="">` : ''}<div class="f1"><b>${x.pinned ? '📌 ' : ''}${esc(x.title)}</b><p class="muted small">${esc((x.body || '').slice(0, 90))}</p><span class="small muted">${dstr(x.createdAt)}</span><div class="fx g3" style="margin-top:.4rem"><button class="lnk" onclick="editAnn('${x.id}')">Edit</button><button class="lnk bad" onclick="delAnn('${x.id}')">Delete</button></div></div></div>`).join('') || '<p class="muted">No announcements yet.</p>'}</div>`;
+}
+function editAnn(id) {
+  const x = id ? S.anns.find(a => a.id === id) : { title: '', body: '', video: '', pinned: false, image: null }; AE = { id: id || null, image: x.image || null };
+  openModal(`<h2>${id ? 'Edit' : 'New'} announcement</h2><label class="lbl">Title</label><input id="a_title" class="inp" value="${esc(x.title)}"><label class="lbl">Message</label><textarea id="a_body" class="inp" rows="5">${esc(x.body)}</textarea><label class="lbl">Video link (optional)</label><input id="a_video" class="inp" value="${esc(x.video || '')}" placeholder="YouTube or .mp4 link"><label class="lbl">Image (optional)</label><div id="a_prev"></div><input type="file" accept="image/*" onchange="annImg(this)"><p style="margin:.8rem 0"><label><input id="a_pin" type="checkbox" ${x.pinned ? 'checked' : ''}> 📌 Pin to the top (also shows in the top banner)</label></p><button class="btn w100" onclick="saveAnn()">${id ? 'Save changes' : 'Publish'}</button>`);
+  annPrev();
+}
+const annPrev = () => { const el = $('a_prev'); if (el) el.innerHTML = AE?.image ? `<div class="fx ac g3" style="margin-bottom:.4rem"><img src="${AE.image}" style="width:90px;border-radius:.5rem" alt=""><button class="lnk bad" onclick="annRm()">Remove image</button></div>` : '' };
+const annRm = () => { AE.image = null; annPrev() };
+async function annImg(inp) { const f = inp.files[0]; if (!f) return; try { AE.image = await compress(f, 900); annPrev() } catch { toast('Unsupported image', 'error') } }
+async function saveAnn() {
+  const t = $('a_title').value.trim(), b = $('a_body').value.trim(); if (!t || !b) return toast('Add a title and a message', 'error');
+  try { const id = AE.id || doc(collection(fs, 'announcements')).id, d = { title: t, body: b, video: $('a_video').value.trim(), pinned: $('a_pin').checked, image: AE.image || null, updatedAt: Date.now() }; if (!AE.id) d.createdAt = Date.now(); await setDoc(doc(fs, 'announcements', id), d, { merge: true }); closeModal(); toast('Announcement saved') } catch (e) { showErr('Saving announcement', e) }
+}
+async function delAnn(id) { const r = await Swal.fire({ title: 'Delete announcement?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Delete' }); if (r.isConfirmed) deleteDoc(doc(fs, 'announcements', id)).then(() => toast('Deleted', 'info')).catch(e => showErr('Deleting', e)) }
+ 
+// ===== admin: settings =====
+function tSettings() {
+  const s = S.settings, left = Math.max(0, MAX_ADMINS - S.admins.length);
+  $('atab').innerHTML = `<div class="g2c"><div class="panel"><h3 style="margin-bottom:.8rem">Business details</h3><label class="lbl">Business name</label><input id="s_brand" class="inp" value="${esc(s.brand || CFG.brand)}"><label class="lbl">Headline on the home page</label><input id="s_tag" class="inp" value="${esc(s.tagline || '')}" placeholder="Find your next home, shop or office"><label class="lbl">Phone / WhatsApp number</label><input id="s_phone" class="inp" value="${esc(s.phone || '')}" placeholder="0803 000 0000"><label class="lbl">Email</label><input id="s_email" class="inp" type="email" value="${esc(s.email || '')}"><label class="lbl">Office address</label><input id="s_addr" class="inp" value="${esc(s.address || '')}"><label class="lbl">Default inspection fee (₦, 0 = free)</label><input id="s_fee" class="inp" type="number" min="0" value="${esc(s.defaultFee ?? 0)}"><button class="btn" onclick="saveSettings()">Save settings</button></div>
+  <div class="panel"><h3 style="margin-bottom:.3rem">Admin team</h3><p class="small muted" style="margin-bottom:.8rem">${S.admins.length} of ${MAX_ADMINS} admin accounts used${left ? ` · ${left} slot${left > 1 ? 's' : ''} left` : ' · limit reached'}</p>${S.admins.map(a => `<div class="up"><div class="d"><b>${esc((a.name || '?')[0].toUpperCase())}</b></div><div class="f1"><b class="tr">${esc(a.name)}${S.user.uid === a.uid ? ' (you)' : ''}</b><div class="small muted tr">${esc(a.email)} · since ${dstr(a.createdAt)}</div></div></div>`).join('') || '<p class="muted small">No admins found.</p>'}<p class="small muted" style="margin-top:.8rem">Everyone logs in with the same form. Admin status comes from the account itself. ${left ? 'A new admin signs up from “Sign up → Have an admin access code?”.' : 'The admin limit is reached, so the admin sign-up option is hidden.'} To remove an admin, delete their document in the <b>admins</b> collection and lower <b>meta/adminCount</b> by 1.</p></div></div>`;
+}
+async function saveSettings() {
+  try { await setDoc(doc(fs, 'settings', 'site'), { brand: $('s_brand').value.trim() || CFG.brand, tagline: $('s_tag').value.trim(), phone: $('s_phone').value.trim(), email: $('s_email').value.trim(), address: $('s_addr').value.trim(), defaultFee: +$('s_fee').value || 0 }, { merge: true }); toast('Settings saved') } catch (e) { showErr('Saving settings', e) }
+}
+ 
+window.addEventListener('unhandledrejection', e => { const m = String(e.reason?.message || ''); if (m && !/Config missing/.test(m)) showErr('Something went wrong', e.reason) });
+window.addEventListener('hashchange', () => { if (location.hash.startsWith('#l=')) openListing(location.hash.slice(3)) });
+Object.assign(window, { S, toggleTheme, closeModal, closeLb, lbGo, openLb, G_i, go, openAuth, authGo, googleGo, resetPw, becomeAdmin, profile, setF, openListing, openAnn, openNotes, toggleSave, toggleCmp, clearCmp, openCompare, scrollFeat, galGo, galSet, calc, showMap, shareL, askAdmin, bookInspection, startDeal, makeOffer, sendChat, closeBar, setTab, setReqStatus, toggleVerify, delReq, exportCSV, setRF, S_rf, setMF, uq_set, openUser, msgUser, pickThread, setLStatus, delListing, editListing, edAdd, edDel, edCover, saveListing, uploadVideo, editAnn, annImg, annRm, saveAnn, delAnn, saveSettings, toast, Swal });
+startPublic();
+</script>
+</body>
+</html>
