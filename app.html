@@ -3153,6 +3153,7 @@
       animation-delay: var(--d, 0s);
       animation-fill-mode: both;
       animation-timing-function: var(--ease);
+      animation-iteration-count: infinite;
       transform-box: fill-box
     }
 
@@ -3162,6 +3163,7 @@
       stroke-width: 3;
       stroke-linecap: round;
       stroke-dasharray: 440;
+      animation-iteration-count: infinite;
       animation-name: sDraw;
       animation-duration: .9s
     }
@@ -3175,19 +3177,22 @@
     .scene .up {
       animation-name: sUp;
       transform-origin: 50% 100%;
+      animation-iteration-count: infinite;
       animation-duration: 1s
     }
 
     .scene .pop {
       animation-name: sPop;
       transform-origin: 50% 50%;
+      animation-iteration-count: infinite;
       animation-duration: .5s
     }
 
     .scene .door {
       animation-name: sX;
       transform-origin: 0 50%;
-      animation-duration: .6s
+      animation-duration: .6s;
+      animation-iteration-count: infinite;
     }
 
     .scene .drop {
@@ -3199,12 +3204,14 @@
     .scene .plq {
       animation-name: sPlq;
       transform-origin: 50% 50%;
+      animation-iteration-count: infinite;
       animation-duration: .7s
     }
 
     .scene .glow {
       opacity: .55;
       animation-name: sGlow;
+      animation-iteration-count: infinite;
       animation-duration: 1.2s
     }
 
