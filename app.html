@@ -4675,9 +4675,9 @@ footer{margin-top:2.5rem}
     <div class="fbar2">${[[0, 'Any beds'], [1, '1+'], [2, '2+'], [3, '3+'], [4, '4+']].map(([k, l]) => `<button class="${f.beds === k ? 'on' : ''}" onclick="setF('beds',${k})">🛏 ${l}</button>`).join('')}<button class="${f.avail ? 'on' : ''}" onclick="setF('avail',${!f.avail})">✓ Available only</button><button onclick="clearF()">✕ Clear filters</button><input class="inp minp" type="number" min="0" placeholder="Min ₦" value="${esc(f.min)}" oninput="setF('min',this.value)" aria-label="Minimum price"><span class="vt"><button class="${S.layout === 'grid' ? 'on' : ''}" onclick="setLayout('grid')" aria-label="Grid view">▦</button><button class="${S.layout === 'list' ? 'on' : ''}" onclick="setLayout('list')" aria-label="List view">☰</button></span></div><div id="areaWrap"></div></div></section>
     <div class="wrap"><section class="sec rv" id="featwrap"></section><section class="sec rv" id="annwrap"></section>
     <section class="sec" id="props"><div class="sech"><h2>Properties</h2><span id="count" class="muted small"></span></div><div id="grid" class="grid ${S.layout === 'list' ? 'list' : ''}"></div></section>
-    <section class="sec rv" id="rvwrap"></section>
-    <section class="sec rv"><div class="sech"><h2>How it works</h2></div><div class="steps"><div><b>Find</b><br><span class="muted small">Search and filter houses, shops and offices.</span></div><div><b>Inspect</b><br><span class="muted small">Book an inspection and pick a time that suits you.</span></div><div><b>Secure it</b><br><span class="muted small">Lease, reserve or make an offer and we handle the rest.</span></div></div></section></div>`;
-    }
+    <section class="sec rv" id="rvwrap"></section>`;
+  }
+    
       renderFeat(); renderAnns(); renderGrid(true); renderRV(); renderAreas(); startScene();
    
     function setF(k, v) { S.f[k] = v; lsSet('estate-f', { ...S.f, q: '' });['purpose', 'beds', 'avail'].includes(k) ? viewHome() : renderGrid(true) }
