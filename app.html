@@ -4309,7 +4309,7 @@
     // ===== auth: ONE login for everyone. Admin status comes from the account, not from a button =====
     function openAuth(mode, role = 'customer') {
       const su = mode === 'signup', code = su && role === 'admin' && !S.adminFull; S.authOpen = true;
-      openModal(`<h2>${su ? 'Create your account' : 'Welcome back'}</h2><p class="small muted" style="margin:.3rem 0 1rem">${su ? 'Save homes, book inspections and track every request.' : 'Log in with your email and password. Admins use the same form.'}</p>
+      openModal(`<h2>${su ? 'Create your account' : 'Welcome back'}</h2><p class="small muted" style="margin:.3rem 0 1rem">${su ? 'Save homes, book inspections and track every request.' : 'Log in with your email and password.'}</p>
     ${su ? '<input id="a_n" class="inp" placeholder="Full name" autocomplete="name"><input id="a_ph" class="inp" type="tel" placeholder="Phone number" autocomplete="tel">' : ''}
     <input id="a_e" class="inp" type="email" placeholder="Email" autocomplete="email">
     <input id="a_p" class="inp" type="password" placeholder="Password (min 6 characters)" autocomplete="${su ? 'new-password' : 'current-password'}" onkeydown="if(event.key==='Enter')authGo('${mode}','${code ? 'admin' : 'customer'}')">
@@ -4676,10 +4676,10 @@ footer{margin-top:2.5rem}
     <div class="wrap"><section class="sec rv" id="featwrap"></section><section class="sec rv" id="annwrap"></section>
     <section class="sec" id="props"><div class="sech"><h2>Properties</h2><span id="count" class="muted small"></span></div><div id="grid" class="grid ${S.layout === 'list' ? 'list' : ''}"></div></section>
     <section class="sec rv" id="rvwrap"></section>
-    <section class="sec rv"><div class="sech"><h2>Why ${esc(brand())}</h2></div><div class="why"><div><i>✅</i><b>Verified listings</b><span class="muted small">Every property is checked and managed by our team.</span></div><div><i>🔒</i><b>Secure payments</b><span class="muted small">Pay inspection fees, lease payments and deposits safely with Paystack.</span></div><div><i>💬</i><b>Direct support</b><span class="muted small">Chat with us in the app, call, or message on WhatsApp.</span></div><div><i>⚡</i><b>Fast and simple</b><span class="muted small">Save, compare and book inspections in a few taps.</span></div></div></section>
     <section class="sec rv"><div class="sech"><h2>How it works</h2></div><div class="steps"><div><b>Find</b><br><span class="muted small">Search and filter houses, shops and offices.</span></div><div><b>Inspect</b><br><span class="muted small">Book an inspection and pick a time that suits you.</span></div><div><b>Secure it</b><br><span class="muted small">Lease, reserve or make an offer and we handle the rest.</span></div></div></section></div>`;
-      renderFeat(); renderAnns(); renderGrid(true); renderRV(); renderAreas(); startScene();
     }
+      renderFeat(); renderAnns(); renderGrid(true); renderRV(); renderAreas(); startScene();
+   
     function setF(k, v) { S.f[k] = v; lsSet('estate-f', { ...S.f, q: '' });['purpose', 'beds', 'avail'].includes(k) ? viewHome() : renderGrid(true) }
     const clearF = () => { lsSet('estate-f', {}); S.f = { purpose: 'all', type: 'all', q: '', max: '', sort: 'new', beds: 0, avail: false, min: '' }; viewHome() };
     const priceTxt = l => money(l.price) + (l.purpose === 'rent' ? `<small> / ${l.period === 'month' ? 'month' : 'year'}</small>` : '');
