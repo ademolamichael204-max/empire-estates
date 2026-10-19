@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f6f4ef">
   <meta name="description"
-    content="Houses, apartments, shops and offices for sale and rent. Book inspections and pay securely online.">
-  <title>Empire Inc | Houses, Shops, Offices &amp; Rentals</title>
+    content="Houses, apartments, shops and offices for sale and to let / lease. Book inspections and pay securely online.">
+  <title>Empire Inc | Houses, Shops, Offices &amp; Leases</title>
   <link rel="icon"
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%A1%3C/text%3E%3C/svg%3E">
   <script>
@@ -3149,11 +3149,10 @@
     }
 
     .scene .b {
-      animation-duration: 2s;
+      animation-duration: .8s;
       animation-delay: var(--d, 0s);
       animation-fill-mode: both;
       animation-timing-function: var(--ease);
-    
       transform-box: fill-box
     }
 
@@ -3163,9 +3162,8 @@
       stroke-width: 3;
       stroke-linecap: round;
       stroke-dasharray: 440;
-    
       animation-name: sDraw;
-      animation-duration: 2s
+      animation-duration: .9s
     }
 
     .scene .fnd {
@@ -3177,42 +3175,37 @@
     .scene .up {
       animation-name: sUp;
       transform-origin: 50% 100%;
-    
-      animation-duration: 3s
+      animation-duration: 1s
     }
 
     .scene .pop {
       animation-name: sPop;
       transform-origin: 50% 50%;
-    
-      animation-duration: 2s
+      animation-duration: .5s
     }
 
     .scene .door {
       animation-name: sX;
       transform-origin: 0 50%;
-      animation-duration: 3s;
-    
+      animation-duration: .6s
     }
 
     .scene .drop {
       animation-name: sDrop;
-      animation-duration: 1s;
+      animation-duration: .9s;
       animation-timing-function: cubic-bezier(.3, 1.5, .5, 1)
     }
 
     .scene .plq {
       animation-name: sPlq;
       transform-origin: 50% 50%;
-    
-      animation-duration: 1s
+      animation-duration: .7s
     }
 
     .scene .glow {
       opacity: .55;
       animation-name: sGlow;
-    
-      animation-duration: 2.2s
+      animation-duration: 1.2s
     }
 
     .scene .wall {
@@ -3579,6 +3572,572 @@
         transform: scale(1)
       }
     }
+
+    /* ===== v5: layout toggle, area chips, admin tools ===== */
+    .fbar2 .minp {
+      width: 110px;
+      margin: 0;
+      padding: .35rem .8rem;
+      border-radius: 9999px;
+      font-size: .82rem
+    }
+
+    .vt {
+      margin-left: auto;
+      display: flex;
+      border: 1px solid var(--line);
+      border-radius: 9999px;
+      overflow: hidden;
+      background: var(--panel)
+    }
+
+    .fbar2 .vt button {
+      border: 0;
+      border-radius: 0;
+      padding: .4rem .8rem
+    }
+
+    .fbar2 .vt button.on {
+      background: var(--accent);
+      color: var(--on)
+    }
+
+    .areas {
+      align-items: center
+    }
+
+    .areas .small {
+      margin-right: .2rem
+    }
+
+    .grid.list {
+      grid-template-columns: 1fr
+    }
+
+    .grid.list .lcard {
+      display: grid;
+      grid-template-columns: 300px 1fr
+    }
+
+    .grid.list .ph {
+      aspect-ratio: auto;
+      height: 100%;
+      min-height: 200px
+    }
+
+    .grid.list .lb {
+      display: flex;
+      flex-direction: column;
+      justify-content: center
+    }
+
+    .qr {
+      display: flex;
+      gap: .4rem;
+      overflow-x: auto;
+      margin-bottom: .6rem;
+      scrollbar-width: none
+    }
+
+    .qr::-webkit-scrollbar {
+      display: none
+    }
+
+    .qr button {
+      flex: none;
+      padding: .32rem .8rem;
+      border-radius: 9999px;
+      border: 1px solid var(--line);
+      font-size: .75rem;
+      background: var(--panel);
+      transition: background .2s, transform .2s var(--ease)
+    }
+
+    .qr button:hover {
+      background: var(--panel2);
+      transform: translateY(-2px)
+    }
+
+    @media(max-width:600px) {
+      .grid.list .lcard {
+        grid-template-columns: 120px 1fr
+      }
+
+      .grid.list .ph {
+        min-height: 140px
+      }
+
+      .vt {
+        margin-left: 0
+      }
+    }
+
+    /* ===== v6: looping build scenes + mobile polish ===== */
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: clip
+    }
+
+    .grid {
+      grid-template-columns: repeat(auto-fill, minmax(min(275px, 100%), 1fr))
+    }
+
+    .anns {
+      grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr))
+    }
+
+    .vids {
+      grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr))
+    }
+
+    .dcols>*,
+    .g3c>*,
+    .g2c>*,
+    .det>*,
+    .two>*,
+    .hgrid>*,
+    .adm>*,
+    .cols>*,
+    .fcols>* {
+      min-width: 0
+    }
+
+    .brand {
+      min-width: 0
+    }
+
+    .brand span:last-child {
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .sech {
+      flex-wrap: wrap
+    }
+
+    .swal2-popup {
+      width: min(92vw, 34em) !important;
+      max-width: 92vw
+    }
+
+    .scene {
+      position: relative;
+      max-width: 520px;
+      margin-inline: auto
+    }
+
+    .scene .sv {
+      transition: opacity .55s ease
+    }
+
+    .scene.out .sv {
+      opacity: 0
+    }
+
+    .scene .b {
+      animation-duration: .8s
+    }
+
+    .scene .up {
+      animation-duration: 1s
+    }
+
+    .scene .tmp {
+      animation: sTmp 5.6s linear .2s both
+    }
+
+    .scene .spk {
+      animation: sSpk 1.8s ease-in-out calc(var(--s, 6.3s) + var(--i)*.35s) infinite
+    }
+
+    .scene .glass {
+      fill: color-mix(in srgb, var(--accent2) 20%, var(--panel));
+      stroke: color-mix(in srgb, var(--fg) 40%, transparent);
+      stroke-width: 1.5
+    }
+
+    .scene .pane.cl {
+      fill: color-mix(in srgb, var(--accent2) 38%, var(--panel))
+    }
+
+    .scene .pane.warm {
+      fill: color-mix(in srgb, var(--gold) 26%, var(--panel))
+    }
+
+    .scene .awn {
+      fill: var(--gold);
+      transform-box: fill-box;
+      transform-origin: 50% 0;
+      animation: sAwn .55s var(--ease) var(--d, 0s) both
+    }
+
+    .scene .awn.a2 {
+      fill: var(--panel);
+      stroke: var(--gold);
+      stroke-width: 1.2
+    }
+
+    .scene .goods.g1 {
+      fill: var(--accent)
+    }
+
+    .scene .goods.g2 {
+      fill: var(--gold)
+    }
+
+    .scene .neon {
+      fill: var(--bad);
+      font: 800 13px 'Manrope', sans-serif;
+      letter-spacing: .18em;
+      animation: sBlink 1.3s ease-in-out 6s infinite
+    }
+
+    .scene .stx {
+      fill: var(--on);
+      font-family: 'Fraunces', serif;
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: .35em
+    }
+
+    .scene .beacon {
+      fill: #ef4444;
+      animation: sBlink 1.1s ease-in-out 6.2s infinite
+    }
+
+    .scene .rail {
+      fill: var(--gold)
+    }
+
+    .scene .tank {
+      fill: color-mix(in srgb, var(--fg) 20%, var(--panel));
+      stroke: color-mix(in srgb, var(--fg) 40%, transparent);
+      stroke-width: 1.5
+    }
+
+    .scene.still .tmp {
+      opacity: 0
+    }
+
+    .scene.still .pane.on {
+      fill: var(--gold)
+    }
+
+    .scene.still .awn,
+    .scene.still .b,
+    .scene.still .neon,
+    .scene.still .beacon {
+      animation: none
+    }
+
+    .sdots {
+      display: flex;
+      gap: .4rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: .6rem
+    }
+
+    .sdots button {
+      position: relative;
+      overflow: hidden;
+      padding: .38rem .85rem;
+      border-radius: 9999px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      font-size: .76rem;
+      font-weight: 700;
+      transition: border-color .2s, transform .2s var(--ease)
+    }
+
+    .sdots button:hover {
+      transform: translateY(-2px)
+    }
+
+    .sdots button.on {
+      border-color: var(--gold)
+    }
+
+    .sdots button.on::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 100%;
+      background: var(--gold);
+      transform-origin: left;
+      animation: sProg var(--cy, 11.5s) linear both
+    }
+
+    @keyframes sProg {
+      from {
+        transform: scaleX(0)
+      }
+
+      to {
+        transform: scaleX(1)
+      }
+    }
+
+    @keyframes sAwn {
+      from {
+        transform: scaleY(0)
+      }
+
+      to {
+        transform: scaleY(1)
+      }
+    }
+
+    @keyframes sBlink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .25
+      }
+    }
+
+    @media(max-width:600px) {
+      body {
+        font-size: 14.5px
+      }
+
+      .wrap {
+        padding: 0 1rem
+      }
+
+      .hd {
+        gap: .5rem
+      }
+
+      .brand {
+        font-size: 1.2rem;
+        gap: .45rem
+      }
+
+      .logo {
+        width: 1.9rem;
+        height: 1.9rem
+      }
+
+      .hact {
+        gap: .35rem
+      }
+
+      .hact .btn,
+      .hact .btn2 {
+        padding: .5rem .8rem;
+        font-size: .82rem
+      }
+
+      .ib,
+      .avt {
+        width: 2.2rem;
+        height: 2.2rem
+      }
+
+      .hero {
+        padding: 2rem 0 1.4rem
+      }
+
+      .hgrid {
+        gap: 1.2rem
+      }
+
+      .hero h1 {
+        font-size: clamp(2rem, 9.5vw, 2.6rem)
+      }
+
+      .hero p.lead {
+        font-size: .95rem
+      }
+
+      .hstats {
+        gap: 1rem
+      }
+
+      .hstats b {
+        font-size: 1.6rem
+      }
+
+      .fbar {
+        grid-template-columns: 1fr;
+        padding: .65rem;
+        margin-top: 1.2rem
+      }
+
+      .seg {
+        height: 2.6rem
+      }
+
+      .seg button {
+        flex: 1;
+        padding: 0 .5rem;
+        font-size: .82rem
+      }
+
+      .fbar2 {
+        gap: .35rem
+      }
+
+      .fbar2 button {
+        padding: .35rem .7rem;
+        font-size: .78rem
+      }
+
+      .sec {
+        padding: 1.6rem 0 .4rem
+      }
+
+      .mbox {
+        padding: 1rem;
+        border-radius: 1rem
+      }
+
+      .ov {
+        padding: .5rem
+      }
+
+      .mx {
+        right: .5rem;
+        top: .5rem
+      }
+
+      .cg {
+        grid-template-columns: 1fr
+      }
+
+      .fx.fw>.f1 {
+        flex: 1 1 120px
+      }
+
+      .acts .btn,
+      .acts .btn2 {
+        width: 100%
+      }
+
+      .dh {
+        border-radius: 1.2rem;
+        margin-top: 1rem
+      }
+
+      .dstats {
+        grid-template-columns: 1fr 1fr;
+        gap: .6rem
+      }
+
+      .dstat {
+        padding: .8rem
+      }
+
+      .dstat b {
+        font-size: 1.4rem
+      }
+
+      .qa {
+        grid-template-columns: repeat(3, 1fr)
+      }
+
+      .qa button {
+        padding: .7rem .3rem;
+        font-size: .75rem
+      }
+
+      .act {
+        padding: .7rem;
+        gap: .7rem
+      }
+
+      .act img,
+      .act .th {
+        width: 64px;
+        height: 64px
+      }
+
+      .kpis,
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: .6rem
+      }
+
+      .kpi {
+        padding: .8rem
+      }
+
+      .kpi b {
+        font-size: 1.4rem
+      }
+
+      .chat {
+        height: calc(100dvh - 17rem);
+        min-height: 320px
+      }
+
+      .cb {
+        max-width: 88%
+      }
+
+      .tbl th,
+      .tbl td {
+        padding: .55rem .6rem
+      }
+
+      #cmpbar {
+        max-width: calc(100vw - 1rem);
+        gap: .5rem;
+        padding: .45rem .5rem .45rem .9rem;
+        font-size: .85rem
+      }
+
+      footer {
+        margin-top: 2.5rem
+      }
+
+      .inp,
+      select,
+      textarea {
+        font-size: 16px
+      }
+
+      .lb {
+        padding: .8rem .9rem 1rem
+      }
+
+      .scene {
+        max-width: 340px
+      }
+
+      .sdots button {
+        padding: .3rem .6rem;
+        font-size: .7rem
+      }
+    }
+
+    @media(max-width:380px) {
+      .brand span:last-child {
+        display: none
+      }
+
+      .hact .btn2 {
+        display: none
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      .sdots button.on::after {
+        animation: none
+      }
+
+      .scene .awn {
+        transform: none
+      }
+    }
   </style>
 </head>
 
@@ -3624,7 +4183,7 @@
     const reduce = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     const TL = { house: 'House', apartment: 'Apartment', shop: 'Shop', office: 'Office', land: 'Land' };
     const IC = { house: '🏠', apartment: '🏢', shop: '🏪', office: '💼', land: '🌳' };
-    const RL = { inspection: 'Inspection', rent: 'Rent', buy: 'Purchase', offer: 'Offer' };
+    const RL = { inspection: 'Inspection', rent: 'To let / lease', buy: 'Purchase', offer: 'Offer' };
     const LOGO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>';
 
     function showErr(where, e) {
@@ -3642,7 +4201,7 @@
     const fbApp = initializeApp(CFG.firebase), au = getAuth(fbApp), fs = initializeFirestore(fbApp, { experimentalAutoDetectLongPolling: true });
 
     // ===== state =====
-    const S = { user: null, me: null, isAdmin: false, listings: [], anns: [], settings: {}, reqs: [], users: [], admins: [], threads: [], thread: null, notes: [], cmp: [], view: 'home', tab: 'dash', ready: false, hashDone: false, authOpen: false, draft: '', chatUid: null, chatMsgs: [], curId: null, statsDone: false, adminFull: false, mf: 'all', _ds: false, rf: { type: 'all', status: 'all' }, f: { purpose: 'all', type: 'all', q: '', max: '', sort: 'new', beds: 0, avail: false } };
+    const S = { user: null, me: null, isAdmin: false, listings: [], anns: [], settings: {}, reqs: [], users: [], admins: [], threads: [], thread: null, notes: [], cmp: [], view: 'home', tab: 'dash', ready: false, hashDone: false, authOpen: false, draft: '', chatUid: null, chatMsgs: [], curId: null, statsDone: false, adminFull: false, mf: 'all', _ds: false, rf: { type: 'all', status: 'all' }, f: { purpose: 'all', type: 'all', q: '', max: '', sort: 'new', beds: 0, avail: false, min: '' } };
     let pubUnsubs = [], userUnsubs = [], unsubChat = null, pendingProfile = null, G = null, ED = null, AE = null, io = null;
     const brand = () => S.settings.brand || CFG.brand;
     const feeOf = l => (l.inspectionFee !== null && l.inspectionFee !== undefined && l.inspectionFee !== '') ? +l.inspectionFee : +(S.settings.defaultFee || 0);
@@ -3651,6 +4210,7 @@
     const adminIds = () => new Set(S.admins.map(a => a.uid));
     const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch { return d } };
     const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch { } };
+    S.layout = lsGet('estate-layout', 'grid'); Object.assign(S.f, lsGet('estate-f', {}));
 
     // ===== images / video helpers =====
     const loadImg = src => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src });
@@ -3866,7 +4426,7 @@
       renderTop(); renderBar(); const m = $('main'); m.classList.remove('view-in'); void m.offsetWidth; m.classList.add('view-in');
       ({ home: viewHome, saved: viewSaved, mine: viewMine, chat: viewChat, admin: viewAdmin }[S.view])(); renderFoot(); renderCmp(); observe();
     }
-    function refresh() { renderTop(); renderBar(); renderFoot(); renderCmp(); const v = S.view; if (v === 'home') { renderFeat(); renderAnns(); renderGrid(false); renderRV() } else if (v === 'saved') viewSaved(); else if (v === 'mine') viewMine(); else if (v === 'admin') refreshAdmin() }
+    function refresh() { renderTop(); renderBar(); renderFoot(); renderCmp(); const v = S.view; if (v === 'home') { renderFeat(); renderAnns(); renderGrid(false); renderRV(); renderAreas() } else if (v === 'saved') viewSaved(); else if (v === 'mine') viewMine(); else if (v === 'admin') refreshAdmin() }
     function renderDock() {
       let d = $('dock'); if (!d) { d = document.createElement('nav'); d.id = 'dock'; d.setAttribute('aria-label', 'Quick navigation'); document.body.appendChild(d) }
       if (!S.user) { d.style.display = 'none'; return } d.style.display = '';
@@ -3893,7 +4453,7 @@
     function closeBar(id) { try { sessionStorage.setItem('estate-bar', id) } catch { } $('bar').style.display = 'none' }
     function renderFoot() {
       const s = S.settings;
-      $('foot').innerHTML = `<div class="wrap"><div class="fcols"><div><b style="font-family:'Fraunces',serif;font-size:1.3rem">${esc(brand())}</b>Houses, apartments, shops and offices for sale and rent. Inspect with confidence, pay securely and talk to a real person.</div>
+      $('foot').innerHTML = `<div class="wrap"><div class="fcols"><div><b style="font-family:'Fraunces',serif;font-size:1.3rem">${esc(brand())}</b>Houses, apartments, shops and offices for sale and to let / lease. Inspect with confidence, pay securely and talk to a real person.</div>
     <div><b>Explore</b><a onclick="go('home')">Browse properties</a>${S.user ? `<a onclick="go('${S.isAdmin ? 'admin' : 'mine'}')">${S.isAdmin ? 'Admin console' : 'My dashboard'}</a>${S.isAdmin ? '' : `<a onclick="go('chat')">Message us</a>`}` : `<a onclick="openAuth('login')">Log in</a><a onclick="openAuth('signup')">Create account</a>`}</div>
     <div><b>Contact</b>${s.phone ? `<a href="tel:${esc(s.phone)}">📞 ${esc(s.phone)}</a><a target="_blank" rel="noopener" href="https://wa.me/${waNum(s.phone)}">💬 WhatsApp</a>` : ''}${s.email ? `<a href="mailto:${esc(s.email)}">✉ ${esc(s.email)}</a>` : ''}${s.address ? `<span>📍 ${esc(s.address)}</span>` : ''}</div></div>
     <div class="copy fx jb fw g2"><span>© ${new Date().getFullYear()} ${esc(brand())}. All rights reserved.</span><span>Secure payments by Paystack</span></div></div>`;
@@ -3901,62 +4461,234 @@
 
     // SCENE-BEGIN
     function words(t) { return String(t).trim().split(/\s+/).map((w, i) => `<span class="hw${w.startsWith('@') ? ' at' : ''}" style="--i:${i}">${esc(w)}</span>`).join(' ') }
-    function sceneHtml() {
-      const done = S._sc; S._sc = true; const nm = esc(brand()), D = t => `style="--d:${t}s"`;
-      let tower = ''; for (let y = 300; y > 100; y -= 28) tower += `M420 ${y}L436 ${y - 28}M436 ${y}L420 ${y - 28}`;
-      const win = (x, y, w, h, d, l) => `<g class="b pop" ${D(d)}><rect class="frame" x="${x - 3}" y="${y - 3}" width="${w + 6}" height="${h + 6}" rx="3"/><rect class="pane on" x="${x}" y="${y}" width="${w}" height="${h}" rx="2" style="--l:${l}s"/><path class="mull" d="M${x + w / 2} ${y}V${y + h}M${x} ${y + h / 2}H${x + w}"/></g>`;
-      return `<div class="scene ${done ? 'done' : ''}"><svg viewBox="0 0 480 360" role="img" aria-label="A house being built from the ground up, ending with the ${nm} sign">
-  <defs><pattern id="brk" width="22" height="11" patternUnits="userSpaceOnUse"><path d="M0 .5H22M0 5.5H22M5.5 0V5.5M16.5 5.5V11" fill="none" style="stroke:var(--fg);opacity:.22" stroke-width=".8"/></pattern><radialGradient id="glw"><stop offset="0" style="stop-color:var(--gold);stop-opacity:.9"/><stop offset="1" style="stop-color:var(--gold);stop-opacity:0"/></radialGradient></defs>
-  <circle class="b glow" cx="240" cy="190" r="200" fill="url(#glw)" ${D(5.2)}/>
-  <g class="tmp"><path class="gl" d="M102 300V150M130 300V150M350 300V150M378 300V150M102 262H130M102 222H130M102 182H130M350 262H378M350 222H378M350 182H378M102 300L130 262M130 262L102 222M102 222L130 182M378 300L350 262M350 262L378 222M378 222L350 182"/></g>
-  <g class="tmp"><path class="gl" d="${tower}M420 300V76M436 300V76"/><path class="gl" d="M296 76H470M436 76V58" style="stroke-width:3"/><rect class="cab" x="414" y="58" width="28" height="16" rx="3" style="stroke:var(--gold);stroke-width:2"/><line class="rope gl" x1="318" y1="76" x2="318" y2="206" style="stroke-width:1.4"/><rect class="blk" x="308" y="206" width="20" height="12" rx="2"/></g>
-  <path class="b ground" d="M20 300H460" ${D(0)}/>
-  <rect class="b fnd" x="116" y="292" width="248" height="8" rx="2" ${D(.8)}/>
-  <g class="b up" ${D(1.3)}><rect class="wall" x="130" y="212" width="220" height="80"/><rect class="brk" x="130" y="212" width="220" height="80"/></g>
-  <g class="b up" style="--d:2.3s;animation-duration:.9s"><rect class="wall" x="150" y="142" width="180" height="70"/><rect class="brk" x="150" y="142" width="180" height="70"/></g>
-  ${win(148, 236, 36, 32, 3.2, 5.6)}${win(296, 236, 36, 32, 3.3, 5.7)}${win(176, 160, 36, 30, 3.5, 5.8)}${win(268, 160, 36, 30, 3.6, 5.9)}
+    const CYCLE = 11500;
+    const D = t => `style="--d:${t}s"`;
+    const sDefs = () => `<defs><pattern id="brk" width="22" height="11" patternUnits="userSpaceOnUse"><path d="M0 .5H22M0 5.5H22M5.5 0V5.5M16.5 5.5V11" fill="none" style="stroke:var(--fg);opacity:.22" stroke-width=".8"/></pattern><radialGradient id="glw"><stop offset="0" style="stop-color:var(--gold);stop-opacity:.9"/><stop offset="1" style="stop-color:var(--gold);stop-opacity:0"/></radialGradient></defs>`;
+    const sGlow = d => `<circle class="b glow" cx="240" cy="190" r="190" fill="url(#glw)" ${D(d)}/>`;
+    const sGround = () => `<path class="b ground" d="M20 300H460" ${D(0)}/>`;
+    const sFound = (x, w, d) => `<rect class="b fnd" x="${x}" y="292" width="${w}" height="8" rx="2" ${D(d)}/>`;
+    const sBush = (x, y, r, d) => `<circle class="b pop bush" cx="${x}" cy="${y}" r="${r}" ${D(d)}/>`;
+    const sWall = (x, y, w, h, d, dur = 1) => `<g class="b up" style="--d:${d}s;animation-duration:${dur}s"><rect class="wall" x="${x}" y="${y}" width="${w}" height="${h}"/><rect class="brk" x="${x}" y="${y}" width="${w}" height="${h}"/></g>`;
+    const sWin = (x, y, w, h, d, l, cls = 'on') => `<g class="b pop" ${D(d)}><rect class="frame" x="${x - 3}" y="${y - 3}" width="${w + 6}" height="${h + 6}" rx="3"/><rect class="pane ${cls}" x="${x}" y="${y}" width="${w}" height="${h}" rx="2" style="--l:${l}s"/><path class="mull" d="M${x + w / 2} ${y}V${y + h}M${x} ${y + h / 2}H${x + w}"/></g>`;
+    const sPlaque = d => {
+      const nm = esc(brand());
+      return `<g class="b plq" ${D(d)}><rect class="plaque" x="140" y="312" width="200" height="38" rx="12"/><rect class="plqb" x="140" y="312" width="200" height="38" rx="12"/><text class="ptxt" x="240" y="337" text-anchor="middle" style="font-size:${nm.length > 12 ? 16 : 21}px">@${nm}</text></g>` +
+        [[128, 320, 0], [352, 316, 1], [196, 304, 2], [290, 306, 3]].map(([x, y, i]) => `<g transform="translate(${x} ${y})"><path class="spk" style="--i:${i};--s:${d + .5}s" d="M0-7L2-2 7 0 2 2 0 7-2 2-7 0-2-2z"/></g>`).join('');
+    };
+    const sCrane = () => {
+      let tw = ''; for (let y = 300; y > 100; y -= 28) tw += `M420 ${y}L436 ${y - 28}M436 ${y}L420 ${y - 28}`;
+      return `<g class="tmp"><path class="gl" d="${tw}M420 300V76M436 300V76"/><path class="gl" d="M296 76H470M436 76V58" style="stroke-width:3"/><rect class="cab" x="414" y="58" width="28" height="16" rx="3" style="stroke:var(--gold);stroke-width:2"/><line class="rope gl" x1="318" y1="76" x2="318" y2="206" style="stroke-width:1.4"/><rect class="blk" x="308" y="206" width="20" height="12" rx="2"/></g>`;
+    };
+    const sScaf = (l, r, top) => {
+      let p = `M${l - 28} 300V${top}M${l} 300V${top}M${r} 300V${top}M${r + 28} 300V${top}`, y = 300, k = 0;
+      while (y - 40 >= top) { p += `M${l - 28} ${y - 40}H${l}M${r} ${y - 40}H${r + 28}`; p += k % 2 ? `M${l - 28} ${y}L${l} ${y - 40}M${r + 28} ${y}L${r} ${y - 40}` : `M${l} ${y}L${l - 28} ${y - 40}M${r} ${y}L${r + 28} ${y - 40}`; y -= 40; k++ }
+      return `<g class="tmp"><path class="gl" d="${p}"/></g>`;
+    };
+    const sHouse = () => `${sGlow(5.2)}${sScaf(130, 350, 150)}${sCrane()}${sGround()}${sFound(116, 248, .8)}
+  ${sWall(130, 212, 220, 80, 1.3, 1)}${sWall(150, 142, 180, 70, 2.3, .9)}
+  ${sWin(148, 236, 36, 32, 3.2, 5.6)}${sWin(296, 236, 36, 32, 3.3, 5.7)}${sWin(176, 160, 36, 30, 3.5, 5.8)}${sWin(268, 160, 36, 30, 3.6, 5.9)}
   <g class="b door" ${D(3.9)}><rect class="doorr" x="222" y="246" width="36" height="46" rx="2"/><circle cx="250" cy="270" r="2.3" style="fill:var(--gold)"/></g>
   <g class="b up" ${D(5.1)}><rect class="chim" x="290" y="84" width="18" height="40"/><rect class="chim" x="286" y="80" width="26" height="6" rx="1"/></g>
   <g class="b drop" ${D(4.3)}><polygon class="roof" points="126,148 240,66 354,148"/><rect class="eave" x="122" y="146" width="236" height="7" rx="3.5"/></g>
   <g class="b pop" ${D(5.3)}><line class="pole" x1="240" y1="68" x2="240" y2="36"/><path class="flag" d="M240 36h24l-6 7 6 7h-24z"/></g>
   <g class="smoke">${[0, 1, 2].map(i => `<circle cx="299" cy="74" r="5" style="--i:${i}"/>`).join('')}</g>
-  <circle class="b pop bush" cx="88" cy="286" r="16" ${D(5)}/><circle class="b pop bush" cx="110" cy="292" r="12" ${D(5.1)}/><circle class="b pop bush" cx="392" cy="286" r="16" ${D(5.05)}/><circle class="b pop bush" cx="370" cy="292" r="12" ${D(5.15)}/>
-  <g class="b plq" ${D(5.8)}><rect class="plaque" x="140" y="312" width="200" height="38" rx="12"/><rect class="plqb" x="140" y="312" width="200" height="38" rx="12"/><text class="ptxt" x="240" y="337" text-anchor="middle" style="font-size:${nm.length > 12 ? 16 : 21}px">@${nm}</text></g>
-  ${[[128, 320, 0], [352, 316, 1], [196, 304, 2], [290, 306, 3]].map(([x, y, i]) => `<g transform="translate(${x} ${y})"><path class="spk" style="--i:${i}" d="M0-7L2-2 7 0 2 2 0 7-2 2-7 0-2-2z"/></g>`).join('')}
-  </svg><button class="replay" onclick="replayScene()" aria-label="Replay the construction animation">↻ Replay build</button></div>`;
+  ${sBush(88, 286, 16, 5)}${sBush(110, 292, 12, 5.1)}${sBush(392, 286, 16, 5.05)}${sBush(370, 292, 12, 5.15)}${sPlaque(5.8)}`;
+    const sOffice = () => {
+      let win = ''; for (let r = 0; r < 6; r++) for (let c = 0; c < 4; c++) { const lit = (r + c * 2) % 3 === 0, x = 182 + c * 32, y = 86 + r * 28; win += `<g class="b pop" style="--d:${(3.3 + (5 - r) * .22 + c * .05).toFixed(2)}s"><rect class="pane ${lit ? 'on' : 'cl'}" x="${x}" y="${y}" width="22" height="18" rx="2" style="--l:${(5.8 + (5 - r) * .1).toFixed(2)}s"/></g>` }
+      let fl = ''; for (let r = 0; r < 6; r++) fl += `M170 ${86 + r * 28 + 24}H310`;
+      return `${sGlow(5.4)}${sScaf(170, 310, 80)}${sCrane()}${sGround()}${sFound(104, 232, .8)}
+  <g class="b up" style="--d:1.2s;animation-duration:2.4s"><rect class="glass" x="170" y="72" width="140" height="220"/><path class="mull" d="${fl}"/></g>
+  ${sWall(110, 244, 60, 48, 2.2, .9)}<g class="b drop" ${D(3.3)}><rect class="roof" x="106" y="240" width="68" height="6" rx="3"/></g>
+  ${sWin(120, 256, 14, 14, 3.7, 6, 'cl')}${sWin(146, 256, 14, 14, 3.8, 6, 'on')}
+  ${win}
+  <g class="b door" ${D(4.2)}><rect class="doorr" x="224" y="262" width="32" height="30" rx="2"/></g>
+  <g class="b drop" ${D(4.6)}><rect class="eave" x="212" y="254" width="56" height="6" rx="3"/></g>
+  <g class="b drop" ${D(5)}><rect class="eave" x="164" y="66" width="152" height="9" rx="3"/></g>
+  <g class="b drop" ${D(5.1)}><rect class="chim" x="214" y="52" width="52" height="14" rx="2"/></g>
+  <line class="b up pole" x1="240" y1="52" x2="240" y2="14" ${D(5.4)}/>
+  <g class="b pop" ${D(5.8)}><circle class="beacon" cx="240" cy="13" r="4"/></g>
+  ${sBush(92, 290, 12, 5.2)}${sBush(358, 288, 14, 5.25)}${sBush(338, 294, 10, 5.3)}${sPlaque(5.9)}`;
+    };
+    const sShop = () => {
+      let awn = ''; for (let i = 0; i < 8; i++) { const x = 118 + i * 30.5; awn += `<path class="awn ${i % 2 ? 'a2' : ''}" style="--d:${(4.7 + i * .06).toFixed(2)}s" d="M${x} 196h30.5v20q-15.25 11-30.5 0z"/>` }
+      const goods = [[135, 262, 18, 18, 'g1', 0], [160, 267, 14, 13, 'g2', 1], [205, 258, 22, 22, 'g1', 2], [236, 267, 18, 13, 'g2', 3]].map(([x, y, w, h, c, i]) => `<g class="b pop" ${D((4.2 + i * .12).toFixed(2))}><rect class="goods ${c}" x="${x}" y="${y}" width="${w}" height="${h}" rx="2"/></g>`).join('');
+      return `${sGlow(5.4)}${sScaf(110, 370, 190)}${sCrane()}${sGround()}${sFound(96, 288, .8)}
+  ${sWall(110, 190, 260, 102, 1.2, 1.4)}
+  <g class="b pop" ${D(3)}><rect class="frame" x="122" y="229" width="146" height="56" rx="3"/><rect class="pane warm" x="125" y="232" width="140" height="50" rx="2"/><path class="mull" d="M195 232V282"/></g>
+  ${goods}<text class="neon" x="195" y="251" text-anchor="middle">OPEN</text>
+  <g class="b door" ${D(3.5)}><rect class="doorr" x="296" y="232" width="46" height="60" rx="2"/><rect class="pane cl" x="302" y="240" width="34" height="38" rx="2"/><circle cx="337" cy="266" r="2.2" style="fill:var(--gold)"/></g>
+  <g class="b drop" ${D(3.8)}><rect class="roof" x="104" y="180" width="272" height="12" rx="3"/></g>
+  ${awn}
+  <g class="b drop" ${D(4.2)}><rect class="plaque" x="152" y="146" width="176" height="30" rx="8"/><rect class="plqb" x="152" y="146" width="176" height="30" rx="8"/><text class="stx" x="240" y="167" text-anchor="middle">SHOP</text></g>
+  ${sBush(98, 288, 12, 5.2)}${sBush(388, 288, 12, 5.25)}${sPlaque(5.9)}`;
+    };
+    const sApts = () => {
+      let f = '', w = '';
+      for (let k = 0; k < 4; k++) {
+        const top = 238 - k * 54; f += sWall(120, top, 240, 54, (1.2 + k * .9).toFixed(2), .9);
+        for (let i = 0; i < 4; i++) {
+          const x = 138 + i * 54, d = (2.1 + k * .9 + i * .12).toFixed(2), l = (6.2 + k * .1 + i * .05).toFixed(2);
+          if (k === 0 && i === 2) { w += `<g class="b door" ${D(2.6)}><rect class="doorr" x="${x}" y="254" width="30" height="38" rx="2"/><circle cx="${x + 24}" cy="274" r="2" style="fill:var(--gold)"/></g>`; continue }
+          w += sWin(x, top + 14, 30, 26, d, l, (k + i) % 2 ? 'cl' : 'on');
+          if (k > 0) w += `<g class="b pop" ${D((+d + .3).toFixed(2))}><rect class="rail" x="${x - 3}" y="${top + 41}" width="36" height="4" rx="2"/></g>`;
+        }
+      }
+      return `${sGlow(5.6)}${sScaf(120, 360, 76)}${sCrane()}${sGround()}${sFound(100, 280, .8)}${f}${w}
+  <g class="b drop" ${D(5.4)}><rect class="roof" x="114" y="68" width="252" height="10" rx="3"/></g>
+  <g class="b pop" ${D(5.9)}><rect class="tank" x="170" y="48" width="44" height="22" rx="4"/><path class="mull" d="M178 70v-4M206 70v-4"/></g>
+  <g class="b pop" ${D(6)}><rect class="chim" x="290" y="52" width="40" height="18" rx="2"/></g>
+  ${sBush(92, 290, 12, 6.1)}${sBush(382, 288, 14, 6.15)}${sPlaque(6.4)}`;
+    };
+    const SCENES = [{ n: 'Homes', ic: '🏠', f: sHouse, a: 'a house' }, { n: 'Offices', ic: '🏢', f: sOffice, a: 'an office tower' }, { n: 'Shops', ic: '🏪', f: sShop, a: 'a shop' }, { n: 'Apartments', ic: '🏘', f: sApts, a: 'an apartment block' }];
+    let scT = null, scI = 0;
+    function sceneHtml() {
+      return `<div class="scene" id="scene" style="--cy:${CYCLE / 1000}s"><div class="sv"></div><div class="sdots" role="tablist" aria-label="What we build">${SCENES.map((s, i) => `<button role="tab" onclick="pickScene(${i})" aria-label="${s.n}">${s.ic} ${s.n}</button>`).join('')}</div></div>`;
     }
-    function replayScene() { S._sc = false; const w = $('sceneWrap'); if (w) w.innerHTML = sceneHtml() }
+    function drawScene(i, still) {
+      const el = $('scene'); if (!el || !document.body.contains(el)) return; scI = ((i % SCENES.length) + SCENES.length) % SCENES.length;
+      const s = SCENES[scI]; el.classList.remove('out'); el.classList.toggle('still', !!still);
+      el.querySelector('.sv').innerHTML = `<svg viewBox="0 0 480 360" role="img" aria-label="${s.a} being built from the ground up, ending with the ${esc(brand())} sign">${sDefs()}${s.f()}</svg>`;
+      el.querySelectorAll('.sdots button').forEach((b, k) => { const on = k === scI; b.classList.remove('on'); void b.offsetWidth; b.classList.toggle('on', on && !still); b.setAttribute('aria-selected', on) });
+      clearTimeout(scT); if (still) return;
+      const next = () => { const e = $('scene'); if (!e || !document.body.contains(e)) return; if (document.hidden) { scT = setTimeout(next, 1000); return } e.classList.add('out'); scT = setTimeout(() => drawScene(scI + 1), 600) };
+      scT = setTimeout(next, CYCLE);
+    }
+    function startScene() { clearTimeout(scT); drawScene(scI, reduce()) }
+    function pickScene(i) { clearTimeout(scT); drawScene(i, reduce()) }
     // SCENE-END
+
+    // ===== extra features =====
+    const QR = ['Hello! Thanks for reaching out. How can we help you today?', 'Yes, the property is still available. Would you like to book an inspection?', 'Your inspection is confirmed. We look forward to seeing you.', 'Please send us your preferred date and time for the inspection.', 'We have received your payment. Thank you! We will confirm shortly.', 'Please call or WhatsApp us on our office line and we will assist you.'];
+    const quick = i => { const inp = $('ci'); if (inp) { inp.value = QR[i]; inp.focus() } };
+    function ago(t) { const d = Math.floor((Date.now() - t) / 864e5); return d < 1 ? 'today' : d === 1 ? 'yesterday' : d < 14 ? d + ' days ago' : d < 60 ? Math.floor(d / 7) + ' weeks ago' : Math.floor(d / 30) + ' months ago' }
+    function areaChips() {
+      const c = {}; S.listings.forEach(l => { const a = (l.location || '').split(',')[0].trim(); if (a) c[a] = (c[a] || 0) + 1 });
+      const top = Object.entries(c).sort((a, b) => b[1] - a[1]).slice(0, 6); if (!top.length) return '';
+      return `<div class="fbar2 areas"><span class="muted small">Popular areas:</span>${top.map(([a, n]) => `<button class="${S.f.q.trim().toLowerCase() === a.toLowerCase() ? 'on' : ''}" data-a="${esc(a)}" onclick="setArea(this.dataset.a)">📍 ${esc(a)} · ${n}</button>`).join('')}</div>`;
+    }
+    const renderAreas = () => { const el = $('areaWrap'); if (el) el.innerHTML = areaChips() };
+    function setArea(a) { S.f.q = S.f.q.trim().toLowerCase() === a.toLowerCase() ? '' : a; viewHome() }
+    function setLayout(v) { S.layout = v; lsSet('estate-layout', v); const g = $('grid'); if (g) g.classList.toggle('list', v === 'list'); document.querySelectorAll('.vt button').forEach((b, i) => b.classList.toggle('on', (i === 0) === (v === 'grid'))) }
+    function shareWA(id) { const l = S.listings.find(x => x.id === id); if (!l) return; const url = location.origin + location.pathname + '#l=' + id; window.open('https://wa.me/?text=' + encodeURIComponent(`${l.title} - ${money(l.price)}${l.purpose === 'rent' ? ' per ' + (l.period === 'month' ? 'month' : 'year') : ''}\n${l.location}\n${url}`), '_blank', 'noopener') }
+    function printL(id) {
+      const l = S.listings.find(x => x.id === id); if (!l) return; const s = S.settings, imgs = ((G && G.imgs) || [l.cover]).filter(Boolean).slice(0, 4);
+      const w = window.open('', '_blank'); if (!w) return toast('Allow pop-ups to print the brochure', 'warning');
+      w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(l.title)}</title><style>body{font-family:Georgia,serif;margin:28px;color:#111}h1{margin:0 0 4px}.p{font-size:24px;font-weight:700;color:#0b3a53}.g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.g img{width:100%;height:190px;object-fit:cover;border-radius:6px}.s span{display:inline-block;margin:4px 8px 4px 0;padding:3px 11px;border:1px solid #bbb;border-radius:99px;font:13px sans-serif}.d{white-space:pre-wrap;line-height:1.55}footer{margin-top:22px;border-top:1px solid #ccc;padding-top:10px;font:13px sans-serif}/* ===== v6: looping build scenes + mobile polish ===== */
+html,body{max-width:100%;overflow-x:clip}
+.grid{grid-template-columns:repeat(auto-fill,minmax(min(275px,100%),1fr))}
+.anns{grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}
+.vids{grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}
+.dcols>*,.g3c>*,.g2c>*,.det>*,.two>*,.hgrid>*,.adm>*,.cols>*,.fcols>*{min-width:0}
+.brand{min-width:0}.brand span:last-child{overflow:hidden;text-overflow:ellipsis}
+.sech{flex-wrap:wrap}
+.swal2-popup{width:min(92vw,34em)!important;max-width:92vw}
+.scene{position:relative;max-width:520px;margin-inline:auto}
+.scene .sv{transition:opacity .55s ease}.scene.out .sv{opacity:0}
+.scene .b{animation-duration:.8s}
+.scene .up{animation-duration:1s}
+.scene .tmp{animation:sTmp 5.6s linear .2s both}
+.scene .spk{animation:sSpk 1.8s ease-in-out calc(var(--s,6.3s) + var(--i)*.35s) infinite}
+.scene .glass{fill:color-mix(in srgb,var(--accent2) 20%,var(--panel));stroke:color-mix(in srgb,var(--fg) 40%,transparent);stroke-width:1.5}
+.scene .pane.cl{fill:color-mix(in srgb,var(--accent2) 38%,var(--panel))}
+.scene .pane.warm{fill:color-mix(in srgb,var(--gold) 26%,var(--panel))}
+.scene .awn{fill:var(--gold);transform-box:fill-box;transform-origin:50% 0;animation:sAwn .55s var(--ease) var(--d,0s) both}
+.scene .awn.a2{fill:var(--panel);stroke:var(--gold);stroke-width:1.2}
+.scene .goods.g1{fill:var(--accent)}.scene .goods.g2{fill:var(--gold)}
+.scene .neon{fill:var(--bad);font:800 13px 'Manrope',sans-serif;letter-spacing:.18em;animation:sBlink 1.3s ease-in-out 6s infinite}
+.scene .stx{fill:var(--on);font-family:'Fraunces',serif;font-weight:800;font-size:19px;letter-spacing:.35em}
+.scene .beacon{fill:#ef4444;animation:sBlink 1.1s ease-in-out 6.2s infinite}
+.scene .rail{fill:var(--gold)}
+.scene .tank{fill:color-mix(in srgb,var(--fg) 20%,var(--panel));stroke:color-mix(in srgb,var(--fg) 40%,transparent);stroke-width:1.5}
+.scene.still .tmp{opacity:0}.scene.still .pane.on{fill:var(--gold)}
+.scene.still .awn,.scene.still .b,.scene.still .neon,.scene.still .beacon{animation:none}
+.sdots{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;margin-top:.6rem}
+.sdots button{position:relative;overflow:hidden;padding:.38rem .85rem;border-radius:9999px;border:1px solid var(--line);background:var(--panel);font-size:.76rem;font-weight:700;transition:border-color .2s,transform .2s var(--ease)}
+.sdots button:hover{transform:translateY(-2px)}
+.sdots button.on{border-color:var(--gold)}
+.sdots button.on::after{content:'';position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--gold);transform-origin:left;animation:sProg var(--cy,11.5s) linear both}
+@keyframes sProg{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes sAwn{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes sBlink{0%,100%{opacity:1}50%{opacity:.25}}
+@media(max-width:600px){
+body{font-size:14.5px}
+.wrap{padding:0 1rem}
+.hd{gap:.5rem}.brand{font-size:1.2rem;gap:.45rem}.logo{width:1.9rem;height:1.9rem}
+.hact{gap:.35rem}.hact .btn,.hact .btn2{padding:.5rem .8rem;font-size:.82rem}
+.ib,.avt{width:2.2rem;height:2.2rem}
+.hero{padding:2rem 0 1.4rem}.hgrid{gap:1.2rem}
+.hero h1{font-size:clamp(2rem,9.5vw,2.6rem)}.hero p.lead{font-size:.95rem}
+.hstats{gap:1rem}.hstats b{font-size:1.6rem}
+.fbar{grid-template-columns:1fr;padding:.65rem;margin-top:1.2rem}
+.seg{height:2.6rem}.seg button{flex:1;padding:0 .5rem;font-size:.82rem}
+.fbar2{gap:.35rem}.fbar2 button{padding:.35rem .7rem;font-size:.78rem}
+.sec{padding:1.6rem 0 .4rem}
+.mbox{padding:1rem;border-radius:1rem}.ov{padding:.5rem}.mx{right:.5rem;top:.5rem}
+.cg{grid-template-columns:1fr}
+.fx.fw>.f1{flex:1 1 120px}
+.acts .btn,.acts .btn2{width:100%}
+.dh{border-radius:1.2rem;margin-top:1rem}
+.dstats{grid-template-columns:1fr 1fr;gap:.6rem}.dstat{padding:.8rem}.dstat b{font-size:1.4rem}
+.qa{grid-template-columns:repeat(3,1fr)}.qa button{padding:.7rem .3rem;font-size:.75rem}
+.act{padding:.7rem;gap:.7rem}.act img,.act .th{width:64px;height:64px}
+.kpis,.stats{grid-template-columns:1fr 1fr;gap:.6rem}.kpi{padding:.8rem}.kpi b{font-size:1.4rem}
+.chat{height:calc(100dvh - 17rem);min-height:320px}.cb{max-width:88%}
+.tbl th,.tbl td{padding:.55rem .6rem}
+#cmpbar{max-width:calc(100vw - 1rem);gap:.5rem;padding:.45rem .5rem .45rem .9rem;font-size:.85rem}
+footer{margin-top:2.5rem}
+.inp,select,textarea{font-size:16px}
+.lb{padding:.8rem .9rem 1rem}
+.scene{max-width:340px}.sdots button{padding:.3rem .6rem;font-size:.7rem}
+}
+@media(max-width:380px){.brand span:last-child{display:none}.hact .btn2{display:none}}
+@media(prefers-reduced-motion:reduce){.sdots button.on::after{animation:none}.scene .awn{transform:none}}
+</style></head><body><div style="font:12px sans-serif;letter-spacing:.15em;text-transform:uppercase;color:#a77a1c">${esc(brand())}</div><h1>${esc(l.title)}</h1><div class="p">${money(l.price)}${l.purpose === 'rent' ? ' / ' + (l.period === 'month' ? 'month' : 'year') : ''}</div><div>${esc(l.location)}${l.address ? ' · ' + esc(l.address) : ''}</div><div class="g">${imgs.map(i => `<img src="${i}">`).join('')}</div><div class="s"><span>${TL[l.type] || ''}</span>${l.beds ? `<span>${l.beds} bedrooms</span>` : ''}${l.baths ? `<span>${l.baths} bathrooms</span>` : ''}${l.size ? `<span>${l.size} m²</span>` : ''}${(l.features || []).map(f => `<span>${esc(f)}</span>`).join('')}</div><p class="d">${esc(l.desc)}</p><footer>${esc(brand())}${s.phone ? ' · ' + esc(s.phone) : ''}${s.email ? ' · ' + esc(s.email) : ''}${s.address ? ' · ' + esc(s.address) : ''}</footer></body></html>`);
+      w.document.close(); setTimeout(() => { try { w.focus(); w.print() } catch { } }, 800);
+    }
+    async function dupListing(id) {
+      const l = S.listings.find(x => x.id === id); if (!l) return;
+      const r = await Swal.fire({ title: 'Duplicate this property?', text: 'A copy with its photos is created as an available listing.', showCancelButton: true, confirmButtonText: 'Duplicate' }); if (!r.isConfirmed) return;
+      try {
+        const nid = doc(collection(fs, 'listings')).id, { id: _x, ...rest } = l;
+        await setDoc(doc(fs, 'listings', nid), { ...rest, title: l.title + ' (copy)', status: 'available', featured: false, createdAt: Date.now(), updatedAt: Date.now() });
+        const m = await getDocs(collection(fs, 'listings', id, 'media')); for (const d of m.docs) await setDoc(doc(collection(fs, 'listings', nid, 'media')), d.data());
+        toast('Property duplicated');
+      } catch (e) { showErr('Duplicating property', e) }
+    }
+    function exportListings() {
+      const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+      const rows = [['Title', 'Type', 'Purpose', 'Status', 'Asking price', 'Location', 'Beds', 'Baths', 'Size', 'Featured', 'Created'], ...S.listings.map(l => [l.title, l.type, l.purpose, l.status, l.price, l.location, l.beds, l.baths, l.size, l.featured ? 'yes' : 'no', new Date(l.createdAt || 0).toISOString()])];
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([rows.map(r => r.map(q).join(',')).join('\n')], { type: 'text/csv' })); a.download = 'properties-' + new Date().toISOString().slice(0, 10) + '.csv'; a.click(); toast('Download started');
+    }
 
     // ===== home =====
     function viewHome() {
       const f = S.f;
       $('main').innerHTML = `<section class="hero"><i class="blob b1"></i><i class="blob b2"></i><div class="wrap"><div class="hgrid"><div class="hl"><p class="eyebrow">★ ${esc(brand())}</p><h1 id="heroT">${words(S.settings.tagline || 'Find your next home, shop or office')}</h1>
-    <p class="lead">Houses, apartments, shops and offices for sale and rent. Book an inspection, pay securely online and chat with us directly.</p>
-    <div class="hstats"><div><b id="st1">0</b><span>Properties</span></div><div><b id="st2">0</b><span>For sale</span></div><div><b id="st3">0</b><span>For rent</span></div></div>
+    <p class="lead">Houses, apartments, shops and offices for sale and to let / lease. Book an inspection, pay securely online and chat with us directly.</p>
+    <div class="hstats"><div><b id="st1">0</b><span>Properties</span></div><div><b id="st2">0</b><span>For sale</span></div><div><b id="st3">0</b><span>To let / lease</span></div></div>
     </div><div class="hr" id="sceneWrap">${sceneHtml()}</div></div>
-    <div class="fbar"><div class="seg">${[['all', 'All'], ['sale', 'Buy'], ['rent', 'Rent']].map(([k, l]) => `<button class="${f.purpose === k ? 'on' : ''}" onclick="setF('purpose','${k}')">${l}</button>`).join('')}</div>
+    <div class="fbar"><div class="seg">${[['all', 'All'], ['sale', 'Buy'], ['rent', 'To let / lease']].map(([k, l]) => `<button class="${f.purpose === k ? 'on' : ''}" onclick="setF('purpose','${k}')">${l}</button>`).join('')}</div>
     <select onchange="setF('type',this.value)" aria-label="Property type"><option value="all">All types</option>${Object.entries(TL).map(([k, v]) => `<option value="${k}" ${f.type === k ? 'selected' : ''}>${v}</option>`).join('')}</select>
     <input class="inp" placeholder="Search title or location" value="${esc(f.q)}" oninput="setF('q',this.value)" aria-label="Search">
     <input class="inp" type="number" min="0" placeholder="Max price (₦)" value="${esc(f.max)}" oninput="setF('max',this.value)" aria-label="Maximum price">
-    <select onchange="setF('sort',this.value)" aria-label="Sort">${[['new', 'Newest'], ['low', 'Price: low to high'], ['high', 'Price: high to low']].map(([k, v]) => `<option value="${k}" ${f.sort === k ? 'selected' : ''}>${v}</option>`).join('')}</select></div>
-    <div class="fbar2">${[[0, 'Any beds'], [1, '1+'], [2, '2+'], [3, '3+'], [4, '4+']].map(([k, l]) => `<button class="${f.beds === k ? 'on' : ''}" onclick="setF('beds',${k})">🛏 ${l}</button>`).join('')}<button class="${f.avail ? 'on' : ''}" onclick="setF('avail',${!f.avail})">✓ Available only</button><button onclick="clearF()">✕ Clear filters</button></div></div></section>
+    <select onchange="setF('sort',this.value)" aria-label="Sort">${[['new', 'Newest'], ['low', 'Price: low to high'], ['high', 'Price: high to low'], ['beds', 'Most bedrooms'], ['size', 'Largest size']].map(([k, v]) => `<option value="${k}" ${f.sort === k ? 'selected' : ''}>${v}</option>`).join('')}</select></div>
+    <div class="fbar2">${[[0, 'Any beds'], [1, '1+'], [2, '2+'], [3, '3+'], [4, '4+']].map(([k, l]) => `<button class="${f.beds === k ? 'on' : ''}" onclick="setF('beds',${k})">🛏 ${l}</button>`).join('')}<button class="${f.avail ? 'on' : ''}" onclick="setF('avail',${!f.avail})">✓ Available only</button><button onclick="clearF()">✕ Clear filters</button><input class="inp minp" type="number" min="0" placeholder="Min ₦" value="${esc(f.min)}" oninput="setF('min',this.value)" aria-label="Minimum price"><span class="vt"><button class="${S.layout === 'grid' ? 'on' : ''}" onclick="setLayout('grid')" aria-label="Grid view">▦</button><button class="${S.layout === 'list' ? 'on' : ''}" onclick="setLayout('list')" aria-label="List view">☰</button></span></div><div id="areaWrap"></div></div></section>
     <div class="wrap"><section class="sec rv" id="featwrap"></section><section class="sec rv" id="annwrap"></section>
-    <section class="sec" id="props"><div class="sech"><h2>Properties</h2><span id="count" class="muted small"></span></div><div id="grid" class="grid"></div></section>
+    <section class="sec" id="props"><div class="sech"><h2>Properties</h2><span id="count" class="muted small"></span></div><div id="grid" class="grid ${S.layout === 'list' ? 'list' : ''}"></div></section>
     <section class="sec rv" id="rvwrap"></section>
-    <section class="sec rv"><div class="sech"><h2>Why ${esc(brand())}</h2></div><div class="why"><div><i>✅</i><b>Verified listings</b><span class="muted small">Every property is checked and managed by our team.</span></div><div><i>🔒</i><b>Secure payments</b><span class="muted small">Pay inspection fees, rent and deposits safely with Paystack.</span></div><div><i>💬</i><b>Direct support</b><span class="muted small">Chat with us in the app, call, or message on WhatsApp.</span></div><div><i>⚡</i><b>Fast and simple</b><span class="muted small">Save, compare and book inspections in a few taps.</span></div></div></section>
-    <section class="sec rv"><div class="sech"><h2>How it works</h2></div><div class="steps"><div><b>Find</b><br><span class="muted small">Search and filter houses, shops and offices.</span></div><div><b>Inspect</b><br><span class="muted small">Book an inspection and pick a time that suits you.</span></div><div><b>Secure it</b><br><span class="muted small">Rent, reserve or make an offer and we handle the rest.</span></div></div></section></div>`;
-      renderFeat(); renderAnns(); renderGrid(true); renderRV();
+    <section class="sec rv"><div class="sech"><h2>Why ${esc(brand())}</h2></div><div class="why"><div><i>✅</i><b>Verified listings</b><span class="muted small">Every property is checked and managed by our team.</span></div><div><i>🔒</i><b>Secure payments</b><span class="muted small">Pay inspection fees, lease payments and deposits safely with Paystack.</span></div><div><i>💬</i><b>Direct support</b><span class="muted small">Chat with us in the app, call, or message on WhatsApp.</span></div><div><i>⚡</i><b>Fast and simple</b><span class="muted small">Save, compare and book inspections in a few taps.</span></div></div></section>
+    <section class="sec rv"><div class="sech"><h2>How it works</h2></div><div class="steps"><div><b>Find</b><br><span class="muted small">Search and filter houses, shops and offices.</span></div><div><b>Inspect</b><br><span class="muted small">Book an inspection and pick a time that suits you.</span></div><div><b>Secure it</b><br><span class="muted small">Lease, reserve or make an offer and we handle the rest.</span></div></div></section></div>`;
+      renderFeat(); renderAnns(); renderGrid(true); renderRV(); renderAreas(); startScene();
     }
-    function setF(k, v) { S.f[k] = v;['purpose', 'beds', 'avail'].includes(k) ? viewHome() : renderGrid(true) }
-    const clearF = () => { S.f = { purpose: 'all', type: 'all', q: '', max: '', sort: 'new', beds: 0, avail: false }; viewHome() };
+    function setF(k, v) { S.f[k] = v; lsSet('estate-f', { ...S.f, q: '' });['purpose', 'beds', 'avail'].includes(k) ? viewHome() : renderGrid(true) }
+    const clearF = () => { lsSet('estate-f', {}); S.f = { purpose: 'all', type: 'all', q: '', max: '', sort: 'new', beds: 0, avail: false, min: '' }; viewHome() };
     const priceTxt = l => money(l.price) + (l.purpose === 'rent' ? `<small> / ${l.period === 'month' ? 'month' : 'year'}</small>` : '');
     const metaTxt = l => [TL[l.type], l.beds ? `🛏 ${l.beds}` : '', l.baths ? `🛁 ${l.baths}` : '', l.size ? `${l.size} m²` : ''].filter(Boolean).join(' · ');
     function card(l, i = 0, anim = false) {
       const saved = (S.me?.saved || []).includes(l.id), isNew = Date.now() - (l.createdAt || 0) < 7 * 864e5, cmp = S.cmp.includes(l.id);
       return `<article class="lcard ${anim ? 'an' : ''}" style="--i:${Math.min(i, 12)}" onclick="openListing('${l.id}')"><div class="ph">${l.cover ? `<img loading="lazy" src="${l.cover}" alt="${esc(l.title)}">` : `<div class="noimg">${IC[l.type] || '🏠'}</div>`}
-    <div class="tags"><span class="tag ${l.purpose}">${l.purpose === 'rent' ? 'For rent' : 'For sale'}</span>${isNew && l.status === 'available' ? '<span class="tag new">NEW</span>' : ''}</div>
-    ${l.status !== 'available' ? `<span class="st ${l.status}">${l.status === 'sold' ? 'Sold' : 'Rented'}</span>` : ''}${l.featured ? '<span class="feat">★ Featured</span>' : ''}
+    <div class="tags"><span class="tag ${l.purpose}">${l.purpose === 'rent' ? 'To let / lease' : 'For sale'}</span>${isNew && l.status === 'available' ? '<span class="tag new">NEW</span>' : ''}</div>
+    ${l.status !== 'available' ? `<span class="st ${l.status}">${l.status === 'sold' ? 'Sold' : 'Leased'}</span>` : ''}${l.featured ? '<span class="feat">★ Featured</span>' : ''}
     <div class="pa"><button class="heart ${saved ? 'on' : ''}" onclick="event.stopPropagation();toggleSave('${l.id}')" aria-label="Save property">${saved ? '♥' : '♡'}</button><button class="cmpb ${cmp ? 'on' : ''}" onclick="event.stopPropagation();toggleCmp('${l.id}')" aria-label="Compare" title="Compare">⇄</button></div></div>
     <div class="lb"><div class="price">${priceTxt(l)}</div><h3 class="tr">${esc(l.title)}</h3><p class="muted small tr">📍 ${esc(l.location)}</p><div class="meta">${esc(metaTxt(l))}</div></div></article>`;
     }
@@ -3966,8 +4698,8 @@
       if (!S.ready) { el.innerHTML = '<div class="skel"></div>'.repeat(6); return }
       const av = S.listings.filter(l => l.status === 'available');
       setStat('st1', S.listings.length); setStat('st2', av.filter(l => l.purpose === 'sale').length); setStat('st3', av.filter(l => l.purpose === 'rent').length); S.statsDone = true;
-      let a = S.listings.filter(l => (f.purpose === 'all' || l.purpose === f.purpose) && (f.type === 'all' || l.type === f.type) && (!q || (l.title + ' ' + l.location + ' ' + (l.address || '')).toLowerCase().includes(q)) && (!f.max || l.price <= +f.max) && (!f.beds || (l.beds || 0) >= f.beds) && (!f.avail || l.status === 'available'));
-      a.sort((x, y) => f.sort === 'low' ? x.price - y.price : f.sort === 'high' ? y.price - x.price : ((y.featured ? 1 : 0) - (x.featured ? 1 : 0)) || y.createdAt - x.createdAt);
+      let a = S.listings.filter(l => (f.purpose === 'all' || l.purpose === f.purpose) && (f.type === 'all' || l.type === f.type) && (!q || (l.title + ' ' + l.location + ' ' + (l.address || '')).toLowerCase().includes(q)) && (!f.max || l.price <= +f.max) && (!f.min || l.price >= +f.min) && (!f.beds || (l.beds || 0) >= f.beds) && (!f.avail || l.status === 'available'));
+      a.sort((x, y) => f.sort === 'low' ? x.price - y.price : f.sort === 'high' ? y.price - x.price : f.sort === 'beds' ? (y.beds || 0) - (x.beds || 0) : f.sort === 'size' ? (y.size || 0) - (x.size || 0) : ((y.featured ? 1 : 0) - (x.featured ? 1 : 0)) || y.createdAt - x.createdAt);
       $('count').textContent = a.length + ' found';
       el.innerHTML = a.map((l, i) => card(l, i, anim)).join('') || '<p class="muted">No properties match your search yet.</p>';
     }
@@ -4025,7 +4757,7 @@
   ${nx ? `<div class="nxt" onclick="openListing('${nx.listingId}')"><div class="big">${days === 0 ? 'Today' : days}<small>${days === 0 ? '' : days === 1 ? 'day' : 'days'}</small></div><div class="f1 tr"><small>Next inspection</small><b class="tr">${esc(nx.listingTitle)}</b><small>${dstr(nd)} · ${tstr(nd)}</small></div><span>›</span></div>` : ''}</div>
   <div class="dstats">${st('📋', rs.length, 'Requests', "setMF('all')", 0, 1)}${st('⏳', pend, 'Pending', "setMF('all')", 0, 2)}${st('♥', saved.length, 'Saved', "go('saved')", 0, 3)}${st('💳', spent, 'Total paid', "setMF('all')", 1, 4)}</div>
   <div class="qa ${an}" style="--d:5"><button onclick="go('home')"><b>🔍</b>Browse</button><button onclick="go('chat')"><b>💬</b>Message us</button><button onclick="go('saved')"><b>♥</b>Saved</button><button onclick="openNotes()"><b>🔔</b>Alerts</button><button onclick="profile()"><b>👤</b>Profile</button></div>
-  <div class="dcols"><div><div class="sech"><h2>My activity</h2></div><div class="chipf">${[['all', 'All'], ['inspection', 'Inspections'], ['rent', 'Rent'], ['buy', 'Purchase'], ['offer', 'Offers']].map(([k, l]) => `<button class="${S.mf === k ? 'on' : ''}" onclick="setMF('${k}')">${l}</button>`).join('')}</div>
+  <div class="dcols"><div><div class="sech"><h2>My activity</h2></div><div class="chipf">${[['all', 'All'], ['inspection', 'Inspections'], ['rent', 'To let / lease'], ['buy', 'Purchase'], ['offer', 'Offers']].map(([k, l]) => `<button class="${S.mf === k ? 'on' : ''}" onclick="setMF('${k}')">${l}</button>`).join('')}</div>
   ${list.map(act).join('') || `<div class="empty"><b>🗂</b>Nothing here yet.<br><button class="btn" style="margin-top:.8rem" onclick="go('home')">Browse properties</button></div>`}</div>
   <div class="side"><div class="panel"><h3 style="margin-bottom:.4rem">Upcoming inspections</h3>${up.slice(0, 4).map(r => { const d = new Date(r.date); return `<div class="up"><div class="d"><b>${d.getDate()}</b><span>${d.toLocaleDateString([], { month: 'short' })}</span></div><div class="f1"><b class="tr">${esc(r.listingTitle)}</b><div class="small muted">${tstr(d)}</div></div>${statusBadge(r.status)}</div>` }).join('') || '<p class="muted small">None booked.</p>'}</div>
   <div class="panel"><h3 style="margin-bottom:.4rem">Latest alerts</h3>${S.notes.slice(0, 4).map(n => `<div class="note-i ${n.read ? '' : 'un'}"><i>${n.icon || '🔔'}</i><div class="f1 small">${esc(n.text)}</div></div>`).join('') || '<p class="muted small">No alerts yet.</p>'}</div>
@@ -4049,7 +4781,7 @@
     function openCompare() {
       const a = S.cmp.map(id => S.listings.find(l => l.id === id)).filter(Boolean); if (a.length < 2) return;
       const row = (label, fn) => `<tr><th>${label}</th>${a.map(l => `<td>${fn(l)}</td>`).join('')}</tr>`;
-      openModal(`<h2>Compare properties</h2><div class="tw"><table class="cmpt"><tbody>${row('', l => l.cover ? `<img src="${l.cover}" alt="">` : IC[l.type])}${row('Property', l => `<b>${esc(l.title)}</b>`)}${row('Price', l => `<b style="color:var(--accent)">${priceTxt(l)}</b>`)}${row('Type', l => TL[l.type])}${row('Purpose', l => l.purpose === 'rent' ? 'For rent' : 'For sale')}${row('Location', l => esc(l.location))}${row('Bedrooms', l => l.beds ?? '—')}${row('Bathrooms', l => l.baths ?? '—')}${row('Size', l => l.size ? l.size + ' m²' : '—')}${row('Features', l => (l.features || []).map(esc).join(', ') || '—')}${row('Status', l => l.status)}${row('', l => `<button class="btn2" onclick="openListing('${l.id}')">View</button>`)}</tbody></table></div>`, true);
+      openModal(`<h2>Compare properties</h2><div class="tw"><table class="cmpt"><tbody>${row('', l => l.cover ? `<img src="${l.cover}" alt="">` : IC[l.type])}${row('Property', l => `<b>${esc(l.title)}</b>`)}${row('Price', l => `<b style="color:var(--accent)">${priceTxt(l)}</b>`)}${row('Type', l => TL[l.type])}${row('Purpose', l => l.purpose === 'rent' ? 'To let / lease' : 'For sale')}${row('Location', l => esc(l.location))}${row('Bedrooms', l => l.beds ?? '—')}${row('Bathrooms', l => l.baths ?? '—')}${row('Size', l => l.size ? l.size + ' m²' : '—')}${row('Features', l => (l.features || []).map(esc).join(', ') || '—')}${row('Status', l => l.status)}${row('', l => `<button class="btn2" onclick="openListing('${l.id}')">View</button>`)}</tbody></table></div>`, true);
     }
 
     // ===== listing detail =====
@@ -4061,14 +4793,14 @@
       const vids = (l.videos || []).map(videoHtml).filter(Boolean);
       const sim = S.listings.filter(x => x.id !== id && x.type === l.type && x.purpose === l.purpose && x.status === 'available').slice(0, 3);
       openModal(`<div class="det"><div><div id="gmain" class="gmain" onclick="openLb(G_i())">${l.cover ? `<img src="${l.cover}" alt="">` : `<div class="noimg">${IC[l.type] || '🏠'}</div>`}</div><div id="gthumbs" class="gthumbs"></div></div>
-    <div><div class="fx g2 fw"><span class="badge b-${l.purpose === 'rent' ? 'rent' : 'buy'}">${l.purpose === 'rent' ? 'For rent' : 'For sale'}</span>${!avail ? `<span class="badge s-cancelled">${l.status === 'sold' ? 'Sold' : 'Rented'}</span>` : '<span class="badge s-completed">Available</span>'}</div>
+    <div><div class="fx g2 fw"><span class="badge b-${l.purpose === 'rent' ? 'rent' : 'buy'}">${l.purpose === 'rent' ? 'To let / lease' : 'For sale'}</span>${!avail ? `<span class="badge s-cancelled">${l.status === 'sold' ? 'Sold' : 'Leased'}</span>` : '<span class="badge s-completed">Available</span>'}</div>
     <h2 style="margin:.5rem 0 .2rem">${esc(l.title)}</h2><div class="price" style="font-size:1.6rem">${priceTxt(l)}</div><p class="muted">📍 ${esc(l.location)}${l.address ? ' · ' + esc(l.address) : ''}</p>
-    <div class="specs"><div>Type: <b>${TL[l.type] || ''}</b></div>${l.beds ? `<div>🛏 Bedrooms: <b>${l.beds}</b></div>` : ''}${l.baths ? `<div>🛁 Bathrooms: <b>${l.baths}</b></div>` : ''}${l.size ? `<div>📐 Size: <b>${l.size} m²</b></div>` : ''}</div>
+    <div class="specs"><div>Type: <b>${TL[l.type] || ''}</b></div>${l.beds ? `<div>🛏 Bedrooms: <b>${l.beds}</b></div>` : ''}${l.baths ? `<div>🛁 Bathrooms: <b>${l.baths}</b></div>` : ''}${l.size ? `<div>📐 Size: <b>${l.size} m²</b></div>` : ''}${l.size && l.purpose === 'sale' ? `<div>💰 Per m²: <b>${money(Math.round(l.price / l.size))}</b></div>` : ''}${l.createdAt ? `<div>🕒 Listed: <b>${ago(l.createdAt)}</b></div>` : ''}</div>
     ${(l.features || []).length ? `<div class="chips">${l.features.map(f => `<span>${esc(f)}</span>`).join('')}</div>` : ''}
     <div class="desc">${esc(l.desc)}</div>
-    <div class="acts">${avail ? `<button class="btn" onclick="bookInspection('${id}')">📅 Book inspection · ${fee ? money(fee) : 'Free'}</button>${l.purpose === 'rent' ? `<button class="btn gold" onclick="startDeal('${id}','rent')">🔑 Rent this property</button>` : `<button class="btn gold" onclick="startDeal('${id}','buy')">🏷 Buy / Reserve</button><button class="btn2" onclick="makeOffer('${id}')">🤝 Make an offer</button>`}` : '<p class="note">This property is no longer available. Browse similar listings or message us.</p>'}
+    <div class="acts">${avail ? `<button class="btn" onclick="bookInspection('${id}')">📅 Book inspection · ${fee ? money(fee) : 'Free'}</button>${l.purpose === 'rent' ? `<button class="btn gold" onclick="startDeal('${id}','rent')">🔑 Lease this property</button>` : `<button class="btn gold" onclick="startDeal('${id}','buy')">🏷 Buy / Reserve</button><button class="btn2" onclick="makeOffer('${id}')">🤝 Make an offer</button>`}` : '<p class="note">This property is no longer available. Browse similar listings or message us.</p>'}
     <div class="fx g2 fw"><button class="btn2 f1" onclick="askAdmin('${id}')">💬 Message</button><button id="svbtn" class="btn2 f1" onclick="toggleSave('${id}')">${saved ? '♥ Saved' : '♡ Save'}</button><button class="btn2 f1" onclick="toggleCmp('${id}');toast('Updated compare list','info')">⇄ Compare</button></div>
-    <div class="fx g2 fw"><button class="btn2 f1" onclick="shareL('${id}')">🔗 Share</button>${ph ? `<a class="btn2 f1" href="tel:${esc(ph)}">📞 Call</a><a class="btn2 f1" target="_blank" rel="noopener" href="https://wa.me/${waNum(ph)}?text=${encodeURIComponent('Hi, I am interested in: ' + l.title)}">WhatsApp</a>` : ''}</div></div></div></div>
+    <div class="fx g2 fw"><button class="btn2 f1" onclick="shareL('${id}')">🔗 Share</button><button class="btn2 f1" onclick="shareWA('${id}')">📲 Send to a friend</button><button class="btn2 f1" onclick="printL('${id}')">🖨 Brochure</button>${ph ? `<a class="btn2 f1" href="tel:${esc(ph)}">📞 Call</a><a class="btn2 f1" target="_blank" rel="noopener" href="https://wa.me/${waNum(ph)}?text=${encodeURIComponent('Hi, I am interested in: ' + l.title)}">WhatsApp</a>` : ''}</div></div></div></div>
     ${vids.length ? `<h3 style="margin-top:1.4rem;margin-bottom:.6rem">Videos</h3><div class="vids">${vids.join('')}</div>` : ''}
     ${calcHtml(l)}
     <div style="margin-top:1.3rem"><button class="btn2" onclick="showMap()">🗺 View on map</button><div id="mapbox"></div></div>
@@ -4096,7 +4828,7 @@
         out.innerHTML = box(money(Math.round(m)), 'Monthly payment') + box(money(Math.round(down)), 'Down payment') + box(money(Math.round(loan)), 'Loan amount') + box(money(Math.round(m * n - loan)), 'Total interest');
       } else {
         const agency = l.price * a / 100, legal = l.price * b / 100, total = l.price + agency + legal + c, per = l.period === 'month' ? l.price : l.price / 12;
-        out.innerHTML = box(money(Math.round(total)), 'Estimated move-in total') + box(money(Math.round(per)), 'Rent per month') + box(money(Math.round(agency + legal)), 'Agency + legal') + box(money(l.price), l.period === 'month' ? 'Monthly rent' : 'Yearly rent');
+        out.innerHTML = box(money(Math.round(total)), 'Estimated move-in total') + box(money(Math.round(per)), 'Per month') + box(money(Math.round(agency + legal)), 'Agency + legal') + box(money(l.price), l.period === 'month' ? 'Monthly lease' : 'Yearly lease');
       }
     }
     function showMap() { const l = S.listings.find(x => x.id === S.curId); if (!l) return; $('mapbox').innerHTML = `<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=${encodeURIComponent((l.address ? l.address + ', ' : '') + l.location)}&output=embed" title="Map"></iframe>` }
@@ -4123,7 +4855,7 @@
       try {
         await addDoc(collection(fs, 'requests'), { uid: S.user.uid, userName: S.me?.name || '', userEmail: S.user.email, userPhone: S.me?.phone || '', listingId: l.id, listingTitle: l.title, type, amount: amount || 0, paid: !!ref, paystackRef: ref || null, verified: false, date: date || null, note: note || '', status: 'pending', createdAt: Date.now() });
         closeModal(); confetti();
-        const msg = { inspection: 'Your inspection is booked. We will confirm the time shortly.', rent: 'Your rental request is received. We will contact you to complete the process.', buy: 'Your purchase request is received. We will contact you shortly.', offer: 'Your offer has been sent. We will respond as soon as possible.' }[type];
+        const msg = { inspection: 'Your inspection is booked. We will confirm the time shortly.', rent: 'Your lease request is received. We will contact you to complete the process.', buy: 'Your purchase request is received. We will contact you shortly.', offer: 'Your offer has been sent. We will respond as soon as possible.' }[type];
         Swal.fire({ icon: 'success', title: 'Request sent 🎉', html: `<p class="small">${msg}${ref ? `<br><br>Payment reference: <b>${esc(ref)}</b>` : ''}</p>`, confirmButtonText: 'View my dashboard' }).then(() => go('mine'));
       } catch (e) { showErr('Saving request', e); if (ref) Swal.fire('Payment received', `Your payment went through but we could not save the request. Keep this reference and message us: ${ref}`, 'warning') }
     }
@@ -4137,11 +4869,11 @@
     async function startDeal(id, type) {
       if (!S.user) return openAuth('login'); const l = S.listings.find(x => x.id === id);
       const pay = +l.payNow > 0 ? +l.payNow : (type === 'rent' ? +l.price : 0);
-      const text = type === 'rent' ? (pay ? `Pay <b>${money(pay)}</b> now to secure this rental. The admin will contact you to complete the agreement.` : 'Send a rental request. The admin will contact you.') : (pay ? `Pay a deposit of <b>${money(pay)}</b> to reserve this property. The admin will contact you to complete the purchase.` : 'Send a purchase request. The admin will contact you.');
-      const r = await Swal.fire({ title: type === 'rent' ? 'Rent this property' : 'Buy / reserve', showCancelButton: true, confirmButtonText: pay ? `Pay ${money(pay)}` : 'Send request', html: `<p class="small muted" style="margin-bottom:.5rem">${esc(l.title)}</p><p class="small" style="margin-bottom:.6rem">${text}</p><label class="lbl">Note (optional)</label><textarea id="dl_n" class="inp" rows="2"></textarea>`, preConfirm: () => $('dl_n').value.trim() });
+      const text = type === 'rent' ? (pay ? `Pay <b>${money(pay)}</b> now to secure this lease. The admin will contact you to complete the agreement.` : 'Send a lease request. The admin will contact you.') : (pay ? `Pay a deposit of <b>${money(pay)}</b> to reserve this property. The admin will contact you to complete the purchase.` : 'Send a purchase request. The admin will contact you.');
+      const r = await Swal.fire({ title: type === 'rent' ? 'Lease this property' : 'Buy / reserve', showCancelButton: true, confirmButtonText: pay ? `Pay ${money(pay)}` : 'Send request', html: `<p class="small muted" style="margin-bottom:.5rem">${esc(l.title)}</p><p class="small" style="margin-bottom:.6rem">${text}</p><label class="lbl">Note (optional)</label><textarea id="dl_n" class="inp" rows="2"></textarea>`, preConfirm: () => $('dl_n').value.trim() });
       if (!r.isConfirmed) return;
       const finish = ref => createRequest({ type, l, amount: pay, ref, note: r.value });
-      pay > 0 ? payThen(pay, (type === 'rent' ? 'Rent: ' : 'Deposit: ') + l.title, finish) : finish(null);
+      pay > 0 ? payThen(pay, (type === 'rent' ? 'Lease: ' : 'Deposit: ') + l.title, finish) : finish(null);
     }
     async function makeOffer(id) {
       if (!S.user) return openAuth('login'); const l = S.listings.find(x => x.id === id);
@@ -4193,7 +4925,7 @@
     }
     function setTab(k) { S.tab = k; if (k !== 'messages' && unsubChat) { unsubChat(); unsubChat = null } renderAnav(); const a = $('atab'); a.classList.remove('fade'); void a.offsetWidth; a.classList.add('fade'); renderTab() }
     const renderTab = () => ({ dash: tDash, listings: tListings, requests: tRequests, users: tUsers, messages: tMessages, anns: tAnns, settings: tSettings }[S.tab])();
-    function refreshAdmin() { if (!$('atab')) return; renderAnav(); if (S.tab === 'messages') return renderThreadList(); if (S.tab === 'settings') return tSettings(); if (S.tab === 'users') return renderUsersTable(); if (S.tab === 'dash') { const y = scrollY; renderTab(); scrollTo(0, y); return } renderTab() }
+    function refreshAdmin() { if (!$('atab')) return; renderAnav(); if (S.tab === 'messages') return renderThreadList(); if (S.tab === 'settings') return tSettings(); if (S.tab === 'users') return renderUsersTable(); if (S.tab === 'requests' && $('rtbl')) return renderReqTable(); if (S.tab === 'dash') { const y = scrollY; renderTab(); scrollTo(0, y); return } renderTab() }
     const statusBadge = s => `<span class="badge s-${s}">${s}</span>`;
     const amtTxt = r => r.type === 'offer' ? `Offer ${money(r.amount)}` : (r.amount ? money(r.amount) : '—');
 
@@ -4254,10 +4986,17 @@
     }
     const S_rf = (k, v) => { S.rf[k] = v; setTab('requests') };
     function tRequests() {
-      const f = S.rf, a = S.reqs.filter(r => (f.type === 'all' || r.type === f.type) && (f.status === 'all' || r.status === f.status));
-      $('atab').innerHTML = `<div class="fx g2 fw ac" style="margin-bottom:.9rem"><select style="width:auto;margin:0" onchange="setRF('type',this.value)" aria-label="Type">${[['all', 'All types'], ['inspection', 'Inspections'], ['rent', 'Rent'], ['buy', 'Purchase'], ['offer', 'Offers']].map(([k, v]) => `<option value="${k}" ${f.type === k ? 'selected' : ''}>${v}</option>`).join('')}</select><select style="width:auto;margin:0" onchange="setRF('status',this.value)" aria-label="Status">${['all', 'pending', 'confirmed', 'completed', 'cancelled'].map(k => `<option value="${k}" ${f.status === k ? 'selected' : ''}>${k === 'all' ? 'All statuses' : k}</option>`).join('')}</select><span class="muted small f1">${a.length} request(s)</span><button class="btn2" onclick="exportCSV('requests')">⬇ Export CSV</button></div>${reqTable(a)}`;
+      const f = S.rf;
+      $('atab').innerHTML = `<div class="fx g2 fw ac" style="margin-bottom:.9rem"><select style="width:auto;margin:0" onchange="setRF('type',this.value)" aria-label="Type">${[['all', 'All types'], ['inspection', 'Inspections'], ['rent', 'To let / lease'], ['buy', 'Purchase'], ['offer', 'Offers']].map(([k, v]) => `<option value="${k}" ${f.type === k ? 'selected' : ''}>${v}</option>`).join('')}</select><select style="width:auto;margin:0" onchange="setRF('status',this.value)" aria-label="Status">${['all', 'pending', 'confirmed', 'completed', 'cancelled'].map(k => `<option value="${k}" ${f.status === k ? 'selected' : ''}>${k === 'all' ? 'All statuses' : k}</option>`).join('')}</select><input class="inp" style="max-width:260px;margin:0" placeholder="Search customer, property or reference" value="${esc(S.rq || '')}" oninput="setRQ(this.value)" aria-label="Search requests"><span class="muted small f1" id="rcount"></span><button class="btn2" onclick="exportCSV('requests')">⬇ Export CSV</button></div><div id="rtbl"></div>`;
+      renderReqTable();
     }
-    const setRF = (k, v) => { S.rf[k] = v; tRequests() };
+    function renderReqTable() {
+      const el = $('rtbl'); if (!el) return; const f = S.rf, q = (S.rq || '').toLowerCase();
+      const a = S.reqs.filter(r => (f.type === 'all' || r.type === f.type) && (f.status === 'all' || r.status === f.status) && (!q || (r.listingTitle + ' ' + r.userName + ' ' + r.userEmail + ' ' + (r.paystackRef || '')).toLowerCase().includes(q)));
+      el.innerHTML = reqTable(a); const c = $('rcount'); if (c) c.textContent = a.length + ' request(s)';
+    }
+    const setRQ = v => { S.rq = v.toLowerCase(); renderReqTable() };
+    const setRF = (k, v) => { S.rf[k] = v; renderReqTable() };
 
     // ===== admin: users =====
     let uq = '';
@@ -4292,16 +5031,16 @@
     function pickThread(uid) {
       const t = S.threads.find(x => x.uid === uid) || S.users.find(x => x.uid === uid) || {};
       openChatFor(uid); renderThreadList();
-      $('tchat').innerHTML = `<div class="fx ac jb" style="margin-bottom:.6rem"><div><b>${esc(t.name || 'Customer')}</b><br><span class="small muted">${esc(t.email || '')}</span></div><button class="lnk" onclick="openUser('${uid}')">View details</button></div>${chatPane()}`;
+      $('tchat').innerHTML = `<div class="fx ac jb" style="margin-bottom:.6rem"><div><b>${esc(t.name || 'Customer')}</b><br><span class="small muted">${esc(t.email || '')}</span></div><button class="lnk" onclick="openUser('${uid}')">View details</button></div><div class="qr">${QR.map((t, i) => `<button onclick="quick(${i})">${esc(t.slice(0, 32))}…</button>`).join('')}</div>${chatPane()}`;
       renderChatMsgs();
     }
 
     // ===== admin: properties =====
     function tListings() {
-      $('atab').innerHTML = `<div class="fx jb ac" style="margin-bottom:.9rem"><span class="muted small">${S.listings.length} propert${S.listings.length === 1 ? 'y' : 'ies'}</span><button class="btn" onclick="editListing()">＋ Add property</button></div>
-  <div class="tw"><table class="tbl"><thead><tr><th>Property</th><th>Type</th><th>Price</th><th>Status</th><th></th></tr></thead><tbody>${S.listings.map(l => `<tr><td><div class="fx ac g2">${l.cover ? `<img class="th" src="${l.cover}" onclick="openListing('${l.id}')" alt="">` : '<div class="th">🏠</div>'}<div><b>${esc(l.title)}</b>${l.featured ? ' ★' : ''}<br><span class="small muted">${esc(l.location)} · ${l.imgCount || 0} photo(s)${(l.videos || []).length ? ' · ' + l.videos.length + ' video(s)' : ''}</span></div></div></td><td>${TL[l.type]}<br><span class="small muted">${l.purpose === 'rent' ? 'Rent' : 'Sale'}</span></td><td>${money(l.price)}</td>
-  <td><select onchange="setLStatus('${l.id}',this.value)" aria-label="Status">${['available', 'sold', 'rented'].map(s => `<option ${l.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></td>
-  <td><div class="fx g3"><button class="lnk" onclick="editListing('${l.id}')">Edit</button><button class="lnk bad" onclick="delListing('${l.id}')">Delete</button></div></td></tr>`).join('') || '<tr><td colspan="5" class="muted center" style="padding:2rem">No properties yet. Click “Add property”.</td></tr>'}</tbody></table></div>`;
+      $('atab').innerHTML = `<div class="fx jb ac" style="margin-bottom:.9rem"><span class="muted small">${S.listings.length} propert${S.listings.length === 1 ? 'y' : 'ies'}</span><div class="fx g2"><button class="btn2" onclick="exportListings()">⬇ Export CSV</button><button class="btn" onclick="editListing()">＋ Add property</button></div></div>
+  <div class="tw"><table class="tbl"><thead><tr><th>Property</th><th>Type</th><th>Asking price</th><th>Status</th><th></th></tr></thead><tbody>${S.listings.map(l => `<tr><td><div class="fx ac g2">${l.cover ? `<img class="th" src="${l.cover}" onclick="openListing('${l.id}')" alt="">` : '<div class="th">🏠</div>'}<div><b>${esc(l.title)}</b>${l.featured ? ' ★' : ''}<br><span class="small muted">${esc(l.location)} · ${l.imgCount || 0} photo(s)${(l.videos || []).length ? ' · ' + l.videos.length + ' video(s)' : ''}</span></div></div></td><td>${TL[l.type]}<br><span class="small muted">${l.purpose === 'rent' ? 'To let / lease' : 'Sale'}</span></td><td>${money(l.price)}</td>
+  <td><select onchange="setLStatus('${l.id}',this.value)" aria-label="Status">${['available', 'sold', 'rented'].map(s => `<option value="${s}" ${l.status === s ? 'selected' : ''}>${s === 'rented' ? 'leased' : s}</option>`).join('')}</select></td>
+  <td><div class="fx g3"><button class="lnk" onclick="editListing('${l.id}')">Edit</button><button class="lnk" onclick="dupListing('${l.id}')">Duplicate</button><button class="lnk bad" onclick="delListing('${l.id}')">Delete</button></div></td></tr>`).join('') || '<tr><td colspan="5" class="muted center" style="padding:2rem">No properties yet. Click “Add property”.</td></tr>'}</tbody></table></div>`;
     }
     const setLStatus = (id, v) => updateDoc(doc(fs, 'listings', id), { status: v }).then(() => toast('Status updated')).catch(e => showErr('Updating', e));
     async function delListing(id) {
@@ -4317,15 +5056,15 @@
       openModal(`<h2>${id ? 'Edit property' : 'Add property'}</h2><div class="frm">
     <div class="full"><label class="lbl">Title</label><input id="e_title" class="inp" value="${v(L.title)}" placeholder="e.g. 4-bedroom duplex with BQ"></div>
     <div><label class="lbl">Type</label><select id="e_type">${opt(Object.entries(TL), L.type)}</select></div>
-    <div><label class="lbl">Purpose</label><select id="e_purpose">${opt([['sale', 'For sale'], ['rent', 'For rent']], L.purpose)}</select></div>
-    <div><label class="lbl">Price (₦)</label><input id="e_price" class="inp" type="number" min="0" value="${v(L.price)}"></div>
-    <div><label class="lbl">Rent period</label><select id="e_period">${opt([['year', 'per year'], ['month', 'per month']], L.period)}</select></div>
+    <div><label class="lbl">Purpose</label><select id="e_purpose">${opt([['sale', 'For sale'], ['rent', 'To let / lease']], L.purpose)}</select></div>
+    <div><label class="lbl">Asking price (₦)</label><input id="e_price" class="inp" type="number" min="0" value="${v(L.price)}"></div>
+    <div><label class="lbl">Lease period</label><select id="e_period">${opt([['year', 'per year'], ['month', 'per month']], L.period)}</select></div>
     <div><label class="lbl">Location (area, city)</label><input id="e_loc" class="inp" value="${v(L.location)}"></div>
     <div><label class="lbl">Address (optional)</label><input id="e_addr" class="inp" value="${v(L.address)}"></div>
     <div><label class="lbl">Bedrooms</label><input id="e_beds" class="inp" type="number" min="0" value="${v(L.beds)}"></div>
     <div><label class="lbl">Bathrooms</label><input id="e_baths" class="inp" type="number" min="0" value="${v(L.baths)}"></div>
     <div><label class="lbl">Size (m²)</label><input id="e_size" class="inp" type="number" min="0" value="${v(L.size)}"></div>
-    <div><label class="lbl">Status</label><select id="e_status">${opt([['available', 'Available'], ['sold', 'Sold'], ['rented', 'Rented']], L.status)}</select></div>
+    <div><label class="lbl">Status</label><select id="e_status">${opt([['available', 'Available'], ['sold', 'Sold'], ['rented', 'Leased']], L.status)}</select></div>
     <div><label class="lbl">Inspection fee (₦, blank = default)</label><input id="e_fee" class="inp" type="number" min="0" value="${v(L.inspectionFee)}"></div>
     <div><label class="lbl">Pay-now amount (₦)</label><input id="e_pay" class="inp" type="number" min="0" value="${v(L.payNow)}" placeholder="deposit / first payment"></div>
     <div class="full"><label class="lbl">Features (comma separated)</label><input id="e_feat" class="inp" value="${v((L.features || []).join(', '))}" placeholder="Swimming pool, 24h power, Fenced, CCTV"></div>
@@ -4353,7 +5092,7 @@
     const edCover = i => { ED.items[i].n = ED.items[0].n - 1; renderEdMedia() };
     async function saveListing() {
       const g = id => $(id).value.trim(), num = id => g(id) === '' ? null : +g(id);
-      if (!g('e_title')) return toast('Enter a title', 'error'); if (!(num('e_price') > 0)) return toast('Enter a price', 'error'); if (!g('e_loc')) return toast('Enter a location', 'error');
+      if (!g('e_title')) return toast('Enter a title', 'error'); if (!(num('e_price') > 0)) return toast('Enter the asking price', 'error'); if (!g('e_loc')) return toast('Enter a location', 'error');
       Swal.fire({ title: 'Saving…', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
       try {
         const lid = ED.id || doc(collection(fs, 'listings')).id; ED.items.sort((a, b) => a.n - b.n);
@@ -4408,9 +5147,8 @@
 
     window.addEventListener('unhandledrejection', e => { const m = String(e.reason?.message || ''); if (m && !/Config missing/.test(m)) showErr('Something went wrong', e.reason) });
     window.addEventListener('hashchange', () => { if (location.hash.startsWith('#l=')) openListing(location.hash.slice(3)) });
-    Object.assign(window, { S, toggleTheme, closeModal, closeLb, lbGo, openLb, G_i, go, openAuth, authGo, googleGo, resetPw, becomeAdmin, profile, setF, openListing, openAnn, openNotes, toggleSave, toggleCmp, clearCmp, openCompare, scrollFeat, galGo, galSet, calc, showMap, shareL, askAdmin, bookInspection, startDeal, makeOffer, sendChat, closeBar, setTab, setReqStatus, toggleVerify, delReq, exportCSV, setRF, S_rf, setMF, addCal, clearF, replayScene, uq_set, openUser, msgUser, pickThread, setLStatus, delListing, editListing, edAdd, edDel, edCover, saveListing, uploadVideo, editAnn, annImg, annRm, saveAnn, delAnn, saveSettings, toast, Swal });
+    Object.assign(window, { S, toggleTheme, closeModal, closeLb, lbGo, openLb, G_i, go, openAuth, authGo, googleGo, resetPw, becomeAdmin, profile, setF, openListing, openAnn, openNotes, toggleSave, toggleCmp, clearCmp, openCompare, scrollFeat, galGo, galSet, calc, showMap, shareL, askAdmin, bookInspection, startDeal, makeOffer, sendChat, closeBar, setTab, setReqStatus, toggleVerify, delReq, exportCSV, setRF, S_rf, setMF, addCal, clearF, pickScene, quick, setArea, setLayout, setRQ, shareWA, printL, dupListing, exportListings, uq_set, openUser, msgUser, pickThread, setLStatus, delListing, editListing, edAdd, edDel, edCover, saveListing, uploadVideo, editAnn, annImg, annRm, saveAnn, delAnn, saveSettings, toast, Swal });
     startPublic();
-    replayScene()
   </script>
 </body>
 
