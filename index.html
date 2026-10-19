@@ -1133,7 +1133,7 @@
         document.getElementById('yr').textContent = new Date().getFullYear();
         var $ = function (i) { return document.getElementById(i) }, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
         /* theme */
-        $('theme').onclick = function () { var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('landing-theme', t) } catch (e) { } };
+        $('theme').onclick = function (e) { var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('landing-theme', t) } catch (e) { } };
         /* mobile menu */
         var top = $('top'), burger = $('burger');
         function menu(o) { top.classList.toggle('open', o); burger.setAttribute('aria-expanded', o); burger.setAttribute('aria-label', o ? 'Close menu' : 'Open menu') }
